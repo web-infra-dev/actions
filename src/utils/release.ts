@@ -61,12 +61,13 @@ export const bumpCanaryVersion = async (cwd: string = process.cwd()) => {
 export const runRelease = async (cwd: string = process.cwd(), tag?: string) => {
   const packageManager = getPackageManager(cwd);
   const params: string[] = ['run', 'release'];
+  if (packageManager === 'pnpm') {
+    params.push('--');
+  }
   if (tag) {
-    if (packageManager === 'pnpm') {
-      params.push('--');
-    }
     params.push('--tag', tag);
   }
+  params.push('--no-git-checks');
   await execaWithStreamLog(packageManager, params, {
     cwd,
   });
