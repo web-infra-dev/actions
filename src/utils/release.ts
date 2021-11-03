@@ -17,7 +17,8 @@ export const writeNpmrc = async () => {
 
 export const runInstall = async (cwd: string = process.cwd()) => {
   console.info('run install...');
-  const packageManager = getPackageManager(cwd);
+  // const packageManager = getPackageManager(cwd);
+  const packageManager = 'pnpm';
   await execaWithStreamLog('npm', ['install', '-g', packageManager], { cwd });
   await execaWithStreamLog(packageManager, ['install', '--ignore-scripts'], {
     cwd,
