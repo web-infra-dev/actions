@@ -1,0 +1,21 @@
+name: Modern.js Release
+description: Modern.js Release Action
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+inputs:
+  type:
+    description: 'Action Type'
+    required: true
+    default: 'release'
+  version:
+    description: 'Release Version(canary, pre, latest)'
+    required: false
+    default: 'canary'
+  branch:
+    description: 'Release Branch(confirm release branch)'
+    required: false
+    default: 'main'
+branding:
+  icon: "package"
+  color: "yellow"

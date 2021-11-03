@@ -22,7 +22,6 @@ node_modules/
 .eslintcache
 .sonarlint
 
-dist/
 coverage/
 release/
 output/
@@ -38,3 +37,9 @@ output_resource/
 **/*/adapters/**/index.js
 
 .changeset/pre.json
+
+dist/types/
+dist/js/modern/
+dist/js/treeshaking/
+dist/js/node/utils/
+dist/js/node/index.js

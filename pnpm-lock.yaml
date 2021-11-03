@@ -1,32 +1,56 @@
 lockfileVersion: 5.3
 
 specifiers:
+  '@actions/core': ^1.2.4
   '@babel/runtime': ^7
+  '@manypkg/get-packages': ^1.1.2
+  '@modern-js/codesmith-tools': ^1.0.2
   '@modern-js/module-tools': ^1.0.0
   '@modern-js/plugin-jarvis': ^1.0.0
   '@modern-js/plugin-testing': ^1.0.0
+  '@modern-js/utils': ^1.0.0
+  '@types/fs-extra': ^9.0.13
   '@types/jest': ^26.0.9
   '@types/node': ^14
   '@types/react': ^17
   '@types/react-dom': ^17
-  react: ^17
+  execa: ^5.1.1
+  fs-extra: ^10.0.0
+  package-json: ^7.0.0
   typescript: ^4
 
-dependencies:
-  '@babel/runtime': 7.16.0
-
 devDependencies:
+  '@actions/core': 1.6.0
+  '@babel/runtime': 7.16.0
+  '@manypkg/get-packages': 1.1.2
+  '@modern-js/codesmith-tools': 1.0.2
   '@modern-js/module-tools': 1.0.1_typescript@4.4.4
   '@modern-js/plugin-jarvis': 1.0.0_typescript@4.4.4
-  '@modern-js/plugin-testing': 1.0.1_3aa1b272c2b50dea9c2e4bbb41fcd262
+  '@modern-js/plugin-testing': 1.0.1_3a8db6934788715f16a9854a45849fac
+  '@modern-js/utils': 1.0.0_typescript@4.4.4
+  '@types/fs-extra': 9.0.13
   '@types/jest': 26.0.24
   '@types/node': 14.17.32
   '@types/react': 17.0.33
   '@types/react-dom': 17.0.10
-  react: 17.0.2
+  execa: 5.1.1
+  fs-extra: 10.0.0
+  package-json: 7.0.0
   typescript: 4.4.4
 
 packages:
+
+  /@actions/core/1.6.0:
+    resolution: {integrity: sha512-NB1UAZomZlCV/LmJqkLhNTqtKfFXJZAUPcfl/zqG7EfsQdeUJtaWO98SGbuQ3pydJ3fHl2CvI/51OKYlCYYcaw==}
+    dependencies:
+      '@actions/http-client': 1.0.11
+    dev: true
+
+  /@actions/http-client/1.0.11:
+    resolution: {integrity: sha512-VRYHGQV1rqnROJqdMvGUbY/Kn8vriQe/F9HR2AlYHzmKuM/p3kjNuXhmdBfcVgsvRWTz5C5XW5xvndZrVBuAYg==}
+    dependencies:
+      tunnel: 0.0.6
+    dev: true
 
   /@babel/code-frame/7.12.11:
     resolution: {integrity: sha512-Zt1yodBx1UcyiePMSkWnU4hPqhwq7hGi2nFL1LeA3EUl+q2LQx16MISgJ0+z7dnmgvP9QtIleuETGOiOH1RcIw==}
@@ -2474,6 +2498,7 @@ packages:
     engines: {node: '>=6.9.0'}
     dependencies:
       regenerator-runtime: 0.13.9
+    dev: true
 
   /@babel/template/7.16.0:
     resolution: {integrity: sha512-MnZdpFD/ZdYhXwiunMqqgyZyucaYsbL0IrjoGjaVhGilz+x8YB++kRfygSOIj1yOtWKPlx7NBp+9I1RQSgsd5A==}
@@ -3226,6 +3251,21 @@ packages:
       - debug
     dev: true
 
+  /@modern-js/codesmith-tools/1.0.2:
+    resolution: {integrity: sha512-3JMJ0h3xY6fwvZt9JLELXNxqYlN7VwK+26YatZ0gXKvIJfDr++31xL4Wrbz36ulRBIwBu5evI7tlG3o7P0kXTA==}
+    hasBin: true
+    dependencies:
+      '@babel/runtime': 7.16.0
+      commander: 8.3.0
+      ora: 5.4.1
+      webpack: 5.61.0
+    transitivePeerDependencies:
+      - '@swc/core'
+      - esbuild
+      - uglify-js
+      - webpack-cli
+    dev: true
+
   /@modern-js/codesmith/1.0.2:
     resolution: {integrity: sha512-XOcN8qRODqYhRIFepisPNPuHVuEarbAxPW2ibDJV9qezJB/RC6vKOb8q0n1oAP++epxR8t21vU8/HLGKx/ZBng==}
     dependencies:
@@ -3611,7 +3651,7 @@ packages:
       - webpack
     dev: true
 
-  /@modern-js/plugin-testing/1.0.1_3aa1b272c2b50dea9c2e4bbb41fcd262:
+  /@modern-js/plugin-testing/1.0.1_3a8db6934788715f16a9854a45849fac:
     resolution: {integrity: sha512-bjG2vNhYgx93GPftTkGE30RDKC8xSVh4uXyNu7gu8HDDGtwa2DTncegZnAili8ITaKjTiidoK9fqdqH5wX/uuA==}
     peerDependencies:
       '@modern-js-reduck/plugin-auto-actions': ^1.0.0
@@ -3628,7 +3668,7 @@ packages:
       '@modern-js/utils': 1.0.0_typescript@4.4.4
       '@modern-js/webpack': 1.0.0_typescript@4.4.4
       '@testing-library/jest-dom': 5.15.0
-      '@testing-library/react': 12.1.2_react@17.0.2
+      '@testing-library/react': 12.1.2
       enhanced-resolve: 5.8.3
     transitivePeerDependencies:
       - '@babel/core'
@@ -4021,7 +4061,7 @@ packages:
       redent: 3.0.0
     dev: true
 
-  /@testing-library/react/12.1.2_react@17.0.2:
+  /@testing-library/react/12.1.2:
     resolution: {integrity: sha512-ihQiEOklNyHIpo2Y8FREkyD1QAea054U0MVbwH1m8N9TxeFz+KoJ9LkqoKqJlzx2JDm56DVwaJ1r36JYxZM05g==}
     engines: {node: '>=12'}
     peerDependencies:
@@ -4030,7 +4070,6 @@ packages:
     dependencies:
       '@babel/runtime': 7.16.0
       '@testing-library/dom': 8.10.1
-      react: 17.0.2
     dev: true
 
   /@tootallnate/once/1.1.2:
@@ -11001,14 +11040,6 @@ packages:
     engines: {node: '>=0.10.0'}
     dev: true
 
-  /react/17.0.2:
-    resolution: {integrity: sha512-gnhPt75i/dq/z3/6q/0asP78D0u592D5L1pd7M8P+dck6Fu/jJeL6iVVK23fptSUZj8Vjf++7wXA8UNclGQcbA==}
-    engines: {node: '>=0.10.0'}
-    dependencies:
-      loose-envify: 1.4.0
-      object-assign: 4.1.1
-    dev: true
-
   /read-cache/1.0.0:
     resolution: {integrity: sha1-5mTvMRYRZsl1HNvo28+GtftY93Q=}
     dependencies:
@@ -11117,6 +11148,7 @@ packages:
 
   /regenerator-runtime/0.13.9:
     resolution: {integrity: sha512-p3VT+cOEgxFsRRA9X4lkI1E+k2/CtnKtU4gcxyaCUreilL/vqI6CdZ3wxVUx3UOUg+gnUOQQcRI7BmSI656MYA==}
+    dev: true
 
   /regenerator-transform/0.14.5:
     resolution: {integrity: sha512-eOf6vka5IO151Jfsw2NO9WpGX58W6wWmefK3I1zEGr0lOD0u8rwPaNqQL1aRxUaxLeKO3ArNh3VYg1KbaD+FFw==}
@@ -12208,6 +12240,11 @@ packages:
       strip-ansi: 6.0.1
       wcwidth: 1.0.1
       yargs: 15.4.1
+    dev: true
+
+  /tunnel/0.0.6:
+    resolution: {integrity: sha512-1h/Lnq9yajKY2PEbBadPXj3VxsDDu844OnaAo52UVmIzIvwwtBPIuNvkjuzBlTWpfJyUbG3ez0KSBibQkj4ojg==}
+    engines: {node: '>=0.6.11 <=0.7.0 || >=0.7.3'}
     dev: true
 
   /type-check/0.3.2:
