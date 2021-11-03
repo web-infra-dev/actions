@@ -54,7 +54,7 @@ const release = async () => {
     await (0, _utils.gitPushTags)();
   } else {
     await (0, _utils.gitCommitAll)('publish latest');
-    await (0, _release.runRelease)();
+    await (0, _release.runRelease)(process.cwd(), 'latest');
     await (0, _utils.gitPushTags)();
   }
 };
