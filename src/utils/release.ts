@@ -1,4 +1,5 @@
-import { fs, getPackageManager } from '@modern-js/utils';
+import { fs } from '@modern-js/utils';
+import { canUsePnpm, canUseYarn, getPackageManager } from './npm';
 
 import { execaWithStreamLog } from './exec';
 
@@ -17,16 +18,20 @@ export const writeNpmrc = async () => {
 
 export const runInstall = async (cwd: string = process.cwd()) => {
   console.info('run install...');
-  // const packageManager = getPackageManager(cwd);
-  const packageManager = 'pnpm';
-  await execaWithStreamLog('npm', ['install', '-g', packageManager], { cwd });
+  if (!(await canUsePnpm())) {
+    await execaWithStreamLog('npm', ['install', '-g', 'pnpm'], { cwd });
+  }
+  if (!(await canUseYarn())) {
+    await execaWithStreamLog('npm', ['install', '-g', 'yarn'], { cwd });
+  }
+  const packageManager = await getPackageManager(cwd);
   await execaWithStreamLog(packageManager, ['install', '--ignore-scripts'], {
     cwd,
   });
 };
 
 export const runPrepare = async (cwd: string = process.cwd()) => {
-  const packageManager = getPackageManager(cwd);
+  const packageManager = await getPackageManager(cwd);
   if (packageManager === 'pnpm') {
     await execaWithStreamLog(
       'pnpm',
@@ -40,7 +45,7 @@ export const runPrepare = async (cwd: string = process.cwd()) => {
 };
 
 export const bumpCanaryVersion = async (cwd: string = process.cwd()) => {
-  const packageManager = getPackageManager(cwd);
+  const packageManager = await getPackageManager(cwd);
   if (packageManager === 'pnpm') {
     await execaWithStreamLog(packageManager, [
       'run',
@@ -60,7 +65,7 @@ export const bumpCanaryVersion = async (cwd: string = process.cwd()) => {
 };
 
 export const runRelease = async (cwd: string = process.cwd(), tag?: string) => {
-  const packageManager = getPackageManager(cwd);
+  const packageManager = await getPackageManager(cwd);
   const params: string[] = ['run', 'release'];
   if (packageManager === 'pnpm') {
     params.push('--');
