@@ -67,6 +67,11 @@ export const changeDependenceVersion = async (cwd: string = process.cwd()) => {
         newActionVersion as string
       }`;
     }
+    if (pkgJSON.devDependencies?.['@modern-js/new-action']) {
+      pkgJSON.dependencies['@modern-js/new-action'] = `^${
+        newActionVersion as string
+      }`;
+    }
     await fs.writeJSON(path.join(dir, 'package.json'), pkgJSON, 'utf-8');
   }
   const pkgJSON = await fs.readJSON(path.join(cwd, 'package.json'));
