@@ -36,6 +36,9 @@ export const changeDependenceVersion = async (cwd: string = process.cwd()) => {
   const { version: monorepoToolsVersion } = await packageJson(
     '@modern-js/monorepo-tools',
   );
+  const { version: newActionVersion } = await packageJson(
+    '@modern-js/new-action',
+  );
   for (const pkg of packages) {
     const { dir } = pkg;
     const pkgJSON = await fs.readJSON(path.join(dir, 'package.json'));
@@ -57,6 +60,11 @@ export const changeDependenceVersion = async (cwd: string = process.cwd()) => {
     if (pkgJSON.dependencies?.['@modern-js/module-tools']) {
       pkgJSON.dependencies['@modern-js/module-tools'] = `^${
         moduleToolsVersion as string
+      }`;
+    }
+    if (pkgJSON.dependencies?.['@modern-js/new-action']) {
+      pkgJSON.dependencies['@modern-js/new-action'] = `^${
+        newActionVersion as string
       }`;
     }
     await fs.writeJSON(path.join(dir, 'package.json'), pkgJSON, 'utf-8');
