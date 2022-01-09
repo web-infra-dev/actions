@@ -25,9 +25,13 @@ export const runInstall = async (cwd: string = process.cwd()) => {
     await execaWithStreamLog('npm', ['install', '-g', 'yarn'], { cwd });
   }
   const packageManager = await getPackageManager(cwd);
-  await execaWithStreamLog(packageManager, ['install', '--ignore-scripts'], {
-    cwd,
-  });
+  await execaWithStreamLog(
+    packageManager,
+    ['install', '--ignore-scripts', '--no-frozen-lockfile'],
+    {
+      cwd,
+    },
+  );
 };
 
 export const runPrepare = async (cwd: string = process.cwd()) => {
