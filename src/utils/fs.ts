@@ -1,6 +1,5 @@
 import path from 'path';
 import { getPackages } from '@manypkg/get-packages';
-import packageJson from 'package-json';
 import { fs } from '@modern-js/utils';
 
 export const chagnePublishBranch = async (
@@ -23,62 +22,17 @@ export const chagnePublishBranch = async (
   );
 };
 
-// eslint-disable-next-line max-statements
-export const changeDependenceVersion = async (cwd: string = process.cwd()) => {
-  console.info('change modern.js repo dependence version...');
+export const checkGeneratorDist = async (cwd: string = process.cwd()) => {
   const { packages } = await getPackages(cwd);
-  const { version: testingPluginVersion } = await packageJson(
-    '@modern-js/plugin-testing',
-  );
-  const { version: moduleToolsVersion } = await packageJson(
-    '@modern-js/module-tools',
-  );
-  const { version: monorepoToolsVersion } = await packageJson(
-    '@modern-js/monorepo-tools',
-  );
-  const { version: newActionVersion } = await packageJson(
-    '@modern-js/new-action',
-  );
   for (const pkg of packages) {
     const { dir } = pkg;
-    const pkgJSON = await fs.readJSON(path.join(dir, 'package.json'));
-    if (pkgJSON.devDependencies?.['@modern-js/plugin-testing']) {
-      pkgJSON.devDependencies['@modern-js/plugin-testing'] = `^${
-        testingPluginVersion as string
-      }`;
+
+    if (dir.includes('generator/generators')) {
+      if (!fs.existsSync(path.join(dir, 'dist/js/node/main.js'))) {
+        console.warn('generator dist not right', dir);
+        // eslint-disable-next-line no-process-exit
+        process.exit(1);
+      }
     }
-    if (pkgJSON.dependencies?.['@modern-js/plugin-testing']) {
-      pkgJSON.dependencies['@modern-js/plugin-testing'] = `^${
-        testingPluginVersion as string
-      }`;
-    }
-    if (pkgJSON.devDependencies?.['@modern-js/module-tools']) {
-      pkgJSON.devDependencies['@modern-js/module-tools'] = `^${
-        moduleToolsVersion as string
-      }`;
-    }
-    if (pkgJSON.dependencies?.['@modern-js/module-tools']) {
-      pkgJSON.dependencies['@modern-js/module-tools'] = `^${
-        moduleToolsVersion as string
-      }`;
-    }
-    if (pkgJSON.dependencies?.['@modern-js/new-action']) {
-      pkgJSON.dependencies['@modern-js/new-action'] = `^${
-        newActionVersion as string
-      }`;
-    }
-    if (pkgJSON.devDependencies?.['@modern-js/new-action']) {
-      pkgJSON.dependencies['@modern-js/new-action'] = `^${
-        newActionVersion as string
-      }`;
-    }
-    await fs.writeJSON(path.join(dir, 'package.json'), pkgJSON, 'utf-8');
-  }
-  const pkgJSON = await fs.readJSON(path.join(cwd, 'package.json'));
-  if (pkgJSON.devDependencies['@modern-js/monorepo-tools']) {
-    pkgJSON.devDependencies['@modern-js/monorepo-tools'] = `^${
-      monorepoToolsVersion as string
-    }`;
-    await fs.writeJSON(path.join(cwd, 'package.json'), pkgJSON, 'utf-8');
   }
 };

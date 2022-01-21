@@ -31,17 +31,17 @@ const release = async () => {
   }
 
   await (0, _utils.gitConfigUser)();
-  await (0, _fs.chagnePublishBranch)(publishBranch); // hack modern.js repo need to change plugin-testing and module-tools version
+  await (0, _fs.chagnePublishBranch)(publishBranch); // hack modern.js repo
 
-  const repo = process.env.REPOSITORY;
-
-  if (repo === 'modern-js-dev/modern.js' && publishVersion !== 'canary') {
-    await (0, _fs.changeDependenceVersion)();
-  } // prepare repo
-
+  const repo = process.env.REPOSITORY; // prepare repo
 
   await (0, _release.runInstall)();
   await (0, _release.runPrepare)();
+
+  if (repo === 'modern-js-dev/modern.js') {
+    await (0, _fs.checkGeneratorDist)();
+  }
+
   await (0, _release.writeNpmrc)(); // publish
 
   if (publishVersion === 'canary') {
