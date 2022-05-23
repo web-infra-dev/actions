@@ -3,6 +3,7 @@ import { gitCommitAll, gitConfigUser } from './utils';
 import { chagnePublishBranch, checkGeneratorDist } from './utils/fs';
 import {
   bumpCanaryVersion,
+  listTagsAndGetPackages,
   runInstall,
   runPrepare,
   runRelease,
@@ -51,4 +52,5 @@ export const release = async () => {
     await gitCommitAll('publish latest');
     await runRelease(process.cwd(), 'latest');
   }
+  await listTagsAndGetPackages();
 };
