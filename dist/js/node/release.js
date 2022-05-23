@@ -17,7 +17,6 @@ function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "functio
 
 function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
-// eslint-disable-next-line max-statements
 const release = async () => {
   const githubToken = process.env.GITHUB_TOKEN;
   const publishVersion = core.getInput('version');
@@ -51,12 +50,15 @@ const release = async () => {
   } else if (publishVersion === 'pre') {
     await (0, _utils.gitCommitAll)('publish pre');
     await (0, _release.runRelease)(process.cwd(), 'next');
-    await (0, _utils.gitPushTags)();
+  } else if (publishVersion === 'alpha') {
+    await (0, _utils.gitCommitAll)('publish pre');
+    await (0, _release.runRelease)(process.cwd(), 'alpha');
   } else {
     await (0, _utils.gitCommitAll)('publish latest');
     await (0, _release.runRelease)(process.cwd(), 'latest');
-    await (0, _utils.gitPushTags)();
   }
+
+  await (0, _release.listTagsAndGetPackages)();
 };
 
 exports.release = release;
