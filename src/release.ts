@@ -1,15 +1,15 @@
 import * as core from '@actions/core';
-import { gitCommitAll, gitConfigUser, gitPushTags } from './utils';
+import { gitCommitAll, gitConfigUser } from './utils';
 import { chagnePublishBranch, checkGeneratorDist } from './utils/fs';
 import {
   bumpCanaryVersion,
+  listTagsAndGetPackages,
   runInstall,
   runPrepare,
   runRelease,
   writeNpmrc,
 } from './utils/release';
 
-// eslint-disable-next-line max-statements
 export const release = async () => {
   const githubToken = process.env.GITHUB_TOKEN;
   const publishVersion = core.getInput('version');
@@ -45,10 +45,12 @@ export const release = async () => {
   } else if (publishVersion === 'pre') {
     await gitCommitAll('publish pre');
     await runRelease(process.cwd(), 'next');
-    await gitPushTags();
+  } else if (publishVersion === 'alpha') {
+    await gitCommitAll('publish pre');
+    await runRelease(process.cwd(), 'alpha');
   } else {
     await gitCommitAll('publish latest');
     await runRelease(process.cwd(), 'latest');
-    await gitPushTags();
   }
+  await listTagsAndGetPackages();
 };

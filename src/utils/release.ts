@@ -1,4 +1,4 @@
-import { fs } from '@modern-js/utils';
+import { execa, fs } from '@modern-js/utils';
 import { canUsePnpm, canUseYarn, getPackageManager } from './npm';
 
 import { execaWithStreamLog } from './exec';
@@ -81,4 +81,17 @@ export const runRelease = async (cwd: string = process.cwd(), tag?: string) => {
   await execaWithStreamLog(packageManager, params, {
     cwd,
   });
+};
+
+export const listTagsAndGetPackages = async () => {
+  const { stdout } = await execa('git', ['--no-pager', 'tag', '-l']);
+  const result: Record<string, string> = {};
+  stdout.split('\n').forEach(info => {
+    const [name, version] = info.split('@').filter(v => v);
+    result[name] = version;
+  });
+  console.info('[Tags]: list tags:');
+  console.info(stdout);
+  console.info('[Packages]:');
+  console.info(JSON.stringify(result));
 };
