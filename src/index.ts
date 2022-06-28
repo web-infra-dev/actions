@@ -1,5 +1,6 @@
 import * as core from '@actions/core';
 import { release } from './release';
+import { pullRequest } from './pullRequest';
 
 (async () => {
   const actionType = core.getInput('type');
@@ -7,6 +8,9 @@ import { release } from './release';
   switch (actionType) {
     case 'release':
       await release();
+      break;
+    case 'pull request':
+      await pullRequest();
       break;
     default:
       throw new Error('action type not support');
