@@ -34,6 +34,17 @@ export const runInstall = async (cwd: string = process.cwd()) => {
   );
 };
 
+export const updateLockFile = async (cwd: string = process.cwd()) => {
+  const packageManager = await getPackageManager(cwd);
+  await execaWithStreamLog(
+    packageManager,
+    ['install', '--ignore-scripts', '--lockfile-only'],
+    {
+      cwd,
+    },
+  );
+};
+
 export const runPrepare = async (cwd: string = process.cwd()) => {
   const packageManager = await getPackageManager(cwd);
   if (packageManager === 'pnpm') {
@@ -46,6 +57,14 @@ export const runPrepare = async (cwd: string = process.cwd()) => {
     await execaWithStreamLog('npm', ['install', '-g', 'lerna'], { cwd });
     await execaWithStreamLog('lerna', ['run', 'prepare'], { cwd });
   }
+};
+
+export const runPrepareMonorepoTools = async (cwd: string = process.cwd()) => {
+  await execaWithStreamLog(
+    'pnpm',
+    ['run', 'prepare', '--filter', '@modern-js/monorepo-tools...'],
+    { cwd },
+  );
 };
 
 export const bumpCanaryVersion = async (cwd: string = process.cwd()) => {

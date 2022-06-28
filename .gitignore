@@ -43,3 +43,5 @@ dist/js/modern/
 dist/js/treeshaking/
 dist/js/node/utils/
 dist/js/node/index.js
+dist/js/node/pullRequest.js
+dist/js/node/release.js

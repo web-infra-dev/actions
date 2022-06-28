@@ -9,9 +9,13 @@ inputs:
     required: true
     default: 'release'
   version:
-    description: 'Release Version(canary, pre, latest)'
+    description: 'Release Version Type(canary, pre, latest)'
     required: false
     default: 'canary'
+  versionNumber:
+    description: 'Release Version Number(v1.0.0)'
+    required: false
+    default: ''
   branch:
     description: 'Release Branch(confirm release branch)'
     required: false
