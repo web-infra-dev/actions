@@ -2,7 +2,10 @@ import readChangesets from '@changesets/read';
 import { execa, getPackageManager } from '@modern-js/utils';
 import { execaWithStreamLog } from '.';
 
-export async function runBumpVersion(cwd: string = process.cwd()) {
+export async function runBumpVersion(
+  releaseType: string,
+  cwd: string = process.cwd(),
+) {
   const packageManager = await getPackageManager(cwd);
   const changesets = await readChangesets(cwd);
 
@@ -12,9 +15,27 @@ export async function runBumpVersion(cwd: string = process.cwd()) {
     return;
   }
 
-  await execaWithStreamLog(packageManager, ['run', 'bump'], {
-    cwd,
-  });
+  if (releaseType === 'release') {
+    await execaWithStreamLog(packageManager, ['run', 'bump'], {
+      cwd,
+    });
+  } else if (packageManager === 'pnpm') {
+    await execaWithStreamLog(
+      packageManager,
+      ['run', 'bump', '--', '--canary', '--preid', releaseType],
+      {
+        cwd,
+      },
+    );
+  } else {
+    await execaWithStreamLog(
+      packageManager,
+      ['run', 'bump', '--canary', '--preid', releaseType],
+      {
+        cwd,
+      },
+    );
+  }
 }
 
 export async function getReleaseNote(

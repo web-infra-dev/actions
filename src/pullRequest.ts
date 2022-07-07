@@ -19,10 +19,20 @@ import {
 
 export const pullRequest = async () => {
   const githubToken = process.env.GITHUB_TOKEN;
+  // 当前发布的版本类型，例如 alpha、latest
+  let releaseType = core.getInput('version') || 'release';
+  if (releaseType === 'latest') {
+    releaseType = 'release';
+  }
   // 当前发布的版本，例如 v1.0.0
   const releaseVersion = core.getInput('versionNumber');
   // 当前发布源分支
   const releaseBranch = core.getInput('branch');
+
+  if (!releaseBranch || !releaseVersion) {
+    throw Error('not found release branch and release version');
+  }
+
   console.info('Release Version', releaseVersion);
   console.info('publishBranch', releaseBranch);
 
@@ -36,8 +46,8 @@ export const pullRequest = async () => {
 
   const branch = github.context.ref.replace('refs/heads/', '');
   const versionBranch = releaseVersion
-    ? `release-${releaseVersion}`
-    : `changeset-release/${branch}`;
+    ? `${releaseType}-${releaseVersion}`
+    : `changeset-${releaseType}/${branch}`;
   const title = releaseVersion
     ? `Release ${releaseVersion}`
     : 'Version Packages';
@@ -66,10 +76,16 @@ export const pullRequest = async () => {
     await runPrepareMonorepoTools();
   }
 
+  if (releaseType === 'canary') {
+    console.info('git push');
+    await gitPush(versionBranch, { force: true });
+    return;
+  }
+
   const releaseNote = await getReleaseNote(title);
 
   // 获取 changesets
-  await runBumpVersion();
+  await runBumpVersion(releaseType);
 
   await updateLockFile();
 
