@@ -1,6 +1,6 @@
 import * as core from '@actions/core';
 import { gitCommitAll, gitConfigUser } from './utils';
-import { chagnePublishBranch, checkGeneratorDist } from './utils/fs';
+import { chagnePublishBranch } from './utils/fs';
 import {
   bumpCanaryVersion,
   listTagsAndGetPackages,
@@ -25,16 +25,9 @@ export const release = async () => {
   await gitConfigUser();
   await chagnePublishBranch(publishBranch);
 
-  // hack modern.js repo
-  const repo = process.env.REPOSITORY;
-
   // prepare repo
   await runInstall();
   await runPrepare();
-
-  if (repo === 'modern-js-dev/modern.js') {
-    await checkGeneratorDist();
-  }
 
   await writeNpmrc();
   // publish

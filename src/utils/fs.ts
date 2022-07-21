@@ -1,5 +1,4 @@
 import path from 'path';
-import { getPackages } from '@manypkg/get-packages';
 import { fs } from '@modern-js/utils';
 
 export const chagnePublishBranch = async (
@@ -20,19 +19,4 @@ export const chagnePublishBranch = async (
     config,
     'utf-8',
   );
-};
-
-export const checkGeneratorDist = async (cwd: string = process.cwd()) => {
-  const { packages } = await getPackages(cwd);
-  for (const pkg of packages) {
-    const { dir } = pkg;
-
-    if (dir.includes('generator/generators')) {
-      if (!fs.existsSync(path.join(dir, 'dist/js/node/main.js'))) {
-        console.warn('generator dist not right', dir);
-        // eslint-disable-next-line no-process-exit
-        process.exit(1);
-      }
-    }
-  }
 };
