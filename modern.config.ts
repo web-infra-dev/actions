@@ -1,0 +1,16 @@
+import { defineConfig } from '@modern-js/module-tools';
+
+export default defineConfig({
+  output: {
+    buildConfig: [
+      {
+        buildType: 'bundle',
+        sourceMap: false,
+        bundleOptions: {
+          skipDeps: false,
+          externals: ['encoding', 'spawn-sync'],
+        },
+      },
+    ],
+  },
+});
