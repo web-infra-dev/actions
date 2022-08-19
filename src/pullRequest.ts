@@ -1,6 +1,9 @@
 import * as core from '@actions/core';
 import * as github from '@actions/github';
 import readChangesets from '@changesets/read';
+import { getPackages } from '@manypkg/get-packages';
+import { read } from '@changesets/config';
+import assembleReleasePlan from '@changesets/assemble-release-plan';
 import {
   gitCommitAll,
   gitCommitWithIgnore,
@@ -25,12 +28,37 @@ export const pullRequest = async () => {
     releaseType = 'release';
   }
   // 当前发布的版本，例如 v1.0.0
-  const releaseVersion = core.getInput('versionNumber');
+  let releaseVersion = core.getInput('versionNumber');
   // 当前发布源分支
   const releaseBranch = core.getInput('branch');
 
-  if (!releaseBranch || !releaseVersion) {
-    throw Error('not found release branch and release version');
+  if (!releaseBranch) {
+    throw Error('not found release branch');
+  }
+
+  const cwd = process.cwd();
+
+  const changesets = await readChangesets(cwd);
+
+  if (releaseVersion === 'auto') {
+    const packages = await getPackages(cwd);
+    const config = await read(cwd, packages);
+
+    const releasePlan = assembleReleasePlan(
+      changesets,
+      packages,
+      config,
+      undefined,
+      releaseType === 'canary'
+        ? {
+            tag: 'canary',
+          }
+        : undefined,
+    );
+    if (releasePlan.releases.length === 0) {
+      return;
+    }
+    releaseVersion = `release-v${releasePlan.releases[0].newVersion}`;
   }
 
   console.info('Release Version', releaseVersion);
@@ -54,10 +82,6 @@ export const pullRequest = async () => {
 
   await gitSwitchToMaybeExistingBranch(versionBranch);
   await gitReset(github.context.sha);
-
-  const cwd = process.cwd();
-
-  const changesets = await readChangesets(cwd);
 
   if (changesets.length === 0) {
     // eslint-disable-next-line no-console
