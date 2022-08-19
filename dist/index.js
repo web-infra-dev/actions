@@ -28,6 +28,7 @@ var import_path5 = __toESM(require("path"));
 var import_util = require("util");
 var import_util2 = __toESM(require("util"));
 var import_path6 = __toESM(require("path"));
+var import_path7 = __toESM(require("path"));
 var __create2 = Object.create;
 var __defProp2 = Object.defineProperty;
 var __getOwnPropDesc2 = Object.getOwnPropertyDescriptor;
@@ -1419,7 +1420,7 @@ var require_path_utils = __commonJSMin((exports) => {
   };
   Object.defineProperty(exports, "__esModule", { value: true });
   exports.toPlatformPath = exports.toWin32Path = exports.toPosixPath = void 0;
-  var path7 = __importStar(__require("path"));
+  var path8 = __importStar(__require("path"));
   function toPosixPath(pth) {
     return pth.replace(/[\\]/g, "/");
   }
@@ -1429,7 +1430,7 @@ var require_path_utils = __commonJSMin((exports) => {
   }
   exports.toWin32Path = toWin32Path;
   function toPlatformPath(pth) {
-    return pth.replace(/[/\\]/g, path7.sep);
+    return pth.replace(/[/\\]/g, path8.sep);
   }
   exports.toPlatformPath = toPlatformPath;
 });
@@ -1496,7 +1497,7 @@ var require_core = __commonJSMin((exports) => {
   var file_command_1 = require_file_command();
   var utils_1 = require_utils();
   var os2 = __importStar(__require("os"));
-  var path7 = __importStar(__require("path"));
+  var path8 = __importStar(__require("path"));
   var oidc_utils_1 = require_oidc_utils();
   var ExitCode;
   (function(ExitCode2) {
@@ -1527,7 +1528,7 @@ var require_core = __commonJSMin((exports) => {
     } else {
       command_1.issueCommand("add-path", {}, inputPath);
     }
-    process.env["PATH"] = `${inputPath}${path7.delimiter}${process.env["PATH"]}`;
+    process.env["PATH"] = `${inputPath}${path8.delimiter}${process.env["PATH"]}`;
   }
   exports.addPath = addPath;
   function getInput4(name2, options2) {
@@ -1654,7 +1655,7 @@ var require_windows = __commonJSMin((exports, module2) => {
   module2.exports = isexe;
   isexe.sync = sync2;
   var fs8 = __require("fs");
-  function checkPathExt(path7, options2) {
+  function checkPathExt(path8, options2) {
     var pathext = options2.pathExt !== void 0 ? options2.pathExt : process.env.PATHEXT;
     if (!pathext) {
       return true;
@@ -1665,38 +1666,38 @@ var require_windows = __commonJSMin((exports, module2) => {
     }
     for (var i = 0; i < pathext.length; i++) {
       var p = pathext[i].toLowerCase();
-      if (p && path7.substr(-p.length).toLowerCase() === p) {
+      if (p && path8.substr(-p.length).toLowerCase() === p) {
         return true;
       }
     }
     return false;
   }
-  function checkStat(stat, path7, options2) {
+  function checkStat(stat, path8, options2) {
     if (!stat.isSymbolicLink() && !stat.isFile()) {
       return false;
     }
-    return checkPathExt(path7, options2);
+    return checkPathExt(path8, options2);
   }
-  function isexe(path7, options2, cb) {
-    fs8.stat(path7, function(er, stat) {
-      cb(er, er ? false : checkStat(stat, path7, options2));
+  function isexe(path8, options2, cb) {
+    fs8.stat(path8, function(er, stat) {
+      cb(er, er ? false : checkStat(stat, path8, options2));
     });
   }
-  function sync2(path7, options2) {
-    return checkStat(fs8.statSync(path7), path7, options2);
+  function sync2(path8, options2) {
+    return checkStat(fs8.statSync(path8), path8, options2);
   }
 });
 var require_mode = __commonJSMin((exports, module2) => {
   module2.exports = isexe;
   isexe.sync = sync2;
   var fs8 = __require("fs");
-  function isexe(path7, options2, cb) {
-    fs8.stat(path7, function(er, stat) {
+  function isexe(path8, options2, cb) {
+    fs8.stat(path8, function(er, stat) {
       cb(er, er ? false : checkStat(stat, options2));
     });
   }
-  function sync2(path7, options2) {
-    return checkStat(fs8.statSync(path7), options2);
+  function sync2(path8, options2) {
+    return checkStat(fs8.statSync(path8), options2);
   }
   function checkStat(stat, options2) {
     return stat.isFile() && checkMode(stat, options2);
@@ -1725,7 +1726,7 @@ var require_isexe = __commonJSMin((exports, module2) => {
   }
   module2.exports = isexe;
   isexe.sync = sync2;
-  function isexe(path7, options2, cb) {
+  function isexe(path8, options2, cb) {
     if (typeof options2 === "function") {
       cb = options2;
       options2 = {};
@@ -1735,7 +1736,7 @@ var require_isexe = __commonJSMin((exports, module2) => {
         throw new TypeError("callback not provided");
       }
       return new Promise(function(resolve, reject) {
-        isexe(path7, options2 || {}, function(er, is) {
+        isexe(path8, options2 || {}, function(er, is) {
           if (er) {
             reject(er);
           } else {
@@ -1744,7 +1745,7 @@ var require_isexe = __commonJSMin((exports, module2) => {
         });
       });
     }
-    core4(path7, options2 || {}, function(er, is) {
+    core4(path8, options2 || {}, function(er, is) {
       if (er) {
         if (er.code === "EACCES" || options2 && options2.ignoreErrors) {
           er = null;
@@ -1754,9 +1755,9 @@ var require_isexe = __commonJSMin((exports, module2) => {
       cb(er, is);
     });
   }
-  function sync2(path7, options2) {
+  function sync2(path8, options2) {
     try {
-      return core4.sync(path7, options2 || {});
+      return core4.sync(path8, options2 || {});
     } catch (er) {
       if (options2 && options2.ignoreErrors || er.code === "EACCES") {
         return false;
@@ -1768,7 +1769,7 @@ var require_isexe = __commonJSMin((exports, module2) => {
 });
 var require_which = __commonJSMin((exports, module2) => {
   var isWindows = process.platform === "win32" || process.env.OSTYPE === "cygwin" || process.env.OSTYPE === "msys";
-  var path7 = __require("path");
+  var path8 = __require("path");
   var COLON = isWindows ? ";" : ":";
   var isexe = require_isexe();
   var getNotFoundError = (cmd) => Object.assign(new Error(`not found: ${cmd}`), { code: "ENOENT" });
@@ -1804,7 +1805,7 @@ var require_which = __commonJSMin((exports, module2) => {
         return opt.all && found.length ? resolve(found) : reject(getNotFoundError(cmd));
       const ppRaw = pathEnv[i];
       const pathPart = /^".*"$/.test(ppRaw) ? ppRaw.slice(1, -1) : ppRaw;
-      const pCmd = path7.join(pathPart, cmd);
+      const pCmd = path8.join(pathPart, cmd);
       const p = !pathPart && /^\.[\\\/]/.test(cmd) ? cmd.slice(0, 2) + pCmd : pCmd;
       resolve(subStep(p, i, 0));
     });
@@ -1831,7 +1832,7 @@ var require_which = __commonJSMin((exports, module2) => {
     for (let i = 0; i < pathEnv.length; i++) {
       const ppRaw = pathEnv[i];
       const pathPart = /^".*"$/.test(ppRaw) ? ppRaw.slice(1, -1) : ppRaw;
-      const pCmd = path7.join(pathPart, cmd);
+      const pCmd = path8.join(pathPart, cmd);
       const p = !pathPart && /^\.[\\\/]/.test(cmd) ? cmd.slice(0, 2) + pCmd : pCmd;
       for (let j = 0; j < pathExt.length; j++) {
         const cur = p + pathExt[j];
@@ -1871,7 +1872,7 @@ var require_path_key = __commonJSMin((exports, module2) => {
 });
 var require_resolveCommand = __commonJSMin((exports, module2) => {
   "use strict";
-  var path7 = __require("path");
+  var path8 = __require("path");
   var which = require_which();
   var getPathKey = require_path_key();
   function resolveCommandAttempt(parsed, withoutPathExt) {
@@ -1889,7 +1890,7 @@ var require_resolveCommand = __commonJSMin((exports, module2) => {
     try {
       resolved = which.sync(parsed.command, {
         path: env[getPathKey({ env })],
-        pathExt: withoutPathExt ? path7.delimiter : void 0
+        pathExt: withoutPathExt ? path8.delimiter : void 0
       });
     } catch (e) {
     } finally {
@@ -1898,7 +1899,7 @@ var require_resolveCommand = __commonJSMin((exports, module2) => {
       }
     }
     if (resolved) {
-      resolved = path7.resolve(hasCustomCwd ? parsed.options.cwd : "", resolved);
+      resolved = path8.resolve(hasCustomCwd ? parsed.options.cwd : "", resolved);
     }
     return resolved;
   }
@@ -1940,8 +1941,8 @@ var require_shebang_command = __commonJSMin((exports, module2) => {
     if (!match) {
       return null;
     }
-    const [path7, argument] = match[0].replace(/#! ?/, "").split(" ");
-    const binary = path7.split("/").pop();
+    const [path8, argument] = match[0].replace(/#! ?/, "").split(" ");
+    const binary = path8.split("/").pop();
     if (binary === "env") {
       return argument;
     }
@@ -1968,7 +1969,7 @@ var require_readShebang = __commonJSMin((exports, module2) => {
 });
 var require_parse = __commonJSMin((exports, module2) => {
   "use strict";
-  var path7 = __require("path");
+  var path8 = __require("path");
   var resolveCommand = require_resolveCommand();
   var escape = require_escape();
   var readShebang = require_readShebang();
@@ -1993,7 +1994,7 @@ var require_parse = __commonJSMin((exports, module2) => {
     const needsShell = !isExecutableRegExp.test(commandFile);
     if (parsed.options.forceShell || needsShell) {
       const needsDoubleEscapeMetaChars = isCmdShimRegExp.test(commandFile);
-      parsed.command = path7.normalize(parsed.command);
+      parsed.command = path8.normalize(parsed.command);
       parsed.command = escape.command(parsed.command);
       parsed.args = parsed.args.map((arg) => escape.argument(arg, needsDoubleEscapeMetaChars));
       const shellCommand = [parsed.command].concat(parsed.args).join(" ");
@@ -2003,7 +2004,7 @@ var require_parse = __commonJSMin((exports, module2) => {
     }
     return parsed;
   }
-  function parse2(command, args, options2) {
+  function parse4(command, args, options2) {
     if (args && !Array.isArray(args)) {
       options2 = args;
       args = null;
@@ -2022,7 +2023,7 @@ var require_parse = __commonJSMin((exports, module2) => {
     };
     return options2.shell ? parsed : parseNonShell(parsed);
   }
-  module2.exports = parse2;
+  module2.exports = parse4;
 });
 var require_enoent = __commonJSMin((exports, module2) => {
   "use strict";
@@ -2073,16 +2074,16 @@ var require_enoent = __commonJSMin((exports, module2) => {
 var require_cross_spawn = __commonJSMin((exports, module2) => {
   "use strict";
   var cp = __require("child_process");
-  var parse2 = require_parse();
+  var parse4 = require_parse();
   var enoent = require_enoent();
   function spawn2(command, args, options2) {
-    const parsed = parse2(command, args, options2);
+    const parsed = parse4(command, args, options2);
     const spawned = cp.spawn(parsed.command, parsed.args, parsed.options);
     enoent.hookChildProcess(spawned, parsed);
     return spawned;
   }
   function spawnSync(command, args, options2) {
-    const parsed = parse2(command, args, options2);
+    const parsed = parse4(command, args, options2);
     const result = cp.spawnSync(parsed.command, parsed.args, parsed.options);
     result.error = result.error || enoent.verifyENOENTSync(result.status, parsed);
     return result;
@@ -2090,7 +2091,7 @@ var require_cross_spawn = __commonJSMin((exports, module2) => {
   module2.exports = spawn2;
   module2.exports.spawn = spawn2;
   module2.exports.sync = spawnSync;
-  module2.exports._parse = parse2;
+  module2.exports._parse = parse4;
   module2.exports._enoent = enoent;
 });
 var require_strip_final_newline = __commonJSMin((exports, module2) => {
@@ -2109,7 +2110,7 @@ var require_strip_final_newline = __commonJSMin((exports, module2) => {
 });
 var require_npm_run_path = __commonJSMin((exports, module2) => {
   "use strict";
-  var path7 = __require("path");
+  var path8 = __require("path");
   var pathKey = require_path_key();
   var npmRunPath = (options2) => {
     options2 = {
@@ -2119,16 +2120,16 @@ var require_npm_run_path = __commonJSMin((exports, module2) => {
       ...options2
     };
     let previous;
-    let cwdPath = path7.resolve(options2.cwd);
+    let cwdPath = path8.resolve(options2.cwd);
     const result = [];
     while (previous !== cwdPath) {
-      result.push(path7.join(cwdPath, "node_modules/.bin"));
+      result.push(path8.join(cwdPath, "node_modules/.bin"));
       previous = cwdPath;
-      cwdPath = path7.resolve(cwdPath, "..");
+      cwdPath = path8.resolve(cwdPath, "..");
     }
-    const execPathDir = path7.resolve(options2.cwd, options2.execPath, "..");
+    const execPathDir = path8.resolve(options2.cwd, options2.execPath, "..");
     result.push(execPathDir);
-    return result.concat(options2.path).join(path7.delimiter);
+    return result.concat(options2.path).join(path8.delimiter);
   };
   module2.exports = npmRunPath;
   module2.exports.default = npmRunPath;
@@ -2138,9 +2139,9 @@ var require_npm_run_path = __commonJSMin((exports, module2) => {
       ...options2
     };
     const env = { ...options2.env };
-    const path8 = pathKey({ env });
-    options2.path = env[path8];
-    env[path8] = module2.exports(options2);
+    const path9 = pathKey({ env });
+    options2.path = env[path9];
+    env[path9] = module2.exports(options2);
     return env;
   };
 });
@@ -3221,7 +3222,7 @@ var require_command2 = __commonJSMin((exports, module2) => {
 });
 var require_execa = __commonJSMin((exports, module2) => {
   "use strict";
-  var path7 = __require("path");
+  var path8 = __require("path");
   var childProcess = __require("child_process");
   var crossSpawn = require_cross_spawn();
   var stripFinalNewline = require_strip_final_newline();
@@ -3263,7 +3264,7 @@ var require_execa = __commonJSMin((exports, module2) => {
     };
     options2.env = getEnv(options2);
     options2.stdio = normalizeStdio(options2);
-    if (process.platform === "win32" && path7.basename(file, ".exe") === "cmd") {
+    if (process.platform === "win32" && path8.basename(file, ".exe") === "cmd") {
       args.unshift("/q");
     }
     return { file, args, options: options2, parsed };
@@ -5387,7 +5388,7 @@ var require_fs_extra = __commonJSMin((exports, module2) => {
           }(e3.rename);
         }
         e3.read = typeof e3.read !== "function" ? e3.read : function(t3) {
-          function read(r3, n2, i2, o2, c2, s2) {
+          function read2(r3, n2, i2, o2, c2, s2) {
             var a;
             if (s2 && typeof s2 === "function") {
               var u = 0;
@@ -5402,8 +5403,8 @@ var require_fs_extra = __commonJSMin((exports, module2) => {
             return t3.call(e3, r3, n2, i2, o2, c2, a);
           }
           if (Object.setPrototypeOf)
-            Object.setPrototypeOf(read, t3);
-          return read;
+            Object.setPrototypeOf(read2, t3);
+          return read2;
         }(e3.read);
         e3.readSync = typeof e3.readSync !== "function" ? e3.readSync : function(t3) {
           return function(r3, n2, i2, o2, c2) {
@@ -9394,7 +9395,7 @@ var require_ora = __commonJSMin((exports, module2) => {
     }, 243: (e2, t2, r2) => {
       "use strict";
       var i;
-      function _defineProperty2(e3, t3, r3) {
+      function _defineProperty3(e3, t3, r3) {
         if (t3 in e3) {
           Object.defineProperty(e3, t3, { value: r3, enumerable: true, configurable: true, writable: true });
         } else {
@@ -9476,9 +9477,9 @@ var require_ora = __commonJSMin((exports, module2) => {
         }
         this[l] = i2;
         return i2;
-      } }, _defineProperty2(i, Symbol.asyncIterator, function() {
+      } }, _defineProperty3(i, Symbol.asyncIterator, function() {
         return this;
-      }), _defineProperty2(i, "return", function _return() {
+      }), _defineProperty3(i, "return", function _return() {
         var e3 = this;
         return new Promise(function(t3, r3) {
           e3[h].destroy(null, function(e4) {
@@ -9492,7 +9493,7 @@ var require_ora = __commonJSMin((exports, module2) => {
       }), i), d);
       var _ = function createReadableStreamAsyncIterator(e3) {
         var t3;
-        var r3 = Object.create(p, (t3 = {}, _defineProperty2(t3, h, { value: e3, writable: true }), _defineProperty2(t3, s, { value: null, writable: true }), _defineProperty2(t3, a, { value: null, writable: true }), _defineProperty2(t3, o, { value: null, writable: true }), _defineProperty2(t3, f, { value: e3._readableState.endEmitted, writable: true }), _defineProperty2(t3, u, { value: function value(e4, t4) {
+        var r3 = Object.create(p, (t3 = {}, _defineProperty3(t3, h, { value: e3, writable: true }), _defineProperty3(t3, s, { value: null, writable: true }), _defineProperty3(t3, a, { value: null, writable: true }), _defineProperty3(t3, o, { value: null, writable: true }), _defineProperty3(t3, f, { value: e3._readableState.endEmitted, writable: true }), _defineProperty3(t3, u, { value: function value(e4, t4) {
           var i2 = r3[h].read();
           if (i2) {
             r3[l] = null;
@@ -9532,7 +9533,7 @@ var require_ora = __commonJSMin((exports, module2) => {
       e2.exports = _;
     }, 706: (e2, t2, r2) => {
       "use strict";
-      function ownKeys2(e3, t3) {
+      function ownKeys3(e3, t3) {
         var r3 = Object.keys(e3);
         if (Object.getOwnPropertySymbols) {
           var i2 = Object.getOwnPropertySymbols(e3);
@@ -9548,20 +9549,20 @@ var require_ora = __commonJSMin((exports, module2) => {
         for (var t3 = 1; t3 < arguments.length; t3++) {
           var r3 = arguments[t3] != null ? arguments[t3] : {};
           if (t3 % 2) {
-            ownKeys2(Object(r3), true).forEach(function(t4) {
-              _defineProperty2(e3, t4, r3[t4]);
+            ownKeys3(Object(r3), true).forEach(function(t4) {
+              _defineProperty3(e3, t4, r3[t4]);
             });
           } else if (Object.getOwnPropertyDescriptors) {
             Object.defineProperties(e3, Object.getOwnPropertyDescriptors(r3));
           } else {
-            ownKeys2(Object(r3)).forEach(function(t4) {
+            ownKeys3(Object(r3)).forEach(function(t4) {
               Object.defineProperty(e3, t4, Object.getOwnPropertyDescriptor(r3, t4));
             });
           }
         }
         return e3;
       }
-      function _defineProperty2(e3, t3, r3) {
+      function _defineProperty3(e3, t3, r3) {
         if (t3 in e3) {
           Object.defineProperty(e3, t3, { value: r3, enumerable: true, configurable: true, writable: true });
         } else {
@@ -9939,7 +9940,7 @@ var require_ora = __commonJSMin((exports, module2) => {
           });
         };
       }
-      function ownKeys2(e3, t3) {
+      function ownKeys3(e3, t3) {
         var r3 = Object.keys(e3);
         if (Object.getOwnPropertySymbols) {
           var i2 = Object.getOwnPropertySymbols(e3);
@@ -9955,20 +9956,20 @@ var require_ora = __commonJSMin((exports, module2) => {
         for (var t3 = 1; t3 < arguments.length; t3++) {
           var r3 = arguments[t3] != null ? arguments[t3] : {};
           if (t3 % 2) {
-            ownKeys2(Object(r3), true).forEach(function(t4) {
-              _defineProperty2(e3, t4, r3[t4]);
+            ownKeys3(Object(r3), true).forEach(function(t4) {
+              _defineProperty3(e3, t4, r3[t4]);
             });
           } else if (Object.getOwnPropertyDescriptors) {
             Object.defineProperties(e3, Object.getOwnPropertyDescriptors(r3));
           } else {
-            ownKeys2(Object(r3)).forEach(function(t4) {
+            ownKeys3(Object(r3)).forEach(function(t4) {
               Object.defineProperty(e3, t4, Object.getOwnPropertyDescriptor(r3, t4));
             });
           }
         }
         return e3;
       }
-      function _defineProperty2(e3, t3, r3) {
+      function _defineProperty3(e3, t3, r3) {
         if (t3 in e3) {
           Object.defineProperty(e3, t3, { value: r3, enumerable: true, configurable: true, writable: true });
         } else {
@@ -12496,9 +12497,9 @@ var require_glob = __commonJSMin((exports, module2) => {
         }
         return n(t3);
       }
-      Minimatch.prototype.parse = parse2;
+      Minimatch.prototype.parse = parse4;
       var v = {};
-      function parse2(t3, e3) {
+      function parse4(t3, e3) {
         if (t3.length > 1024 * 64) {
           throw new TypeError("pattern is too long");
         }
@@ -15849,13 +15850,13 @@ var require_debug = __commonJSMin((exports, module2) => {
         t3 = t3 || {};
         var r3 = typeof e3;
         if (r3 === "string" && e3.length > 0) {
-          return parse2(e3);
+          return parse4(e3);
         } else if (r3 === "number" && isFinite(e3)) {
           return t3.long ? fmtLong(e3) : fmtShort(e3);
         }
         throw new Error("val is not a non-empty string or a valid number. val=" + JSON.stringify(e3));
       };
-      function parse2(e3) {
+      function parse4(e3) {
         e3 = String(e3);
         if (e3.length > 100) {
           return;
@@ -16197,7 +16198,7 @@ var require_execa2 = __commonJSMin((exports, module2) => {
         }
         return e3;
       }
-      function parse2(e3, t3, n3) {
+      function parse4(e3, t3, n3) {
         if (t3 && !Array.isArray(t3)) {
           n3 = t3;
           t3 = null;
@@ -16207,7 +16208,7 @@ var require_execa2 = __commonJSMin((exports, module2) => {
         const r2 = { command: e3, args: t3, options: n3, file: void 0, original: { command: e3, args: t3 } };
         return n3.shell ? r2 : parseNonShell(r2);
       }
-      e2.exports = parse2;
+      e2.exports = parse4;
     }, 24: (e2) => {
       "use strict";
       const t2 = /([()\][%!^"`<>&|;, *?])/g;
@@ -17428,7 +17429,7 @@ var require_json5 = __commonJSMin((exports, module2) => {
       let a;
       let i;
       let B;
-      u2.exports = function parse2(u3, D3) {
+      u2.exports = function parse4(u3, D3) {
         F = String(u3);
         C = "start";
         t = [];
@@ -17484,7 +17485,7 @@ var require_json5 = __commonJSMin((exports, module2) => {
           return String.fromCodePoint(F.codePointAt(A));
         }
       }
-      function read() {
+      function read2() {
         const u3 = peek();
         if (u3 === "\n") {
           n++;
@@ -17511,56 +17512,56 @@ var require_json5 = __commonJSMin((exports, module2) => {
           case "\r":
           case "\u2028":
           case "\u2029":
-            read();
+            read2();
             return;
           case "/":
-            read();
+            read2();
             s = "comment";
             return;
           case void 0:
-            read();
+            read2();
             return newToken("eof");
         }
         if (r.isSpaceSeparator(l)) {
-          read();
+          read2();
           return;
         }
         return f[C]();
       }, comment() {
         switch (l) {
           case "*":
-            read();
+            read2();
             s = "multiLineComment";
             return;
           case "/":
-            read();
+            read2();
             s = "singleLineComment";
             return;
         }
-        throw invalidChar(read());
+        throw invalidChar(read2());
       }, multiLineComment() {
         switch (l) {
           case "*":
-            read();
+            read2();
             s = "multiLineCommentAsterisk";
             return;
           case void 0:
-            throw invalidChar(read());
+            throw invalidChar(read2());
         }
-        read();
+        read2();
       }, multiLineCommentAsterisk() {
         switch (l) {
           case "*":
-            read();
+            read2();
             return;
           case "/":
-            read();
+            read2();
             s = "default";
             return;
           case void 0:
-            throw invalidChar(read());
+            throw invalidChar(read2());
         }
-        read();
+        read2();
         s = "multiLineComment";
       }, singleLineComment() {
         switch (l) {
@@ -17568,44 +17569,44 @@ var require_json5 = __commonJSMin((exports, module2) => {
           case "\r":
           case "\u2028":
           case "\u2029":
-            read();
+            read2();
             s = "default";
             return;
           case void 0:
-            read();
+            read2();
             return newToken("eof");
         }
-        read();
+        read2();
       }, value() {
         switch (l) {
           case "{":
           case "[":
-            return newToken("punctuator", read());
+            return newToken("punctuator", read2());
           case "n":
-            read();
+            read2();
             literal("ull");
             return newToken("null", null);
           case "t":
-            read();
+            read2();
             literal("rue");
             return newToken("boolean", true);
           case "f":
-            read();
+            read2();
             literal("alse");
             return newToken("boolean", false);
           case "-":
           case "+":
-            if (read() === "-") {
+            if (read2() === "-") {
               d = -1;
             }
             s = "sign";
             return;
           case ".":
-            c = read();
+            c = read2();
             s = "decimalPointLeading";
             return;
           case "0":
-            c = read();
+            c = read2();
             s = "zero";
             return;
           case "1":
@@ -17617,30 +17618,30 @@ var require_json5 = __commonJSMin((exports, module2) => {
           case "7":
           case "8":
           case "9":
-            c = read();
+            c = read2();
             s = "decimalInteger";
             return;
           case "I":
-            read();
+            read2();
             literal("nfinity");
             return newToken("numeric", Infinity);
           case "N":
-            read();
+            read2();
             literal("aN");
             return newToken("numeric", NaN);
           case '"':
           case "'":
-            o = read() === '"';
+            o = read2() === '"';
             c = "";
             s = "string";
             return;
         }
-        throw invalidChar(read());
+        throw invalidChar(read2());
       }, identifierNameStartEscape() {
         if (l !== "u") {
-          throw invalidChar(read());
+          throw invalidChar(read2());
         }
-        read();
+        read2();
         const u3 = unicodeEscape();
         switch (u3) {
           case "$":
@@ -17660,23 +17661,23 @@ var require_json5 = __commonJSMin((exports, module2) => {
           case "_":
           case "\u200C":
           case "\u200D":
-            c += read();
+            c += read2();
             return;
           case "\\":
-            read();
+            read2();
             s = "identifierNameEscape";
             return;
         }
         if (r.isIdContinueChar(l)) {
-          c += read();
+          c += read2();
           return;
         }
         return newToken("identifier", c);
       }, identifierNameEscape() {
         if (l !== "u") {
-          throw invalidChar(read());
+          throw invalidChar(read2());
         }
-        read();
+        read2();
         const u3 = unicodeEscape();
         switch (u3) {
           case "$":
@@ -17695,11 +17696,11 @@ var require_json5 = __commonJSMin((exports, module2) => {
       }, sign() {
         switch (l) {
           case ".":
-            c = read();
+            c = read2();
             s = "decimalPointLeading";
             return;
           case "0":
-            c = read();
+            c = read2();
             s = "zero";
             return;
           case "1":
@@ -17711,33 +17712,33 @@ var require_json5 = __commonJSMin((exports, module2) => {
           case "7":
           case "8":
           case "9":
-            c = read();
+            c = read2();
             s = "decimalInteger";
             return;
           case "I":
-            read();
+            read2();
             literal("nfinity");
             return newToken("numeric", d * Infinity);
           case "N":
-            read();
+            read2();
             literal("aN");
             return newToken("numeric", NaN);
         }
-        throw invalidChar(read());
+        throw invalidChar(read2());
       }, zero() {
         switch (l) {
           case ".":
-            c += read();
+            c += read2();
             s = "decimalPoint";
             return;
           case "e":
           case "E":
-            c += read();
+            c += read2();
             s = "decimalExponent";
             return;
           case "x":
           case "X":
-            c += read();
+            c += read2();
             s = "hexadecimal";
             return;
         }
@@ -17745,37 +17746,37 @@ var require_json5 = __commonJSMin((exports, module2) => {
       }, decimalInteger() {
         switch (l) {
           case ".":
-            c += read();
+            c += read2();
             s = "decimalPoint";
             return;
           case "e":
           case "E":
-            c += read();
+            c += read2();
             s = "decimalExponent";
             return;
         }
         if (r.isDigit(l)) {
-          c += read();
+          c += read2();
           return;
         }
         return newToken("numeric", d * Number(c));
       }, decimalPointLeading() {
         if (r.isDigit(l)) {
-          c += read();
+          c += read2();
           s = "decimalFraction";
           return;
         }
-        throw invalidChar(read());
+        throw invalidChar(read2());
       }, decimalPoint() {
         switch (l) {
           case "e":
           case "E":
-            c += read();
+            c += read2();
             s = "decimalExponent";
             return;
         }
         if (r.isDigit(l)) {
-          c += read();
+          c += read2();
           s = "decimalFraction";
           return;
         }
@@ -17784,12 +17785,12 @@ var require_json5 = __commonJSMin((exports, module2) => {
         switch (l) {
           case "e":
           case "E":
-            c += read();
+            c += read2();
             s = "decimalExponent";
             return;
         }
         if (r.isDigit(l)) {
-          c += read();
+          c += read2();
           return;
         }
         return newToken("numeric", d * Number(c));
@@ -17797,133 +17798,133 @@ var require_json5 = __commonJSMin((exports, module2) => {
         switch (l) {
           case "+":
           case "-":
-            c += read();
+            c += read2();
             s = "decimalExponentSign";
             return;
         }
         if (r.isDigit(l)) {
-          c += read();
+          c += read2();
           s = "decimalExponentInteger";
           return;
         }
-        throw invalidChar(read());
+        throw invalidChar(read2());
       }, decimalExponentSign() {
         if (r.isDigit(l)) {
-          c += read();
+          c += read2();
           s = "decimalExponentInteger";
           return;
         }
-        throw invalidChar(read());
+        throw invalidChar(read2());
       }, decimalExponentInteger() {
         if (r.isDigit(l)) {
-          c += read();
+          c += read2();
           return;
         }
         return newToken("numeric", d * Number(c));
       }, hexadecimal() {
         if (r.isHexDigit(l)) {
-          c += read();
+          c += read2();
           s = "hexadecimalInteger";
           return;
         }
-        throw invalidChar(read());
+        throw invalidChar(read2());
       }, hexadecimalInteger() {
         if (r.isHexDigit(l)) {
-          c += read();
+          c += read2();
           return;
         }
         return newToken("numeric", d * Number(c));
       }, string() {
         switch (l) {
           case "\\":
-            read();
+            read2();
             c += escape();
             return;
           case '"':
             if (o) {
-              read();
+              read2();
               return newToken("string", c);
             }
-            c += read();
+            c += read2();
             return;
           case "'":
             if (!o) {
-              read();
+              read2();
               return newToken("string", c);
             }
-            c += read();
+            c += read2();
             return;
           case "\n":
           case "\r":
-            throw invalidChar(read());
+            throw invalidChar(read2());
           case "\u2028":
           case "\u2029":
             separatorChar(l);
             break;
           case void 0:
-            throw invalidChar(read());
+            throw invalidChar(read2());
         }
-        c += read();
+        c += read2();
       }, start() {
         switch (l) {
           case "{":
           case "[":
-            return newToken("punctuator", read());
+            return newToken("punctuator", read2());
         }
         s = "value";
       }, beforePropertyName() {
         switch (l) {
           case "$":
           case "_":
-            c = read();
+            c = read2();
             s = "identifierName";
             return;
           case "\\":
-            read();
+            read2();
             s = "identifierNameStartEscape";
             return;
           case "}":
-            return newToken("punctuator", read());
+            return newToken("punctuator", read2());
           case '"':
           case "'":
-            o = read() === '"';
+            o = read2() === '"';
             s = "string";
             return;
         }
         if (r.isIdStartChar(l)) {
-          c += read();
+          c += read2();
           s = "identifierName";
           return;
         }
-        throw invalidChar(read());
+        throw invalidChar(read2());
       }, afterPropertyName() {
         if (l === ":") {
-          return newToken("punctuator", read());
+          return newToken("punctuator", read2());
         }
-        throw invalidChar(read());
+        throw invalidChar(read2());
       }, beforePropertyValue() {
         s = "value";
       }, afterPropertyValue() {
         switch (l) {
           case ",":
           case "}":
-            return newToken("punctuator", read());
+            return newToken("punctuator", read2());
         }
-        throw invalidChar(read());
+        throw invalidChar(read2());
       }, beforeArrayValue() {
         if (l === "]") {
-          return newToken("punctuator", read());
+          return newToken("punctuator", read2());
         }
         s = "value";
       }, afterArrayValue() {
         switch (l) {
           case ",":
           case "]":
-            return newToken("punctuator", read());
+            return newToken("punctuator", read2());
         }
-        throw invalidChar(read());
+        throw invalidChar(read2());
       }, end() {
-        throw invalidChar(read());
+        throw invalidChar(read2());
       } };
       function newToken(u3, D3) {
         return { type: u3, value: D3, line: n, column: E };
@@ -17932,53 +17933,53 @@ var require_json5 = __commonJSMin((exports, module2) => {
         for (const D3 of u3) {
           const u4 = peek();
           if (u4 !== D3) {
-            throw invalidChar(read());
+            throw invalidChar(read2());
           }
-          read();
+          read2();
         }
       }
       function escape() {
         const u3 = peek();
         switch (u3) {
           case "b":
-            read();
+            read2();
             return "\b";
           case "f":
-            read();
+            read2();
             return "\f";
           case "n":
-            read();
+            read2();
             return "\n";
           case "r":
-            read();
+            read2();
             return "\r";
           case "t":
-            read();
+            read2();
             return "	";
           case "v":
-            read();
+            read2();
             return "\v";
           case "0":
-            read();
+            read2();
             if (r.isDigit(peek())) {
-              throw invalidChar(read());
+              throw invalidChar(read2());
             }
             return "\0";
           case "x":
-            read();
+            read2();
             return hexEscape();
           case "u":
-            read();
+            read2();
             return unicodeEscape();
           case "\n":
           case "\u2028":
           case "\u2029":
-            read();
+            read2();
             return "";
           case "\r":
-            read();
+            read2();
             if (peek() === "\n") {
-              read();
+              read2();
             }
             return "";
           case "1":
@@ -17990,24 +17991,24 @@ var require_json5 = __commonJSMin((exports, module2) => {
           case "7":
           case "8":
           case "9":
-            throw invalidChar(read());
+            throw invalidChar(read2());
           case void 0:
-            throw invalidChar(read());
+            throw invalidChar(read2());
         }
-        return read();
+        return read2();
       }
       function hexEscape() {
         let u3 = "";
         let D3 = peek();
         if (!r.isHexDigit(D3)) {
-          throw invalidChar(read());
+          throw invalidChar(read2());
         }
-        u3 += read();
+        u3 += read2();
         D3 = peek();
         if (!r.isHexDigit(D3)) {
-          throw invalidChar(read());
+          throw invalidChar(read2());
         }
-        u3 += read();
+        u3 += read2();
         return String.fromCodePoint(parseInt(u3, 16));
       }
       function unicodeEscape() {
@@ -18016,9 +18017,9 @@ var require_json5 = __commonJSMin((exports, module2) => {
         while (D3-- > 0) {
           const D4 = peek();
           if (!r.isHexDigit(D4)) {
-            throw invalidChar(read());
+            throw invalidChar(read2());
           }
-          u3 += read();
+          u3 += read2();
         }
         return String.fromCodePoint(parseInt(u3, 16));
       }
@@ -19877,7 +19878,7 @@ var require_semver = __commonJSMin((exports, module2) => {
       e2.exports = gte;
     }, 779: (e2, t2, r2) => {
       const s = r2(607);
-      const inc = (e3, t3, r3, n) => {
+      const inc2 = (e3, t3, r3, n) => {
         if (typeof r3 === "string") {
           n = r3;
           r3 = void 0;
@@ -19888,7 +19889,7 @@ var require_semver = __commonJSMin((exports, module2) => {
           return null;
         }
       };
-      e2.exports = inc;
+      e2.exports = inc2;
     }, 808: (e2, t2, r2) => {
       const s = r2(433);
       const lt = (e3, t3, r3) => s(e3, t3, r3) < 0;
@@ -19914,7 +19915,7 @@ var require_semver = __commonJSMin((exports, module2) => {
       const { re: n, t: i } = r2(475);
       const o = r2(607);
       const l = r2(912);
-      const parse2 = (e3, t3) => {
+      const parse4 = (e3, t3) => {
         t3 = l(t3);
         if (e3 instanceof o) {
           return e3;
@@ -19935,7 +19936,7 @@ var require_semver = __commonJSMin((exports, module2) => {
           return null;
         }
       };
-      e2.exports = parse2;
+      e2.exports = parse4;
     }, 410: (e2, t2, r2) => {
       const s = r2(607);
       const patch = (e3, t3) => new s(e3, t3).patch;
@@ -20867,7 +20868,7 @@ var require_dotenv = __commonJSMin((exports, module2) => {
       const c = /^\s*([\w.-]+)\s*=\s*(.*)?\s*$/;
       const l = /\\n/g;
       const a = /\r\n|\n|\r/;
-      function parse2(e3, r3) {
+      function parse4(e3, r3) {
         const n3 = Boolean(r3 && r3.debug);
         const t2 = {};
         e3.toString().split(a).forEach(function(e4, r4) {
@@ -20912,7 +20913,7 @@ var require_dotenv = __commonJSMin((exports, module2) => {
           }
         }
         try {
-          const e4 = parse2(t.readFileSync(r3, { encoding: n3 }), { debug: s2 });
+          const e4 = parse4(t.readFileSync(r3, { encoding: n3 }), { debug: s2 });
           Object.keys(e4).forEach(function(r4) {
             if (!Object.prototype.hasOwnProperty.call(process.env, r4)) {
               process.env[r4] = e4[r4];
@@ -20926,7 +20927,7 @@ var require_dotenv = __commonJSMin((exports, module2) => {
         }
       }
       e2.exports.config = config;
-      e2.exports.parse = parse2;
+      e2.exports.parse = parse4;
     }, 147: (e2) => {
       "use strict";
       e2.exports = __require("fs");
@@ -21678,7 +21679,7 @@ var require_lodash = __commonJSMin((exports, module2) => {
       var dataViewCtorString = toSource(DataView), mapCtorString = toSource(Map2), promiseCtorString = toSource(Promise2), setCtorString = toSource(Set2), weakMapCtorString = toSource(WeakMap2);
       var symbolProto = Symbol2 ? Symbol2.prototype : undefined2, symbolValueOf = symbolProto ? symbolProto.valueOf : undefined2, symbolToString = symbolProto ? symbolProto.toString : undefined2;
       function lodash(value) {
-        if (isObjectLike(value) && !isArray(value) && !(value instanceof LazyWrapper)) {
+        if (isObjectLike(value) && !isArray2(value) && !(value instanceof LazyWrapper)) {
           if (value instanceof LodashWrapper) {
             return value;
           }
@@ -21757,7 +21758,7 @@ var require_lodash = __commonJSMin((exports, module2) => {
         return result2;
       }
       function lazyValue() {
-        var array = this.__wrapped__.value(), dir = this.__dir__, isArr = isArray(array), isRight = dir < 0, arrLength = isArr ? array.length : 0, view = getView(0, arrLength, this.__views__), start = view.start, end = view.end, length = end - start, index = isRight ? end : start - 1, iteratees = this.__iteratees__, iterLength = iteratees.length, resIndex = 0, takeCount = nativeMin(length, this.__takeCount__);
+        var array = this.__wrapped__.value(), dir = this.__dir__, isArr = isArray2(array), isRight = dir < 0, arrLength = isArr ? array.length : 0, view = getView(0, arrLength, this.__views__), start = view.start, end = view.end, length = end - start, index = isRight ? end : start - 1, iteratees = this.__iteratees__, iterLength = iteratees.length, resIndex = 0, takeCount = nativeMin(length, this.__takeCount__);
         if (!isArr || !isRight && arrLength == length && takeCount == length) {
           return baseWrapperValue(array, this.__actions__);
         }
@@ -21966,7 +21967,7 @@ var require_lodash = __commonJSMin((exports, module2) => {
       Stack.prototype.has = stackHas;
       Stack.prototype.set = stackSet;
       function arrayLikeKeys(value, inherited) {
-        var isArr = isArray(value), isArg = !isArr && isArguments(value), isBuff = !isArr && !isArg && isBuffer(value), isType = !isArr && !isArg && !isBuff && isTypedArray(value), skipIndexes = isArr || isArg || isBuff || isType, result2 = skipIndexes ? baseTimes(value.length, String2) : [], length = result2.length;
+        var isArr = isArray2(value), isArg = !isArr && isArguments(value), isBuff = !isArr && !isArg && isBuffer(value), isType = !isArr && !isArg && !isBuff && isTypedArray(value), skipIndexes = isArr || isArg || isBuff || isType, result2 = skipIndexes ? baseTimes(value.length, String2) : [], length = result2.length;
         for (var key in value) {
           if ((inherited || hasOwnProperty.call(value, key)) && !(skipIndexes && (key == "length" || isBuff && (key == "offset" || key == "parent") || isType && (key == "buffer" || key == "byteLength" || key == "byteOffset") || isIndex(key, length)))) {
             result2.push(key);
@@ -22057,7 +22058,7 @@ var require_lodash = __commonJSMin((exports, module2) => {
         if (!isObject2(value)) {
           return value;
         }
-        var isArr = isArray(value);
+        var isArr = isArray2(value);
         if (isArr) {
           result2 = initCloneArray(value);
           if (!isDeep) {
@@ -22244,17 +22245,17 @@ var require_lodash = __commonJSMin((exports, module2) => {
           return isFunction(object[key]);
         });
       }
-      function baseGet(object, path7) {
-        path7 = castPath(path7, object);
-        var index = 0, length = path7.length;
+      function baseGet(object, path8) {
+        path8 = castPath(path8, object);
+        var index = 0, length = path8.length;
         while (object != null && index < length) {
-          object = object[toKey(path7[index++])];
+          object = object[toKey(path8[index++])];
         }
         return index && index == length ? object : undefined2;
       }
       function baseGetAllKeys(object, keysFunc, symbolsFunc) {
         var result2 = keysFunc(object);
-        return isArray(object) ? result2 : arrayPush(result2, symbolsFunc(object));
+        return isArray2(object) ? result2 : arrayPush(result2, symbolsFunc(object));
       }
       function baseGetTag(value) {
         if (value == null) {
@@ -22312,10 +22313,10 @@ var require_lodash = __commonJSMin((exports, module2) => {
         });
         return accumulator;
       }
-      function baseInvoke(object, path7, args) {
-        path7 = castPath(path7, object);
-        object = parent(object, path7);
-        var func = object == null ? object : object[toKey(last(path7))];
+      function baseInvoke(object, path8, args) {
+        path8 = castPath(path8, object);
+        object = parent(object, path8);
+        var func = object == null ? object : object[toKey(last(path8))];
         return func == null ? undefined2 : apply(func, object, args);
       }
       function baseIsArguments(value) {
@@ -22337,7 +22338,7 @@ var require_lodash = __commonJSMin((exports, module2) => {
         return baseIsEqualDeep(value, other, bitmask, customizer, baseIsEqual, stack);
       }
       function baseIsEqualDeep(object, other, bitmask, customizer, equalFunc, stack) {
-        var objIsArr = isArray(object), othIsArr = isArray(other), objTag = objIsArr ? arrayTag : getTag(object), othTag = othIsArr ? arrayTag : getTag(other);
+        var objIsArr = isArray2(object), othIsArr = isArray2(other), objTag = objIsArr ? arrayTag : getTag(object), othTag = othIsArr ? arrayTag : getTag(other);
         objTag = objTag == argsTag ? objectTag : objTag;
         othTag = othTag == argsTag ? objectTag : othTag;
         var objIsObj = objTag == objectTag, othIsObj = othTag == objectTag, isSameTag = objTag == othTag;
@@ -22424,7 +22425,7 @@ var require_lodash = __commonJSMin((exports, module2) => {
           return identity;
         }
         if (typeof value == "object") {
-          return isArray(value) ? baseMatchesProperty(value[0], value[1]) : baseMatches(value);
+          return isArray2(value) ? baseMatchesProperty(value[0], value[1]) : baseMatches(value);
         }
         return property(value);
       }
@@ -22471,13 +22472,13 @@ var require_lodash = __commonJSMin((exports, module2) => {
           return object === source || baseIsMatch(object, source, matchData);
         };
       }
-      function baseMatchesProperty(path7, srcValue) {
-        if (isKey(path7) && isStrictComparable(srcValue)) {
-          return matchesStrictComparable(toKey(path7), srcValue);
+      function baseMatchesProperty(path8, srcValue) {
+        if (isKey(path8) && isStrictComparable(srcValue)) {
+          return matchesStrictComparable(toKey(path8), srcValue);
         }
         return function(object) {
-          var objValue = get(object, path7);
-          return objValue === undefined2 && objValue === srcValue ? hasIn(object, path7) : baseIsEqual(srcValue, objValue, COMPARE_PARTIAL_FLAG | COMPARE_UNORDERED_FLAG);
+          var objValue = get(object, path8);
+          return objValue === undefined2 && objValue === srcValue ? hasIn(object, path8) : baseIsEqual(srcValue, objValue, COMPARE_PARTIAL_FLAG | COMPARE_UNORDERED_FLAG);
         };
       }
       function baseMerge(object, source, srcIndex, customizer, stack) {
@@ -22506,10 +22507,10 @@ var require_lodash = __commonJSMin((exports, module2) => {
         var newValue = customizer ? customizer(objValue, srcValue, key + "", object, source, stack) : undefined2;
         var isCommon = newValue === undefined2;
         if (isCommon) {
-          var isArr = isArray(srcValue), isBuff = !isArr && isBuffer(srcValue), isTyped = !isArr && !isBuff && isTypedArray(srcValue);
+          var isArr = isArray2(srcValue), isBuff = !isArr && isBuffer(srcValue), isTyped = !isArr && !isBuff && isTypedArray(srcValue);
           newValue = srcValue;
           if (isArr || isBuff || isTyped) {
-            if (isArray(objValue)) {
+            if (isArray2(objValue)) {
               newValue = objValue;
             } else if (isArrayLikeObject(objValue)) {
               newValue = copyArray(objValue);
@@ -22551,7 +22552,7 @@ var require_lodash = __commonJSMin((exports, module2) => {
       function baseOrderBy(collection, iteratees, orders) {
         if (iteratees.length) {
           iteratees = arrayMap(iteratees, function(iteratee2) {
-            if (isArray(iteratee2)) {
+            if (isArray2(iteratee2)) {
               return function(value) {
                 return baseGet(value, iteratee2.length === 1 ? iteratee2[0] : iteratee2);
               };
@@ -22574,23 +22575,23 @@ var require_lodash = __commonJSMin((exports, module2) => {
         });
       }
       function basePick(object, paths) {
-        return basePickBy(object, paths, function(value, path7) {
-          return hasIn(object, path7);
+        return basePickBy(object, paths, function(value, path8) {
+          return hasIn(object, path8);
         });
       }
       function basePickBy(object, paths, predicate) {
         var index = -1, length = paths.length, result2 = {};
         while (++index < length) {
-          var path7 = paths[index], value = baseGet(object, path7);
-          if (predicate(value, path7)) {
-            baseSet(result2, castPath(path7, object), value);
+          var path8 = paths[index], value = baseGet(object, path8);
+          if (predicate(value, path8)) {
+            baseSet(result2, castPath(path8, object), value);
           }
         }
         return result2;
       }
-      function basePropertyDeep(path7) {
+      function basePropertyDeep(path8) {
         return function(object) {
-          return baseGet(object, path7);
+          return baseGet(object, path8);
         };
       }
       function basePullAll(array, values2, iteratee2, comparator) {
@@ -22664,14 +22665,14 @@ var require_lodash = __commonJSMin((exports, module2) => {
         var array = values(collection);
         return shuffleSelf(array, baseClamp(n, 0, array.length));
       }
-      function baseSet(object, path7, value, customizer) {
+      function baseSet(object, path8, value, customizer) {
         if (!isObject2(object)) {
           return object;
         }
-        path7 = castPath(path7, object);
-        var index = -1, length = path7.length, lastIndex = length - 1, nested = object;
+        path8 = castPath(path8, object);
+        var index = -1, length = path8.length, lastIndex = length - 1, nested = object;
         while (nested != null && ++index < length) {
-          var key = toKey(path7[index]), newValue = value;
+          var key = toKey(path8[index]), newValue = value;
           if (key === "__proto__" || key === "constructor" || key === "prototype") {
             return object;
           }
@@ -22679,7 +22680,7 @@ var require_lodash = __commonJSMin((exports, module2) => {
             var objValue = nested[key];
             newValue = customizer ? customizer(objValue, key, nested) : undefined2;
             if (newValue === undefined2) {
-              newValue = isObject2(objValue) ? objValue : isIndex(path7[index + 1]) ? [] : {};
+              newValue = isObject2(objValue) ? objValue : isIndex(path8[index + 1]) ? [] : {};
             }
           }
           assignValue(nested, key, newValue);
@@ -22796,7 +22797,7 @@ var require_lodash = __commonJSMin((exports, module2) => {
         if (typeof value == "string") {
           return value;
         }
-        if (isArray(value)) {
+        if (isArray2(value)) {
           return arrayMap(value, baseToString) + "";
         }
         if (isSymbol(value)) {
@@ -22845,13 +22846,13 @@ var require_lodash = __commonJSMin((exports, module2) => {
           }
         return result2;
       }
-      function baseUnset(object, path7) {
-        path7 = castPath(path7, object);
-        object = parent(object, path7);
-        return object == null || delete object[toKey(last(path7))];
+      function baseUnset(object, path8) {
+        path8 = castPath(path8, object);
+        object = parent(object, path8);
+        return object == null || delete object[toKey(last(path8))];
       }
-      function baseUpdate(object, path7, updater, customizer) {
-        return baseSet(object, path7, updater(baseGet(object, path7)), customizer);
+      function baseUpdate(object, path8, updater, customizer) {
+        return baseSet(object, path8, updater(baseGet(object, path8)), customizer);
       }
       function baseWhile(array, predicate, isDrop, fromRight) {
         var length = array.length, index = fromRight ? length : -1;
@@ -22899,7 +22900,7 @@ var require_lodash = __commonJSMin((exports, module2) => {
         return typeof value == "function" ? value : identity;
       }
       function castPath(value, object) {
-        if (isArray(value)) {
+        if (isArray2(value)) {
           return value;
         }
         return isKey(value, object) ? [value] : stringToPath(toString(value));
@@ -23034,7 +23035,7 @@ var require_lodash = __commonJSMin((exports, module2) => {
       }
       function createAggregator(setter, initializer) {
         return function(collection, iteratee2) {
-          var func = isArray(collection) ? arrayAggregator : baseAggregator, accumulator = initializer ? initializer() : {};
+          var func = isArray2(collection) ? arrayAggregator : baseAggregator, accumulator = initializer ? initializer() : {};
           return func(collection, setter, getIteratee(iteratee2, 2), accumulator);
         };
       }
@@ -23190,7 +23191,7 @@ var require_lodash = __commonJSMin((exports, module2) => {
           }
           return function() {
             var args = arguments, value = args[0];
-            if (wrapper && args.length == 1 && isArray(value)) {
+            if (wrapper && args.length == 1 && isArray2(value)) {
               return wrapper.plant(value).value();
             }
             var index2 = 0, result2 = length ? funcs[index2].apply(this, args) : value;
@@ -23586,7 +23587,7 @@ var require_lodash = __commonJSMin((exports, module2) => {
         return result2;
       }
       function flatRest(func) {
-        return setToString(overRest(func, undefined2, flatten), func + "");
+        return setToString(overRest(func, undefined2, flatten2), func + "");
       }
       function getAllKeys(object) {
         return baseGetAllKeys(object, keys, getSymbols);
@@ -23712,11 +23713,11 @@ var require_lodash = __commonJSMin((exports, module2) => {
         var match = source.match(reWrapDetails);
         return match ? match[1].split(reSplitDetails) : [];
       }
-      function hasPath(object, path7, hasFunc) {
-        path7 = castPath(path7, object);
-        var index = -1, length = path7.length, result2 = false;
+      function hasPath(object, path8, hasFunc) {
+        path8 = castPath(path8, object);
+        var index = -1, length = path8.length, result2 = false;
         while (++index < length) {
-          var key = toKey(path7[index]);
+          var key = toKey(path8[index]);
           if (!(result2 = object != null && hasFunc(object, key))) {
             break;
           }
@@ -23726,7 +23727,7 @@ var require_lodash = __commonJSMin((exports, module2) => {
           return result2;
         }
         length = object == null ? 0 : object.length;
-        return !!length && isLength(length) && isIndex(key, length) && (isArray(object) || isArguments(object));
+        return !!length && isLength(length) && isIndex(key, length) && (isArray2(object) || isArguments(object));
       }
       function initCloneArray(array) {
         var length = array.length, result2 = new array.constructor(length);
@@ -23783,7 +23784,7 @@ var require_lodash = __commonJSMin((exports, module2) => {
         return source.replace(reWrapComment, "{\n/* [wrapped with " + details + "] */\n");
       }
       function isFlattenable(value) {
-        return isArray(value) || isArguments(value) || !!(spreadableSymbol && value && value[spreadableSymbol]);
+        return isArray2(value) || isArguments(value) || !!(spreadableSymbol && value && value[spreadableSymbol]);
       }
       function isIndex(value, length) {
         var type = typeof value;
@@ -23801,7 +23802,7 @@ var require_lodash = __commonJSMin((exports, module2) => {
         return false;
       }
       function isKey(value, object) {
-        if (isArray(value)) {
+        if (isArray2(value)) {
           return false;
         }
         var type = typeof value;
@@ -23918,8 +23919,8 @@ var require_lodash = __commonJSMin((exports, module2) => {
           return apply(func, this, otherArgs);
         };
       }
-      function parent(object, path7) {
-        return path7.length < 2 ? object : baseGet(object, baseSlice(path7, 0, -1));
+      function parent(object, path8) {
+        return path8.length < 2 ? object : baseGet(object, baseSlice(path8, 0, -1));
       }
       function reorder(array, indexes) {
         var arrLength = array.length, length = nativeMin(indexes.length, arrLength), oldArray = copyArray(array);
@@ -24057,7 +24058,7 @@ var require_lodash = __commonJSMin((exports, module2) => {
         while (index--) {
           args[index - 1] = arguments[index];
         }
-        return arrayPush(isArray(array) ? copyArray(array) : [array], baseFlatten(args, 1));
+        return arrayPush(isArray2(array) ? copyArray(array) : [array], baseFlatten(args, 1));
       }
       var difference = baseRest(function(array, values2) {
         return isArrayLikeObject(array) ? baseDifference(array, baseFlatten(values2, 1, isArrayLikeObject, true)) : [];
@@ -24133,7 +24134,7 @@ var require_lodash = __commonJSMin((exports, module2) => {
         }
         return baseFindIndex(array, getIteratee(predicate, 3), index, true);
       }
-      function flatten(array) {
+      function flatten2(array) {
         var length = array == null ? 0 : array.length;
         return length ? baseFlatten(array, 1) : [];
       }
@@ -24508,14 +24509,14 @@ var require_lodash = __commonJSMin((exports, module2) => {
         }
       });
       function every(collection, predicate, guard) {
-        var func = isArray(collection) ? arrayEvery : baseEvery;
+        var func = isArray2(collection) ? arrayEvery : baseEvery;
         if (guard && isIterateeCall(collection, predicate, guard)) {
           predicate = undefined2;
         }
         return func(collection, getIteratee(predicate, 3));
       }
       function filter(collection, predicate) {
-        var func = isArray(collection) ? arrayFilter : baseFilter;
+        var func = isArray2(collection) ? arrayFilter : baseFilter;
         return func(collection, getIteratee(predicate, 3));
       }
       var find2 = createFind(findIndex);
@@ -24531,11 +24532,11 @@ var require_lodash = __commonJSMin((exports, module2) => {
         return baseFlatten(map(collection, iteratee2), depth);
       }
       function forEach(collection, iteratee2) {
-        var func = isArray(collection) ? arrayEach : baseEach;
+        var func = isArray2(collection) ? arrayEach : baseEach;
         return func(collection, getIteratee(iteratee2, 3));
       }
       function forEachRight(collection, iteratee2) {
-        var func = isArray(collection) ? arrayEachRight : baseEachRight;
+        var func = isArray2(collection) ? arrayEachRight : baseEachRight;
         return func(collection, getIteratee(iteratee2, 3));
       }
       var groupBy = createAggregator(function(result2, value, key) {
@@ -24554,10 +24555,10 @@ var require_lodash = __commonJSMin((exports, module2) => {
         }
         return isString(collection) ? fromIndex <= length && collection.indexOf(value, fromIndex) > -1 : !!length && baseIndexOf(collection, value, fromIndex) > -1;
       }
-      var invokeMap = baseRest(function(collection, path7, args) {
-        var index = -1, isFunc = typeof path7 == "function", result2 = isArrayLike(collection) ? Array2(collection.length) : [];
+      var invokeMap = baseRest(function(collection, path8, args) {
+        var index = -1, isFunc = typeof path8 == "function", result2 = isArrayLike(collection) ? Array2(collection.length) : [];
         baseEach(collection, function(value) {
-          result2[++index] = isFunc ? apply(path7, value, args) : baseInvoke(value, path7, args);
+          result2[++index] = isFunc ? apply(path8, value, args) : baseInvoke(value, path8, args);
         });
         return result2;
       });
@@ -24565,18 +24566,18 @@ var require_lodash = __commonJSMin((exports, module2) => {
         baseAssignValue(result2, key, value);
       });
       function map(collection, iteratee2) {
-        var func = isArray(collection) ? arrayMap : baseMap;
+        var func = isArray2(collection) ? arrayMap : baseMap;
         return func(collection, getIteratee(iteratee2, 3));
       }
       function orderBy(collection, iteratees, orders, guard) {
         if (collection == null) {
           return [];
         }
-        if (!isArray(iteratees)) {
+        if (!isArray2(iteratees)) {
           iteratees = iteratees == null ? [] : [iteratees];
         }
         orders = guard ? undefined2 : orders;
-        if (!isArray(orders)) {
+        if (!isArray2(orders)) {
           orders = orders == null ? [] : [orders];
         }
         return baseOrderBy(collection, iteratees, orders);
@@ -24587,19 +24588,19 @@ var require_lodash = __commonJSMin((exports, module2) => {
         return [[], []];
       });
       function reduce(collection, iteratee2, accumulator) {
-        var func = isArray(collection) ? arrayReduce : baseReduce, initAccum = arguments.length < 3;
+        var func = isArray2(collection) ? arrayReduce : baseReduce, initAccum = arguments.length < 3;
         return func(collection, getIteratee(iteratee2, 4), accumulator, initAccum, baseEach);
       }
       function reduceRight(collection, iteratee2, accumulator) {
-        var func = isArray(collection) ? arrayReduceRight : baseReduce, initAccum = arguments.length < 3;
+        var func = isArray2(collection) ? arrayReduceRight : baseReduce, initAccum = arguments.length < 3;
         return func(collection, getIteratee(iteratee2, 4), accumulator, initAccum, baseEachRight);
       }
       function reject(collection, predicate) {
-        var func = isArray(collection) ? arrayFilter : baseFilter;
+        var func = isArray2(collection) ? arrayFilter : baseFilter;
         return func(collection, negate(getIteratee(predicate, 3)));
       }
       function sample(collection) {
-        var func = isArray(collection) ? arraySample : baseSample;
+        var func = isArray2(collection) ? arraySample : baseSample;
         return func(collection);
       }
       function sampleSize(collection, n, guard) {
@@ -24608,11 +24609,11 @@ var require_lodash = __commonJSMin((exports, module2) => {
         } else {
           n = toInteger(n);
         }
-        var func = isArray(collection) ? arraySampleSize : baseSampleSize;
+        var func = isArray2(collection) ? arraySampleSize : baseSampleSize;
         return func(collection, n);
       }
       function shuffle(collection) {
-        var func = isArray(collection) ? arrayShuffle : baseShuffle;
+        var func = isArray2(collection) ? arrayShuffle : baseShuffle;
         return func(collection);
       }
       function size(collection) {
@@ -24629,7 +24630,7 @@ var require_lodash = __commonJSMin((exports, module2) => {
         return baseKeys(collection).length;
       }
       function some(collection, predicate, guard) {
-        var func = isArray(collection) ? arraySome : baseSome;
+        var func = isArray2(collection) ? arraySome : baseSome;
         if (guard && isIterateeCall(collection, predicate, guard)) {
           predicate = undefined2;
         }
@@ -24840,7 +24841,7 @@ var require_lodash = __commonJSMin((exports, module2) => {
         return before(2, func);
       }
       var overArgs = castRest(function(func, transforms) {
-        transforms = transforms.length == 1 && isArray(transforms[0]) ? arrayMap(transforms[0], baseUnary(getIteratee())) : arrayMap(baseFlatten(transforms, 1), baseUnary(getIteratee()));
+        transforms = transforms.length == 1 && isArray2(transforms[0]) ? arrayMap(transforms[0], baseUnary(getIteratee())) : arrayMap(baseFlatten(transforms, 1), baseUnary(getIteratee()));
         var funcsLength = transforms.length;
         return baseRest(function(args) {
           var index = -1, length = nativeMin(args.length, funcsLength);
@@ -24907,7 +24908,7 @@ var require_lodash = __commonJSMin((exports, module2) => {
           return [];
         }
         var value = arguments[0];
-        return isArray(value) ? value : [value];
+        return isArray2(value) ? value : [value];
       }
       function clone2(value) {
         return baseClone(value, CLONE_SYMBOLS_FLAG);
@@ -24938,7 +24939,7 @@ var require_lodash = __commonJSMin((exports, module2) => {
       }()) ? baseIsArguments : function(value) {
         return isObjectLike(value) && hasOwnProperty.call(value, "callee") && !propertyIsEnumerable.call(value, "callee");
       };
-      var isArray = Array2.isArray;
+      var isArray2 = Array2.isArray;
       var isArrayBuffer = nodeIsArrayBuffer ? baseUnary(nodeIsArrayBuffer) : baseIsArrayBuffer;
       function isArrayLike(value) {
         return value != null && isLength(value.length) && !isFunction(value);
@@ -24958,7 +24959,7 @@ var require_lodash = __commonJSMin((exports, module2) => {
         if (value == null) {
           return true;
         }
-        if (isArrayLike(value) && (isArray(value) || typeof value == "string" || typeof value.splice == "function" || isBuffer(value) || isTypedArray(value) || isArguments(value))) {
+        if (isArrayLike(value) && (isArray2(value) || typeof value == "string" || typeof value.splice == "function" || isBuffer(value) || isTypedArray(value) || isArguments(value))) {
           return !value.length;
         }
         var tag = getTag(value);
@@ -25056,7 +25057,7 @@ var require_lodash = __commonJSMin((exports, module2) => {
       }
       var isSet = nodeIsSet ? baseUnary(nodeIsSet) : baseIsSet;
       function isString(value) {
-        return typeof value == "string" || !isArray(value) && isObjectLike(value) && baseGetTag(value) == stringTag;
+        return typeof value == "string" || !isArray2(value) && isObjectLike(value) && baseGetTag(value) == stringTag;
       }
       function isSymbol(value) {
         return typeof value == "symbol" || isObjectLike(value) && baseGetTag(value) == symbolTag;
@@ -25209,15 +25210,15 @@ var require_lodash = __commonJSMin((exports, module2) => {
       function functionsIn(object) {
         return object == null ? [] : baseFunctions(object, keysIn(object));
       }
-      function get(object, path7, defaultValue) {
-        var result2 = object == null ? undefined2 : baseGet(object, path7);
+      function get(object, path8, defaultValue) {
+        var result2 = object == null ? undefined2 : baseGet(object, path8);
         return result2 === undefined2 ? defaultValue : result2;
       }
-      function has(object, path7) {
-        return object != null && hasPath(object, path7, baseHas);
+      function has(object, path8) {
+        return object != null && hasPath(object, path8, baseHas);
       }
-      function hasIn(object, path7) {
-        return object != null && hasPath(object, path7, baseHasIn);
+      function hasIn(object, path8) {
+        return object != null && hasPath(object, path8, baseHasIn);
       }
       var invert = createInverter(function(result2, value, key) {
         if (value != null && typeof value.toString != "function") {
@@ -25270,10 +25271,10 @@ var require_lodash = __commonJSMin((exports, module2) => {
           return result2;
         }
         var isDeep = false;
-        paths = arrayMap(paths, function(path7) {
-          path7 = castPath(path7, object);
-          isDeep || (isDeep = path7.length > 1);
-          return path7;
+        paths = arrayMap(paths, function(path8) {
+          path8 = castPath(path8, object);
+          isDeep || (isDeep = path8.length > 1);
+          return path8;
         });
         copyObject(object, getAllKeysIn(object), result2);
         if (isDeep) {
@@ -25299,19 +25300,19 @@ var require_lodash = __commonJSMin((exports, module2) => {
           return [prop];
         });
         predicate = getIteratee(predicate);
-        return basePickBy(object, props, function(value, path7) {
-          return predicate(value, path7[0]);
+        return basePickBy(object, props, function(value, path8) {
+          return predicate(value, path8[0]);
         });
       }
-      function result(object, path7, defaultValue) {
-        path7 = castPath(path7, object);
-        var index = -1, length = path7.length;
+      function result(object, path8, defaultValue) {
+        path8 = castPath(path8, object);
+        var index = -1, length = path8.length;
         if (!length) {
           length = 1;
           object = undefined2;
         }
         while (++index < length) {
-          var value = object == null ? undefined2 : object[toKey(path7[index])];
+          var value = object == null ? undefined2 : object[toKey(path8[index])];
           if (value === undefined2) {
             index = length;
             value = defaultValue;
@@ -25320,17 +25321,17 @@ var require_lodash = __commonJSMin((exports, module2) => {
         }
         return object;
       }
-      function set(object, path7, value) {
-        return object == null ? object : baseSet(object, path7, value);
+      function set(object, path8, value) {
+        return object == null ? object : baseSet(object, path8, value);
       }
-      function setWith(object, path7, value, customizer) {
+      function setWith(object, path8, value, customizer) {
         customizer = typeof customizer == "function" ? customizer : undefined2;
-        return object == null ? object : baseSet(object, path7, value, customizer);
+        return object == null ? object : baseSet(object, path8, value, customizer);
       }
       var toPairs = createToPairs(keys);
       var toPairsIn = createToPairs(keysIn);
       function transform(object, iteratee2, accumulator) {
-        var isArr = isArray(object), isArrLike = isArr || isBuffer(object) || isTypedArray(object);
+        var isArr = isArray2(object), isArrLike = isArr || isBuffer(object) || isTypedArray(object);
         iteratee2 = getIteratee(iteratee2, 4);
         if (accumulator == null) {
           var Ctor = object && object.constructor;
@@ -25347,15 +25348,15 @@ var require_lodash = __commonJSMin((exports, module2) => {
         });
         return accumulator;
       }
-      function unset(object, path7) {
-        return object == null ? true : baseUnset(object, path7);
+      function unset(object, path8) {
+        return object == null ? true : baseUnset(object, path8);
       }
-      function update(object, path7, updater) {
-        return object == null ? object : baseUpdate(object, path7, castFunction(updater));
+      function update(object, path8, updater) {
+        return object == null ? object : baseUpdate(object, path8, castFunction(updater));
       }
-      function updateWith(object, path7, updater, customizer) {
+      function updateWith(object, path8, updater, customizer) {
         customizer = typeof customizer == "function" ? customizer : undefined2;
-        return object == null ? object : baseUpdate(object, path7, castFunction(updater), customizer);
+        return object == null ? object : baseUpdate(object, path8, castFunction(updater), customizer);
       }
       function values(object) {
         return object == null ? [] : baseValues(object, keys(object));
@@ -25733,17 +25734,17 @@ var require_lodash = __commonJSMin((exports, module2) => {
       function matches(source) {
         return baseMatches(baseClone(source, CLONE_DEEP_FLAG));
       }
-      function matchesProperty(path7, srcValue) {
-        return baseMatchesProperty(path7, baseClone(srcValue, CLONE_DEEP_FLAG));
+      function matchesProperty(path8, srcValue) {
+        return baseMatchesProperty(path8, baseClone(srcValue, CLONE_DEEP_FLAG));
       }
-      var method = baseRest(function(path7, args) {
+      var method = baseRest(function(path8, args) {
         return function(object) {
-          return baseInvoke(object, path7, args);
+          return baseInvoke(object, path8, args);
         };
       });
       var methodOf = baseRest(function(object, args) {
-        return function(path7) {
-          return baseInvoke(object, path7, args);
+        return function(path8) {
+          return baseInvoke(object, path8, args);
         };
       });
       function mixin(object, source, options2) {
@@ -25790,12 +25791,12 @@ var require_lodash = __commonJSMin((exports, module2) => {
       var over = createOver(arrayMap);
       var overEvery = createOver(arrayEvery);
       var overSome = createOver(arraySome);
-      function property(path7) {
-        return isKey(path7) ? baseProperty(toKey(path7)) : basePropertyDeep(path7);
+      function property(path8) {
+        return isKey(path8) ? baseProperty(toKey(path8)) : basePropertyDeep(path8);
       }
       function propertyOf(object) {
-        return function(path7) {
-          return object == null ? undefined2 : baseGet(object, path7);
+        return function(path8) {
+          return object == null ? undefined2 : baseGet(object, path8);
         };
       }
       var range = createRange();
@@ -25830,7 +25831,7 @@ var require_lodash = __commonJSMin((exports, module2) => {
         return result2;
       }
       function toPath(value) {
-        if (isArray(value)) {
+        if (isArray2(value)) {
           return arrayMap(value, toKey);
         }
         return isSymbol(value) ? [value] : copyArray(stringToPath(toString(value)));
@@ -25918,7 +25919,7 @@ var require_lodash = __commonJSMin((exports, module2) => {
       lodash.flatMap = flatMap;
       lodash.flatMapDeep = flatMapDeep;
       lodash.flatMapDepth = flatMapDepth;
-      lodash.flatten = flatten;
+      lodash.flatten = flatten2;
       lodash.flattenDeep = flattenDeep;
       lodash.flattenDepth = flattenDepth;
       lodash.flip = flip;
@@ -26076,7 +26077,7 @@ var require_lodash = __commonJSMin((exports, module2) => {
       lodash.inRange = inRange;
       lodash.invoke = invoke;
       lodash.isArguments = isArguments;
-      lodash.isArray = isArray;
+      lodash.isArray = isArray2;
       lodash.isArrayBuffer = isArrayBuffer;
       lodash.isArrayLike = isArrayLike;
       lodash.isArrayLikeObject = isArrayLikeObject;
@@ -26248,12 +26249,12 @@ var require_lodash = __commonJSMin((exports, module2) => {
       LazyWrapper.prototype.findLast = function(predicate) {
         return this.reverse().find(predicate);
       };
-      LazyWrapper.prototype.invokeMap = baseRest(function(path7, args) {
-        if (typeof path7 == "function") {
+      LazyWrapper.prototype.invokeMap = baseRest(function(path8, args) {
+        if (typeof path8 == "function") {
           return new LazyWrapper(this);
         }
         return this.map(function(value) {
-          return baseInvoke(value, path7, args);
+          return baseInvoke(value, path8, args);
         });
       });
       LazyWrapper.prototype.reject = function(predicate) {
@@ -26288,7 +26289,7 @@ var require_lodash = __commonJSMin((exports, module2) => {
           return;
         }
         lodash.prototype[methodName] = function() {
-          var value = this.__wrapped__, args = isTaker ? [1] : arguments, isLazy = value instanceof LazyWrapper, iteratee2 = args[0], useLazy = isLazy || isArray(value);
+          var value = this.__wrapped__, args = isTaker ? [1] : arguments, isLazy = value instanceof LazyWrapper, iteratee2 = args[0], useLazy = isLazy || isArray2(value);
           var interceptor = function(value2) {
             var result3 = lodashFunc.apply(lodash, arrayPush([value2], args));
             return isTaker && chainAll ? result3[0] : result3;
@@ -26316,10 +26317,10 @@ var require_lodash = __commonJSMin((exports, module2) => {
           var args = arguments;
           if (retUnwrapped && !this.__chain__) {
             var value = this.value();
-            return func.apply(isArray(value) ? value : [], args);
+            return func.apply(isArray2(value) ? value : [], args);
           }
           return this[chainName](function(value2) {
-            return func.apply(isArray(value2) ? value2 : [], args);
+            return func.apply(isArray2(value2) ? value2 : [], args);
           });
         };
       });
@@ -26436,14 +26437,14 @@ var require_fast_glob = __commonJSMin((exports, module2) => {
       const i = r2(6325);
       const o = r2(946);
       const a = r2(3253);
-      function read(t3, e3, r3) {
+      function read2(t3, e3, r3) {
         if (!e3.stats && i.IS_SUPPORT_READDIR_WITH_FILE_TYPES) {
           readdirWithFileTypes(t3, e3, r3);
           return;
         }
         readdir(t3, e3, r3);
       }
-      e2.read = read;
+      e2.read = read2;
       function readdirWithFileTypes(t3, e3, r3) {
         e3.fs.readdir(t3, { withFileTypes: true }, (n2, i2) => {
           if (n2 !== null) {
@@ -26543,13 +26544,13 @@ var require_fast_glob = __commonJSMin((exports, module2) => {
       const s = r2(6325);
       const i = r2(946);
       const o = r2(3253);
-      function read(t3, e3) {
+      function read2(t3, e3) {
         if (!e3.stats && s.IS_SUPPORT_READDIR_WITH_FILE_TYPES) {
           return readdirWithFileTypes(t3, e3);
         }
         return readdir(t3, e3);
       }
-      e2.read = read;
+      e2.read = read2;
       function readdirWithFileTypes(t3, e3) {
         const r3 = e3.fs.readdirSync(t3, { withFileTypes: true });
         return r3.map((r4) => {
@@ -26672,7 +26673,7 @@ var require_fast_glob = __commonJSMin((exports, module2) => {
       "use strict";
       Object.defineProperty(e2, "__esModule", { value: true });
       e2.read = void 0;
-      function read(t3, e3, r2) {
+      function read2(t3, e3, r2) {
         e3.fs.lstat(t3, (n, s) => {
           if (n !== null) {
             callFailureCallback(r2, n);
@@ -26698,7 +26699,7 @@ var require_fast_glob = __commonJSMin((exports, module2) => {
           });
         });
       }
-      e2.read = read;
+      e2.read = read2;
       function callFailureCallback(t3, e3) {
         t3(e3);
       }
@@ -26709,7 +26710,7 @@ var require_fast_glob = __commonJSMin((exports, module2) => {
       "use strict";
       Object.defineProperty(e2, "__esModule", { value: true });
       e2.read = void 0;
-      function read(t3, e3) {
+      function read2(t3, e3) {
         const r2 = e3.fs.lstatSync(t3);
         if (!r2.isSymbolicLink() || !e3.followSymbolicLink) {
           return r2;
@@ -26727,7 +26728,7 @@ var require_fast_glob = __commonJSMin((exports, module2) => {
           throw t4;
         }
       }
-      e2.read = read;
+      e2.read = read2;
     }, 1917: (t2, e2, r2) => {
       "use strict";
       Object.defineProperty(e2, "__esModule", { value: true });
@@ -27280,7 +27281,7 @@ var require_fast_glob = __commonJSMin((exports, module2) => {
       "use strict";
       const n = r2(3625);
       const { MAX_LENGTH: s, CHAR_BACKSLASH: i, CHAR_BACKTICK: o, CHAR_COMMA: a, CHAR_DOT: u, CHAR_LEFT_PARENTHESES: c, CHAR_RIGHT_PARENTHESES: l, CHAR_LEFT_CURLY_BRACE: f, CHAR_RIGHT_CURLY_BRACE: p, CHAR_LEFT_SQUARE_BRACKET: h, CHAR_RIGHT_SQUARE_BRACKET: d, CHAR_DOUBLE_QUOTE: _, CHAR_SINGLE_QUOTE: g, CHAR_NO_BREAK_SPACE: y, CHAR_ZERO_WIDTH_NOBREAK_SPACE: S } = r2(487);
-      const parse2 = (t3, e3 = {}) => {
+      const parse4 = (t3, e3 = {}) => {
         if (typeof t3 !== "string") {
           throw new TypeError("Expected a string");
         }
@@ -27477,7 +27478,7 @@ var require_fast_glob = __commonJSMin((exports, module2) => {
         push({ type: "eos" });
         return v;
       };
-      t2.exports = parse2;
+      t2.exports = parse4;
     }, 3625: (t2, e2, r2) => {
       "use strict";
       const n = r2(2456);
@@ -28224,10 +28225,10 @@ var require_fast_glob = __commonJSMin((exports, module2) => {
       "use strict";
       Object.defineProperty(e2, "__esModule", { value: true });
       e2.splitWhen = e2.flatten = void 0;
-      function flatten(t3) {
+      function flatten2(t3) {
         return t3.reduce((t4, e3) => [].concat(t4, e3), []);
       }
-      e2.flatten = flatten;
+      e2.flatten = flatten2;
       function splitWhen(t3, e3) {
         const r2 = [[]];
         let n = 0;
@@ -29185,7 +29186,7 @@ var require_fast_glob = __commonJSMin((exports, module2) => {
       const i = r2(376);
       const o = r2(8658);
       const isEmptyString = (t3) => t3 === "" || t3 === "./";
-      const micromatch = (t3, e3, r3) => {
+      const micromatch2 = (t3, e3, r3) => {
         e3 = [].concat(e3);
         t3 = [].concat(t3);
         let n2 = /* @__PURE__ */ new Set();
@@ -29228,11 +29229,11 @@ var require_fast_glob = __commonJSMin((exports, module2) => {
         }
         return c;
       };
-      micromatch.match = micromatch;
-      micromatch.matcher = (t3, e3) => i(t3, e3);
-      micromatch.isMatch = (t3, e3, r3) => i(e3, r3)(t3);
-      micromatch.any = micromatch.isMatch;
-      micromatch.not = (t3, e3, r3 = {}) => {
+      micromatch2.match = micromatch2;
+      micromatch2.matcher = (t3, e3) => i(t3, e3);
+      micromatch2.isMatch = (t3, e3, r3) => i(e3, r3)(t3);
+      micromatch2.any = micromatch2.isMatch;
+      micromatch2.not = (t3, e3, r3 = {}) => {
         e3 = [].concat(e3).map(String);
         let n2 = /* @__PURE__ */ new Set();
         let s2 = [];
@@ -29241,7 +29242,7 @@ var require_fast_glob = __commonJSMin((exports, module2) => {
             r3.onResult(t4);
           s2.push(t4.output);
         };
-        let i2 = micromatch(t3, e3, { ...r3, onResult });
+        let i2 = micromatch2(t3, e3, { ...r3, onResult });
         for (let t4 of s2) {
           if (!i2.includes(t4)) {
             n2.add(t4);
@@ -29249,12 +29250,12 @@ var require_fast_glob = __commonJSMin((exports, module2) => {
         }
         return [...n2];
       };
-      micromatch.contains = (t3, e3, r3) => {
+      micromatch2.contains = (t3, e3, r3) => {
         if (typeof t3 !== "string") {
           throw new TypeError(`Expected a string: "${n.inspect(t3)}"`);
         }
         if (Array.isArray(e3)) {
-          return e3.some((e4) => micromatch.contains(t3, e4, r3));
+          return e3.some((e4) => micromatch2.contains(t3, e4, r3));
         }
         if (typeof e3 === "string") {
           if (isEmptyString(t3) || isEmptyString(e3)) {
@@ -29264,19 +29265,19 @@ var require_fast_glob = __commonJSMin((exports, module2) => {
             return true;
           }
         }
-        return micromatch.isMatch(t3, e3, { ...r3, contains: true });
+        return micromatch2.isMatch(t3, e3, { ...r3, contains: true });
       };
-      micromatch.matchKeys = (t3, e3, r3) => {
+      micromatch2.matchKeys = (t3, e3, r3) => {
         if (!o.isObject(t3)) {
           throw new TypeError("Expected the first argument to be an object");
         }
-        let n2 = micromatch(Object.keys(t3), e3, r3);
+        let n2 = micromatch2(Object.keys(t3), e3, r3);
         let s2 = {};
         for (let e4 of n2)
           s2[e4] = t3[e4];
         return s2;
       };
-      micromatch.some = (t3, e3, r3) => {
+      micromatch2.some = (t3, e3, r3) => {
         let n2 = [].concat(t3);
         for (let t4 of [].concat(e3)) {
           let e4 = i(String(t4), r3);
@@ -29286,7 +29287,7 @@ var require_fast_glob = __commonJSMin((exports, module2) => {
         }
         return false;
       };
-      micromatch.every = (t3, e3, r3) => {
+      micromatch2.every = (t3, e3, r3) => {
         let n2 = [].concat(t3);
         for (let t4 of [].concat(e3)) {
           let e4 = i(String(t4), r3);
@@ -29296,13 +29297,13 @@ var require_fast_glob = __commonJSMin((exports, module2) => {
         }
         return true;
       };
-      micromatch.all = (t3, e3, r3) => {
+      micromatch2.all = (t3, e3, r3) => {
         if (typeof t3 !== "string") {
           throw new TypeError(`Expected a string: "${n.inspect(t3)}"`);
         }
         return [].concat(e3).every((e4) => i(e4, r3)(t3));
       };
-      micromatch.capture = (t3, e3, r3) => {
+      micromatch2.capture = (t3, e3, r3) => {
         let n2 = o.isWindows(r3);
         let s2 = i.makeRe(String(t3), { ...r3, capture: true });
         let a = s2.exec(n2 ? o.toPosixSlashes(e3) : e3);
@@ -29310,9 +29311,9 @@ var require_fast_glob = __commonJSMin((exports, module2) => {
           return a.slice(1).map((t4) => t4 === void 0 ? "" : t4);
         }
       };
-      micromatch.makeRe = (...t3) => i.makeRe(...t3);
-      micromatch.scan = (...t3) => i.scan(...t3);
-      micromatch.parse = (t3, e3) => {
+      micromatch2.makeRe = (...t3) => i.makeRe(...t3);
+      micromatch2.scan = (...t3) => i.scan(...t3);
+      micromatch2.parse = (t3, e3) => {
         let r3 = [];
         for (let n2 of [].concat(t3 || [])) {
           for (let t4 of s(String(n2), e3)) {
@@ -29321,7 +29322,7 @@ var require_fast_glob = __commonJSMin((exports, module2) => {
         }
         return r3;
       };
-      micromatch.braces = (t3, e3) => {
+      micromatch2.braces = (t3, e3) => {
         if (typeof t3 !== "string")
           throw new TypeError("Expected a string");
         if (e3 && e3.nobrace === true || !/\{.*\}/.test(t3)) {
@@ -29329,12 +29330,12 @@ var require_fast_glob = __commonJSMin((exports, module2) => {
         }
         return s(t3, e3);
       };
-      micromatch.braceExpand = (t3, e3) => {
+      micromatch2.braceExpand = (t3, e3) => {
         if (typeof t3 !== "string")
           throw new TypeError("Expected a string");
-        return micromatch.braces(t3, { ...e3, expand: true });
+        return micromatch2.braces(t3, { ...e3, expand: true });
       };
-      t2.exports = micromatch;
+      t2.exports = micromatch2;
     }, 376: (t2, e2, r2) => {
       "use strict";
       t2.exports = r2(7631);
@@ -29385,7 +29386,7 @@ var require_fast_glob = __commonJSMin((exports, module2) => {
         return r3;
       };
       const syntaxError = (t3, e3) => `Missing ${t3}: "${e3}" - use "\\\\${e3}" to match literal characters`;
-      const parse2 = (t3, e3) => {
+      const parse4 = (t3, e3) => {
         if (typeof t3 !== "string") {
           throw new TypeError("Expected a string");
         }
@@ -29504,7 +29505,7 @@ var require_fast_glob = __commonJSMin((exports, module2) => {
               n2 = t4.close = `)$))${i2}`;
             }
             if (t4.inner.includes("*") && (s2 = remaining()) && /^\.[^\\/.]+$/.test(s2)) {
-              const r4 = parse2(s2, { ...e3, fastpaths: false }).output;
+              const r4 = parse4(s2, { ...e3, fastpaths: false }).output;
               n2 = t4.close = `)${r4})${i2})`;
             }
             if (t4.prev.type === "bos") {
@@ -30025,7 +30026,7 @@ var require_fast_glob = __commonJSMin((exports, module2) => {
         }
         return H;
       };
-      parse2.fastpaths = (t3, e3) => {
+      parse4.fastpaths = (t3, e3) => {
         const r3 = { ...e3 };
         const o2 = typeof r3.maxLength === "number" ? Math.min(i, r3.maxLength) : i;
         const a2 = t3.length;
@@ -30084,7 +30085,7 @@ var require_fast_glob = __commonJSMin((exports, module2) => {
         }
         return P;
       };
-      t2.exports = parse2;
+      t2.exports = parse4;
     }, 7631: (t2, e2, r2) => {
       "use strict";
       const n = r2(1017);
@@ -32454,7 +32455,7 @@ var require_signale = __commonJSMin((exports, module2) => {
           }(e3.rename);
         }
         e3.read = typeof e3.read !== "function" ? e3.read : function(t3) {
-          function read(r3, n2, i2, s2, o2, c2) {
+          function read2(r3, n2, i2, s2, o2, c2) {
             var a;
             if (c2 && typeof c2 === "function") {
               var l = 0;
@@ -32469,8 +32470,8 @@ var require_signale = __commonJSMin((exports, module2) => {
             return t3.call(e3, r3, n2, i2, s2, o2, a);
           }
           if (Object.setPrototypeOf)
-            Object.setPrototypeOf(read, t3);
-          return read;
+            Object.setPrototypeOf(read2, t3);
+          return read2;
         }(e3.read);
         e3.readSync = typeof e3.readSync !== "function" ? e3.readSync : function(t3) {
           return function(r3, n2, i2, s2, o2) {
@@ -32705,9 +32706,9 @@ var require_signale = __commonJSMin((exports, module2) => {
       const s = r2(308);
       const o = r2(264);
       const c = r2(119);
-      const parse2 = (e3, t3) => o(s(e3), n.relative(".", t3));
-      e2.exports = (e3) => c(i.readFile)(e3, "utf8").then((t3) => parse2(t3, e3));
-      e2.exports.sync = (e3) => parse2(i.readFileSync(e3, "utf8"), e3);
+      const parse4 = (e3, t3) => o(s(e3), n.relative(".", t3));
+      e2.exports = (e3) => c(i.readFile)(e3, "utf8").then((t3) => parse4(t3, e3));
+      e2.exports.sync = (e3) => parse4(i.readFileSync(e3, "utf8"), e3);
     }, 69: (e2, t2, r2) => {
       "use strict";
       const n = r2(17);
@@ -33970,13 +33971,13 @@ var require_browsers2 = __commonJSMin((exports, module2) => {
   module2.exports.browsers = require_browsers();
 });
 var require_browserVersions = __commonJSMin((exports, module2) => {
-  module2.exports = { "0": "31", "1": "32", "2": "33", "3": "34", "4": "35", "5": "36", "6": "37", "7": "38", "8": "39", "9": "40", A: "10", B: "11", C: "12", D: "7", E: "8", F: "9", G: "15", H: "101", I: "4", J: "6", K: "13", L: "14", M: "16", N: "17", O: "18", P: "79", Q: "80", R: "81", S: "83", T: "84", U: "85", V: "86", W: "87", X: "102", Y: "64", Z: "88", a: "89", b: "90", c: "91", d: "92", e: "93", f: "94", g: "95", h: "96", i: "97", j: "98", k: "99", l: "100", m: "103", n: "5", o: "19", p: "20", q: "21", r: "22", s: "23", t: "24", u: "25", v: "26", w: "27", x: "28", y: "29", z: "30", AB: "41", BB: "42", CB: "43", DB: "44", EB: "45", FB: "46", GB: "47", HB: "48", IB: "49", JB: "50", KB: "51", LB: "52", MB: "53", NB: "54", OB: "55", PB: "56", QB: "57", RB: "58", SB: "60", TB: "62", UB: "63", VB: "65", WB: "66", XB: "67", YB: "68", ZB: "69", aB: "70", bB: "71", cB: "72", dB: "73", eB: "74", fB: "75", gB: "76", hB: "77", iB: "78", jB: "11.1", kB: "12.1", lB: "16.0", mB: "3", nB: "59", oB: "61", pB: "82", qB: "3.2", rB: "10.1", sB: "15.2-15.3", tB: "15.4", uB: "15.5", vB: "11.5", wB: "4.2-4.3", xB: "5.5", yB: "2", zB: "3.5", "0B": "3.6", "1B": "104", "2B": "105", "3B": "106", "4B": "3.1", "5B": "5.1", "6B": "6.1", "7B": "7.1", "8B": "9.1", "9B": "13.1", AC: "14.1", BC: "15.1", CC: "TP", DC: "9.5-9.6", EC: "10.0-10.1", FC: "10.5", GC: "10.6", HC: "11.6", IC: "4.0-4.1", JC: "5.0-5.1", KC: "6.0-6.1", LC: "7.0-7.1", MC: "8.1-8.4", NC: "9.0-9.2", OC: "9.3", PC: "10.0-10.2", QC: "10.3", RC: "11.0-11.2", SC: "11.3-11.4", TC: "12.0-12.1", UC: "12.2-12.5", VC: "13.0-13.1", WC: "13.2", XC: "13.3", YC: "13.4-13.7", ZC: "14.0-14.4", aC: "14.5-14.8", bC: "15.0-15.1", cC: "all", dC: "2.1", eC: "2.2", fC: "2.3", gC: "4.1", hC: "4.4", iC: "4.4.3-4.4.4", jC: "12.12", kC: "5.0-5.4", lC: "6.2-6.4", mC: "7.2-7.4", nC: "8.2", oC: "9.2", pC: "11.1-11.2", qC: "12.0", rC: "13.0", sC: "14.0", tC: "15.0", uC: "17.0", vC: "10.4", wC: "7.12", xC: "2.5" };
+  module2.exports = { "0": "31", "1": "32", "2": "33", "3": "34", "4": "35", "5": "36", "6": "37", "7": "38", "8": "39", "9": "40", A: "10", B: "11", C: "12", D: "7", E: "8", F: "9", G: "15", H: "103", I: "4", J: "6", K: "13", L: "14", M: "16", N: "17", O: "18", P: "79", Q: "80", R: "81", S: "83", T: "84", U: "85", V: "86", W: "87", X: "101", Y: "64", Z: "88", a: "89", b: "90", c: "91", d: "92", e: "93", f: "94", g: "95", h: "96", i: "97", j: "98", k: "99", l: "100", m: "102", n: "5", o: "19", p: "20", q: "21", r: "22", s: "23", t: "24", u: "25", v: "26", w: "27", x: "28", y: "29", z: "30", AB: "41", BB: "42", CB: "43", DB: "44", EB: "45", FB: "46", GB: "47", HB: "48", IB: "49", JB: "50", KB: "51", LB: "52", MB: "53", NB: "54", OB: "55", PB: "56", QB: "57", RB: "58", SB: "60", TB: "62", UB: "63", VB: "65", WB: "66", XB: "67", YB: "68", ZB: "69", aB: "70", bB: "71", cB: "72", dB: "73", eB: "74", fB: "75", gB: "76", hB: "77", iB: "78", jB: "11.1", kB: "12.1", lB: "16.0", mB: "3", nB: "59", oB: "61", pB: "82", qB: "104", rB: "3.2", sB: "10.1", tB: "15.2-15.3", uB: "15.4", vB: "15.5", wB: "11.5", xB: "4.2-4.3", yB: "5.5", zB: "2", "0B": "3.5", "1B": "3.6", "2B": "105", "3B": "106", "4B": "3.1", "5B": "5.1", "6B": "6.1", "7B": "7.1", "8B": "9.1", "9B": "13.1", AC: "14.1", BC: "15.1", CC: "15.6", DC: "TP", EC: "9.5-9.6", FC: "10.0-10.1", GC: "10.5", HC: "10.6", IC: "11.6", JC: "4.0-4.1", KC: "5.0-5.1", LC: "6.0-6.1", MC: "7.0-7.1", NC: "8.1-8.4", OC: "9.0-9.2", PC: "9.3", QC: "10.0-10.2", RC: "10.3", SC: "11.0-11.2", TC: "11.3-11.4", UC: "12.0-12.1", VC: "12.2-12.5", WC: "13.0-13.1", XC: "13.2", YC: "13.3", ZC: "13.4-13.7", aC: "14.0-14.4", bC: "14.5-14.8", cC: "15.0-15.1", dC: "all", eC: "2.1", fC: "2.2", gC: "2.3", hC: "4.1", iC: "4.4", jC: "4.4.3-4.4.4", kC: "12.12", lC: "5.0-5.4", mC: "6.2-6.4", nC: "7.2-7.4", oC: "8.2", pC: "9.2", qC: "11.1-11.2", rC: "12.0", sC: "13.0", tC: "14.0", uC: "15.0", vC: "17.0", wC: "10.4", xC: "7.12", yC: "2.5" };
 });
 var require_browserVersions2 = __commonJSMin((exports, module2) => {
   module2.exports.browserVersions = require_browserVersions();
 });
 var require_agents = __commonJSMin((exports, module2) => {
-  module2.exports = { A: { A: { J: 0.0131217, D: 621152e-8, E: 0.0166941, F: 0.038953, A: 556471e-8, B: 0.8514, xB: 9298e-6 }, B: "ms", C: ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "xB", "J", "D", "E", "F", "A", "B", "", "", ""], E: "IE", F: { xB: 962323200, J: 998870400, D: 1161129600, E: 1237420800, F: 1300060800, A: 1346716800, B: 1381968e3 } }, B: { A: { C: 7734e-6, K: 4267e-6, L: 4268e-6, G: 0.058005, M: 3867e-6, N: 7734e-6, O: 0.023202, P: 0, Q: 4298e-6, R: 944e-5, S: 4043e-6, T: 7734e-6, U: 7734e-6, V: 3867e-6, W: 0.011601, Z: 4318e-6, a: 7734e-6, b: 4118e-6, c: 3939e-6, d: 7734e-6, e: 4118e-6, f: 3939e-6, g: 7734e-6, h: 0.011601, i: 0.015468, j: 0.015468, k: 0.054138, l: 0.212685, H: 3.52284, X: 0, m: 0 }, B: "webkit", C: ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "C", "K", "L", "G", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "Z", "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "H", "X", "m", "", "", ""], E: "Edge", F: { C: 1438128e3, K: 1447286400, L: 1470096e3, G: 1491868800, M: 1508198400, N: 1525046400, O: 1542067200, P: 1579046400, Q: 1581033600, R: 1586736e3, S: 1590019200, T: 1594857600, U: 1598486400, V: 1602201600, W: 1605830400, Z: 161136e4, a: 1614816e3, b: 1618358400, c: 1622073600, d: 1626912e3, e: 1630627200, f: 1632441600, g: 1634774400, h: 1637539200, i: 1641427200, j: 1643932800, k: 1646265600, l: 1649635200, H: 1651190400, X: 1653955200, m: 1655942400 }, D: { C: "ms", K: "ms", L: "ms", G: "ms", M: "ms", N: "ms", O: "ms" } }, C: { A: { "0": 8928e-6, "1": 4471e-6, "2": 9284e-6, "3": 4707e-6, "4": 9076e-6, "5": 3867e-6, "6": 4783e-6, "7": 4271e-6, "8": 4783e-6, "9": 487e-5, yB: 4118e-6, mB: 4271e-6, I: 0.019335, n: 4879e-6, J: 0.020136, D: 5725e-6, E: 4525e-6, F: 533e-5, A: 4283e-6, B: 7734e-6, C: 4471e-6, K: 4486e-6, L: 453e-5, G: 8322e-6, M: 4417e-6, N: 4425e-6, O: 4161e-6, o: 4443e-6, p: 4283e-6, q: 8322e-6, r: 0.013698, s: 4161e-6, t: 8786e-6, u: 4118e-6, v: 4317e-6, w: 4393e-6, x: 4418e-6, y: 8834e-6, z: 8322e-6, AB: 5029e-6, BB: 47e-4, CB: 0.023202, DB: 7734e-6, EB: 3867e-6, FB: 4525e-6, GB: 4293e-6, HB: 3867e-6, IB: 4538e-6, JB: 8282e-6, KB: 0.011601, LB: 0.069606, MB: 0.011601, NB: 7734e-6, OB: 0.015468, PB: 0.011601, QB: 0.011601, RB: 3939e-6, nB: 7734e-6, SB: 3867e-6, oB: 4356e-6, TB: 4425e-6, UB: 8322e-6, Y: 415e-5, VB: 4267e-6, WB: 3867e-6, XB: 4267e-6, YB: 7734e-6, ZB: 415e-5, aB: 4293e-6, bB: 4425e-6, cB: 3867e-6, dB: 415e-5, eB: 415e-5, fB: 4318e-6, gB: 4356e-6, hB: 3867e-6, iB: 0.042537, P: 7734e-6, Q: 7734e-6, R: 0.011601, pB: 7734e-6, S: 3867e-6, T: 3867e-6, U: 4268e-6, V: 3867e-6, W: 0.011601, Z: 0.011601, a: 7734e-6, b: 7734e-6, c: 0.096675, d: 3867e-6, e: 7734e-6, f: 0.03867, g: 0.011601, h: 0.015468, i: 0.015468, j: 0.034803, k: 0.421503, l: 1.84456, H: 0.023202, X: 0, m: 0, zB: 8786e-6, "0B": 487e-5 }, B: "moz", C: ["yB", "mB", "zB", "0B", "I", "n", "J", "D", "E", "F", "A", "B", "C", "K", "L", "G", "M", "N", "O", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "AB", "BB", "CB", "DB", "EB", "FB", "GB", "HB", "IB", "JB", "KB", "LB", "MB", "NB", "OB", "PB", "QB", "RB", "nB", "SB", "oB", "TB", "UB", "Y", "VB", "WB", "XB", "YB", "ZB", "aB", "bB", "cB", "dB", "eB", "fB", "gB", "hB", "iB", "P", "Q", "R", "pB", "S", "T", "U", "V", "W", "Z", "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "H", "X", "m", ""], E: "Firefox", F: { "0": 1405987200, "1": 1409616e3, "2": 1413244800, "3": 1417392e3, "4": 1421107200, "5": 1424736e3, "6": 1428278400, "7": 1431475200, "8": 1435881600, "9": 1439251200, yB: 1161648e3, mB: 1213660800, zB: 124632e4, "0B": 1264032e3, I: 1300752e3, n: 1308614400, J: 1313452800, D: 1317081600, E: 1317081600, F: 1320710400, A: 1324339200, B: 1327968e3, C: 1331596800, K: 1335225600, L: 1338854400, G: 1342483200, M: 1346112e3, N: 1349740800, O: 1353628800, o: 1357603200, p: 1361232e3, q: 1364860800, r: 1368489600, s: 1372118400, t: 1375747200, u: 1379376e3, v: 1386633600, w: 1391472e3, x: 1395100800, y: 1398729600, z: 1402358400, AB: 144288e4, BB: 1446508800, CB: 1450137600, DB: 1453852800, EB: 1457395200, FB: 1461628800, GB: 1465257600, HB: 1470096e3, IB: 1474329600, JB: 1479168e3, KB: 1485216e3, LB: 1488844800, MB: 149256e4, NB: 1497312e3, OB: 1502150400, PB: 1506556800, QB: 1510617600, RB: 1516665600, nB: 1520985600, SB: 1525824e3, oB: 1529971200, TB: 1536105600, UB: 1540252800, Y: 1544486400, VB: 154872e4, WB: 1552953600, XB: 1558396800, YB: 1562630400, ZB: 1567468800, aB: 1571788800, bB: 1575331200, cB: 1578355200, dB: 1581379200, eB: 1583798400, fB: 1586304e3, gB: 1588636800, hB: 1591056e3, iB: 1593475200, P: 1595894400, Q: 1598313600, R: 1600732800, pB: 1603152e3, S: 1605571200, T: 1607990400, U: 1611619200, V: 1614038400, W: 1616457600, Z: 1618790400, a: 1622505600, b: 1626134400, c: 1628553600, d: 1630972800, e: 1633392e3, f: 1635811200, g: 1638835200, h: 1641859200, i: 1644364800, j: 1646697600, k: 1649116800, l: 1651536e3, H: 1653955200, X: null, m: null } }, D: { A: { "0": 8596e-6, "1": 4566e-6, "2": 4118e-6, "3": 7734e-6, "4": 7878e-6, "5": 4335e-6, "6": 4464e-6, "7": 0.019335, "8": 3867e-6, "9": 0.019335, I: 4706e-6, n: 4879e-6, J: 4879e-6, D: 5591e-6, E: 5591e-6, F: 5591e-6, A: 4534e-6, B: 4464e-6, C: 0.010424, K: 83e-4, L: 4706e-6, G: 0.015087, M: 4393e-6, N: 4393e-6, O: 8652e-6, o: 8322e-6, p: 4393e-6, q: 4317e-6, r: 7734e-6, s: 8786e-6, t: 3939e-6, u: 4461e-6, v: 4141e-6, w: 4326e-6, x: 47e-4, y: 4538e-6, z: 8322e-6, AB: 7734e-6, BB: 7734e-6, CB: 0.011601, DB: 3867e-6, EB: 3867e-6, FB: 3867e-6, GB: 0.015468, HB: 0.023202, IB: 0.061872, JB: 3867e-6, KB: 7734e-6, LB: 7734e-6, MB: 0.015468, NB: 3867e-6, OB: 7734e-6, PB: 0.027069, QB: 7734e-6, RB: 0.011601, nB: 7734e-6, SB: 0.015468, oB: 0.015468, TB: 0.015468, UB: 0.015468, Y: 7734e-6, VB: 0.015468, WB: 0.027069, XB: 0.023202, YB: 7734e-6, ZB: 0.046404, aB: 0.019335, bB: 0.011601, cB: 0.019335, dB: 7734e-6, eB: 0.023202, fB: 0.058005, gB: 0.073473, hB: 0.011601, iB: 0.030936, P: 0.204951, Q: 0.042537, R: 0.03867, S: 0.131478, T: 0.081207, U: 0.088941, V: 0.092808, W: 0.104409, Z: 0.019335, a: 0.058005, b: 0.034803, c: 0.081207, d: 0.065739, e: 0.054138, f: 0.061872, g: 0.042537, h: 0.143079, i: 0.143079, j: 0.204951, k: 0.351897, l: 4.17636, H: 15.4487, X: 1.5468, m: 0.015468, "1B": 7734e-6, "2B": 0, "3B": 0 }, B: "webkit", C: ["", "", "", "I", "n", "J", "D", "E", "F", "A", "B", "C", "K", "L", "G", "M", "N", "O", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "AB", "BB", "CB", "DB", "EB", "FB", "GB", "HB", "IB", "JB", "KB", "LB", "MB", "NB", "OB", "PB", "QB", "RB", "nB", "SB", "oB", "TB", "UB", "Y", "VB", "WB", "XB", "YB", "ZB", "aB", "bB", "cB", "dB", "eB", "fB", "gB", "hB", "iB", "P", "Q", "R", "S", "T", "U", "V", "W", "Z", "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "H", "X", "m", "1B", "2B", "3B"], E: "Chrome", F: { "0": 1384214400, "1": 1389657600, "2": 1392940800, "3": 1397001600, "4": 1400544e3, "5": 1405468800, "6": 1409011200, "7": 141264e4, "8": 1416268800, "9": 1421798400, I: 1264377600, n: 1274745600, J: 1283385600, D: 1287619200, E: 1291248e3, F: 1296777600, A: 1299542400, B: 1303862400, C: 1307404800, K: 1312243200, L: 1316131200, G: 1316131200, M: 1319500800, N: 1323734400, O: 1328659200, o: 1332892800, p: 133704e4, q: 1340668800, r: 1343692800, s: 1348531200, t: 1352246400, u: 1357862400, v: 1361404800, w: 1364428800, x: 1369094400, y: 1374105600, z: 1376956800, AB: 1425513600, BB: 1429401600, CB: 143208e4, DB: 1437523200, EB: 1441152e3, FB: 1444780800, GB: 1449014400, HB: 1453248e3, IB: 1456963200, JB: 1460592e3, KB: 1464134400, LB: 1469059200, MB: 1472601600, NB: 1476230400, OB: 1480550400, PB: 1485302400, QB: 1489017600, RB: 149256e4, nB: 1496707200, SB: 1500940800, oB: 1504569600, TB: 1508198400, UB: 1512518400, Y: 1516752e3, VB: 1520294400, WB: 1523923200, XB: 1527552e3, YB: 1532390400, ZB: 1536019200, aB: 1539648e3, bB: 1543968e3, cB: 154872e4, dB: 1552348800, eB: 1555977600, fB: 1559606400, gB: 1564444800, hB: 1568073600, iB: 1571702400, P: 1575936e3, Q: 1580860800, R: 1586304e3, S: 1589846400, T: 1594684800, U: 1598313600, V: 1601942400, W: 1605571200, Z: 1611014400, a: 1614556800, b: 1618272e3, c: 1621987200, d: 1626739200, e: 1630368e3, f: 1632268800, g: 1634601600, h: 1637020800, i: 1641340800, j: 1643673600, k: 1646092800, l: 1648512e3, H: 1650931200, X: 1653350400, m: 1655769600, "1B": null, "2B": null, "3B": null } }, E: { A: { I: 0, n: 8322e-6, J: 4656e-6, D: 4465e-6, E: 4356e-6, F: 4891e-6, A: 4425e-6, B: 4318e-6, C: 3867e-6, K: 0.034803, L: 0.158547, G: 0.058005, "4B": 0, qB: 8692e-6, "5B": 7734e-6, "6B": 456e-5, "7B": 4283e-6, "8B": 0.015468, rB: 7734e-6, jB: 0.023202, kB: 0.046404, "9B": 0.266823, AC: 0.491109, BC: 0.108276, sB: 0.108276, tB: 1.67054, uB: 0.189483, lB: 0, CC: 0 }, B: "webkit", C: ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "4B", "qB", "I", "n", "5B", "J", "6B", "D", "7B", "E", "F", "8B", "A", "rB", "B", "jB", "C", "kB", "K", "9B", "L", "AC", "G", "BC", "sB", "tB", "uB", "lB", "CC", ""], E: "Safari", F: { "4B": 1205798400, qB: 1226534400, I: 1244419200, n: 1275868800, "5B": 131112e4, J: 1343174400, "6B": 13824e5, D: 13824e5, "7B": 1410998400, E: 1413417600, F: 1443657600, "8B": 1458518400, A: 1474329600, rB: 1490572800, B: 1505779200, jB: 1522281600, C: 1537142400, kB: 1553472e3, K: 1568851200, "9B": 1585008e3, L: 1600214400, AC: 1619395200, G: 1632096e3, BC: 1635292800, sB: 1639353600, tB: 1647216e3, uB: 1652745600, lB: null, CC: null } }, F: { A: { "0": 3867e-6, "1": 5152e-6, "2": 5014e-6, "3": 9758e-6, "4": 4879e-6, "5": 3867e-6, "6": 4283e-6, "7": 4367e-6, "8": 4534e-6, "9": 7734e-6, F: 82e-4, B: 0.016581, C: 4317e-6, G: 685e-5, M: 685e-5, N: 685e-5, O: 5014e-6, o: 6015e-6, p: 4879e-6, q: 6597e-6, r: 6597e-6, s: 0.013434, t: 6702e-6, u: 6015e-6, v: 5595e-6, w: 4393e-6, x: 7734e-6, y: 4879e-6, z: 4879e-6, AB: 4227e-6, BB: 4418e-6, CB: 4161e-6, DB: 4227e-6, EB: 4725e-6, FB: 0.011601, GB: 8942e-6, HB: 4707e-6, IB: 4827e-6, JB: 4707e-6, KB: 4707e-6, LB: 4326e-6, MB: 8922e-6, NB: 0.014349, OB: 4425e-6, PB: 472e-5, QB: 4425e-6, RB: 4425e-6, SB: 472e-5, TB: 4532e-6, UB: 4566e-6, Y: 0.02283, VB: 867e-5, WB: 4656e-6, XB: 4642e-6, YB: 3867e-6, ZB: 944e-5, aB: 4293e-6, bB: 3867e-6, cB: 4298e-6, dB: 0.096692, eB: 4201e-6, fB: 4141e-6, gB: 4257e-6, hB: 3939e-6, iB: 8236e-6, P: 3939e-6, Q: 3939e-6, R: 8514e-6, pB: 3939e-6, S: 3939e-6, T: 7734e-6, U: 0.448572, V: 0.475641, W: 0.027069, DC: 685e-5, EC: 0, FC: 8392e-6, GC: 4706e-6, jB: 6229e-6, vB: 4879e-6, HC: 8786e-6, kB: 472e-5 }, B: "webkit", C: ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "F", "DC", "EC", "FC", "GC", "B", "jB", "vB", "HC", "C", "kB", "G", "M", "N", "O", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "AB", "BB", "CB", "DB", "EB", "FB", "GB", "HB", "IB", "JB", "KB", "LB", "MB", "NB", "OB", "PB", "QB", "RB", "SB", "TB", "UB", "Y", "VB", "WB", "XB", "YB", "ZB", "aB", "bB", "cB", "dB", "eB", "fB", "gB", "hB", "iB", "P", "Q", "R", "pB", "S", "T", "U", "V", "W", "", ""], E: "Opera", F: { "0": 1438646400, "1": 1442448e3, "2": 1445904e3, "3": 1449100800, "4": 1454371200, "5": 1457308800, "6": 146232e4, "7": 1465344e3, "8": 1470096e3, "9": 1474329600, F: 1150761600, DC: 1223424e3, EC: 1251763200, FC: 1267488e3, GC: 1277942400, B: 1292457600, jB: 1302566400, vB: 1309219200, HC: 1323129600, C: 1323129600, kB: 1352073600, G: 1372723200, M: 1377561600, N: 1381104e3, O: 1386288e3, o: 1390867200, p: 1393891200, q: 1399334400, r: 1401753600, s: 1405987200, t: 1409616e3, u: 1413331200, v: 1417132800, w: 1422316800, x: 1425945600, y: 1430179200, z: 1433808e3, AB: 1477267200, BB: 1481587200, CB: 1486425600, DB: 1490054400, EB: 1494374400, FB: 1498003200, GB: 1502236800, HB: 1506470400, IB: 1510099200, JB: 1515024e3, KB: 1517961600, LB: 1521676800, MB: 1525910400, NB: 1530144e3, OB: 1534982400, PB: 1537833600, QB: 1543363200, RB: 1548201600, SB: 1554768e3, TB: 1561593600, UB: 1566259200, Y: 1570406400, VB: 1573689600, WB: 1578441600, XB: 1583971200, YB: 1587513600, ZB: 1592956800, aB: 1595894400, bB: 1600128e3, cB: 1603238400, dB: 161352e4, eB: 1612224e3, fB: 1616544e3, gB: 1619568e3, hB: 1623715200, iB: 1627948800, P: 1631577600, Q: 1633392e3, R: 1635984e3, pB: 1638403200, S: 1642550400, T: 1644969600, U: 1647993600, V: 1650412800, W: null }, D: { F: "o", B: "o", C: "o", DC: "o", EC: "o", FC: "o", GC: "o", jB: "o", vB: "o", HC: "o", kB: "o" } }, G: { A: { E: 0, qB: 303644e-8, IC: 0, wB: 151822e-8, JC: 455466e-8, KC: 455466e-8, LC: 0.0167004, MC: 759111e-8, NC: 0.0197369, OC: 0.0774293, PC: 0.013664, QC: 0.0926115, RC: 0.0379555, SC: 0.0318826, TC: 0.0303644, UC: 0.57996, VC: 0.0288462, WC: 0.0121458, XC: 0.0607288, YC: 0.189778, ZC: 0.592106, aC: 1.50911, bC: 0.513159, sB: 1.20395, tB: 10.1478, uB: 0, lB: 0 }, B: "webkit", C: ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "qB", "IC", "wB", "JC", "KC", "LC", "E", "MC", "NC", "OC", "PC", "QC", "RC", "SC", "TC", "UC", "VC", "WC", "XC", "YC", "ZC", "aC", "bC", "sB", "tB", "uB", "lB", "", ""], E: "Safari on iOS", F: { qB: 1270252800, IC: 1283904e3, wB: 1299628800, JC: 1331078400, KC: 1359331200, LC: 1394409600, E: 1410912e3, MC: 1413763200, NC: 1442361600, OC: 1458518400, PC: 1473724800, QC: 1490572800, RC: 1505779200, SC: 1522281600, TC: 1537142400, UC: 1553472e3, VC: 1568851200, WC: 1572220800, XC: 1580169600, YC: 1585008e3, ZC: 1600214400, aC: 1619395200, bC: 1632096e3, sB: 1639353600, tB: 1647216e3, uB: 1652659200, lB: null } }, H: { A: { cC: 0.998688 }, B: "o", C: ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "cC", "", "", ""], E: "Opera Mini", F: { cC: 1426464e3 } }, I: { A: { mB: 0, I: 0.0149357, H: 0, dC: 0, eC: 0, fC: 0, gC: 0.0199142, wB: 0.0597426, hC: 0, iC: 0.328584 }, B: "webkit", C: ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "dC", "eC", "fC", "mB", "I", "gC", "wB", "hC", "iC", "H", "", "", ""], E: "Android Browser", F: { dC: 1256515200, eC: 1274313600, fC: 1291593600, mB: 1298332800, I: 1318896e3, gC: 1341792e3, wB: 1374624e3, hC: 1386547200, iC: 1401667200, H: 1651017600 } }, J: { A: { D: 0, A: 0 }, B: "webkit", C: ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "D", "A", "", "", ""], E: "Blackberry Browser", F: { D: 1325376e3, A: 1359504e3 } }, K: { A: { A: 0, B: 0, C: 0, Y: 0.0111391, jB: 0, vB: 0, kB: 0 }, B: "o", C: ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "A", "B", "jB", "vB", "C", "kB", "Y", "", "", ""], E: "Opera Mobile", F: { A: 1287100800, B: 1300752e3, jB: 1314835200, vB: 1318291200, C: 1330300800, kB: 1349740800, Y: 1613433600 }, D: { Y: "webkit" } }, L: { A: { X: 41.3354 }, B: "webkit", C: ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "X", "", "", ""], E: "Chrome for Android", F: { X: 1653350400 } }, M: { A: { H: 0.30665 }, B: "moz", C: ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "H", "", "", ""], E: "Firefox for Android", F: { H: 1653955200 } }, N: { A: { A: 0.0115934, B: 0.022664 }, B: "ms", C: ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "A", "B", "", "", ""], E: "IE Mobile", F: { A: 1340150400, B: 1353456e3 } }, O: { A: { jC: 0.766625 }, B: "webkit", C: ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "jC", "", "", ""], E: "UC Browser for Android", F: { jC: 1471392e3 }, D: { jC: "webkit" } }, P: { A: { I: 0.209346, kC: 0.0103543, lC: 0.010304, mC: 0.0628037, nC: 0.0103584, oC: 0.0104673, rB: 0.0105043, pC: 0.0418691, qC: 0.0209346, rC: 0.0942055, sC: 0.0942055, tC: 0.0942055, lB: 0.889718, uC: 0 }, B: "webkit", C: ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "I", "kC", "lC", "mC", "nC", "oC", "rB", "pC", "qC", "rC", "sC", "tC", "lB", "uC", "", "", ""], E: "Samsung Internet", F: { I: 1461024e3, kC: 1481846400, lC: 1509408e3, mC: 1528329600, nC: 1546128e3, oC: 1554163200, rB: 1567900800, pC: 1582588800, qC: 1593475200, rC: 1605657600, sC: 1618531200, tC: 1629072e3, lB: 1640736e3, uC: 1651708800 } }, Q: { A: { vC: 0.153325 }, B: "webkit", C: ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "vC", "", "", ""], E: "QQ Browser", F: { vC: 1589846400 } }, R: { A: { wC: 0 }, B: "webkit", C: ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "wC", "", "", ""], E: "Baidu Browser", F: { wC: 1491004800 } }, S: { A: { xC: 0.073596 }, B: "moz", C: ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "xC", "", "", ""], E: "KaiOS Browser", F: { xC: 1527811200 } } };
+  module2.exports = { A: { A: { J: 0.0131217, D: 621152e-8, E: 0.0145876, F: 0.0364691, A: 556471e-8, B: 0.488685, yB: 9298e-6 }, B: "ms", C: ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "yB", "J", "D", "E", "F", "A", "B", "", "", ""], E: "IE", F: { yB: 962323200, J: 998870400, D: 1161129600, E: 1237420800, F: 1300060800, A: 1346716800, B: 1381968e3 } }, B: { A: { C: 3801e-6, K: 4267e-6, L: 4268e-6, G: 3801e-6, M: 3801e-6, N: 7602e-6, O: 0.022806, P: 0, Q: 4298e-6, R: 944e-5, S: 4043e-6, T: 3801e-6, U: 7602e-6, V: 3801e-6, W: 3801e-6, Z: 4318e-6, a: 7602e-6, b: 4118e-6, c: 3939e-6, d: 7602e-6, e: 4118e-6, f: 3939e-6, g: 3801e-6, h: 7602e-6, i: 7602e-6, j: 0.011403, k: 0.019005, l: 0.034209, X: 0.444717, m: 2.86595, H: 0.589155 }, B: "webkit", C: ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "C", "K", "L", "G", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "Z", "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "X", "m", "H", "", "", ""], E: "Edge", F: { C: 1438128e3, K: 1447286400, L: 1470096e3, G: 1491868800, M: 1508198400, N: 1525046400, O: 1542067200, P: 1579046400, Q: 1581033600, R: 1586736e3, S: 1590019200, T: 1594857600, U: 1598486400, V: 1602201600, W: 1605830400, Z: 161136e4, a: 1614816e3, b: 1618358400, c: 1622073600, d: 1626912e3, e: 1630627200, f: 1632441600, g: 1634774400, h: 1637539200, i: 1641427200, j: 1643932800, k: 1646265600, l: 1649635200, X: 1651190400, m: 1653955200, H: 1655942400 }, D: { C: "ms", K: "ms", L: "ms", G: "ms", M: "ms", N: "ms", O: "ms" } }, C: { A: { "0": 8928e-6, "1": 4471e-6, "2": 9284e-6, "3": 4707e-6, "4": 9076e-6, "5": 7602e-6, "6": 4783e-6, "7": 4271e-6, "8": 4783e-6, "9": 487e-5, zB: 4118e-6, mB: 4271e-6, I: 0.019005, n: 4879e-6, J: 0.020136, D: 5725e-6, E: 4525e-6, F: 533e-5, A: 4283e-6, B: 0.011403, C: 4471e-6, K: 4486e-6, L: 453e-5, G: 8322e-6, M: 4417e-6, N: 4425e-6, O: 4161e-6, o: 4443e-6, p: 4283e-6, q: 8322e-6, r: 0.013698, s: 4161e-6, t: 8786e-6, u: 4118e-6, v: 4317e-6, w: 4393e-6, x: 4418e-6, y: 8834e-6, z: 8322e-6, AB: 5029e-6, BB: 47e-4, CB: 0.019005, DB: 7602e-6, EB: 3867e-6, FB: 4525e-6, GB: 4293e-6, HB: 3801e-6, IB: 4538e-6, JB: 8282e-6, KB: 0.011601, LB: 0.060816, MB: 0.011601, NB: 7602e-6, OB: 3801e-6, PB: 7602e-6, QB: 0.011601, RB: 3939e-6, nB: 3801e-6, SB: 3801e-6, oB: 4356e-6, TB: 4425e-6, UB: 8322e-6, Y: 415e-5, VB: 4267e-6, WB: 3801e-6, XB: 4267e-6, YB: 7602e-6, ZB: 415e-5, aB: 4293e-6, bB: 4425e-6, cB: 3801e-6, dB: 415e-5, eB: 415e-5, fB: 4318e-6, gB: 4356e-6, hB: 3801e-6, iB: 0.041811, P: 3801e-6, Q: 3801e-6, R: 0.011403, pB: 3801e-6, S: 3801e-6, T: 7602e-6, U: 4268e-6, V: 3801e-6, W: 0.011403, Z: 0.011403, a: 7602e-6, b: 7602e-6, c: 0.095025, d: 3801e-6, e: 7602e-6, f: 0.022806, g: 7602e-6, h: 7602e-6, i: 0.011403, j: 0.015204, k: 0.045612, l: 0.288876, X: 2.00313, m: 0.083622, H: 0, qB: 0, "0B": 8786e-6, "1B": 487e-5 }, B: "moz", C: ["zB", "mB", "0B", "1B", "I", "n", "J", "D", "E", "F", "A", "B", "C", "K", "L", "G", "M", "N", "O", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "AB", "BB", "CB", "DB", "EB", "FB", "GB", "HB", "IB", "JB", "KB", "LB", "MB", "NB", "OB", "PB", "QB", "RB", "nB", "SB", "oB", "TB", "UB", "Y", "VB", "WB", "XB", "YB", "ZB", "aB", "bB", "cB", "dB", "eB", "fB", "gB", "hB", "iB", "P", "Q", "R", "pB", "S", "T", "U", "V", "W", "Z", "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "X", "m", "H", "qB", ""], E: "Firefox", F: { "0": 1405987200, "1": 1409616e3, "2": 1413244800, "3": 1417392e3, "4": 1421107200, "5": 1424736e3, "6": 1428278400, "7": 1431475200, "8": 1435881600, "9": 1439251200, zB: 1161648e3, mB: 1213660800, "0B": 124632e4, "1B": 1264032e3, I: 1300752e3, n: 1308614400, J: 1313452800, D: 1317081600, E: 1317081600, F: 1320710400, A: 1324339200, B: 1327968e3, C: 1331596800, K: 1335225600, L: 1338854400, G: 1342483200, M: 1346112e3, N: 1349740800, O: 1353628800, o: 1357603200, p: 1361232e3, q: 1364860800, r: 1368489600, s: 1372118400, t: 1375747200, u: 1379376e3, v: 1386633600, w: 1391472e3, x: 1395100800, y: 1398729600, z: 1402358400, AB: 144288e4, BB: 1446508800, CB: 1450137600, DB: 1453852800, EB: 1457395200, FB: 1461628800, GB: 1465257600, HB: 1470096e3, IB: 1474329600, JB: 1479168e3, KB: 1485216e3, LB: 1488844800, MB: 149256e4, NB: 1497312e3, OB: 1502150400, PB: 1506556800, QB: 1510617600, RB: 1516665600, nB: 1520985600, SB: 1525824e3, oB: 1529971200, TB: 1536105600, UB: 1540252800, Y: 1544486400, VB: 154872e4, WB: 1552953600, XB: 1558396800, YB: 1562630400, ZB: 1567468800, aB: 1571788800, bB: 1575331200, cB: 1578355200, dB: 1581379200, eB: 1583798400, fB: 1586304e3, gB: 1588636800, hB: 1591056e3, iB: 1593475200, P: 1595894400, Q: 1598313600, R: 1600732800, pB: 1603152e3, S: 1605571200, T: 1607990400, U: 1611619200, V: 1614038400, W: 1616457600, Z: 1618790400, a: 1622505600, b: 1626134400, c: 1628553600, d: 1630972800, e: 1633392e3, f: 1635811200, g: 1638835200, h: 1641859200, i: 1644364800, j: 1646697600, k: 1649116800, l: 1651536e3, X: 1653955200, m: 1656374400, H: null, qB: null } }, D: { A: { "0": 8596e-6, "1": 4566e-6, "2": 4118e-6, "3": 7602e-6, "4": 3801e-6, "5": 4335e-6, "6": 4464e-6, "7": 0.019005, "8": 3867e-6, "9": 0.011403, I: 4706e-6, n: 4879e-6, J: 4879e-6, D: 5591e-6, E: 5591e-6, F: 5591e-6, A: 4534e-6, B: 4464e-6, C: 0.010424, K: 83e-4, L: 4706e-6, G: 0.015087, M: 4393e-6, N: 4393e-6, O: 8652e-6, o: 8322e-6, p: 4393e-6, q: 4317e-6, r: 7602e-6, s: 8786e-6, t: 3939e-6, u: 4461e-6, v: 4141e-6, w: 4326e-6, x: 47e-4, y: 4538e-6, z: 8322e-6, AB: 7734e-6, BB: 7734e-6, CB: 7602e-6, DB: 3867e-6, EB: 3867e-6, FB: 3867e-6, GB: 0.011403, HB: 0.019005, IB: 0.053214, JB: 3867e-6, KB: 3801e-6, LB: 3801e-6, MB: 0.011403, NB: 3867e-6, OB: 3801e-6, PB: 0.026607, QB: 3801e-6, RB: 7602e-6, nB: 3801e-6, SB: 0.011403, oB: 0.011403, TB: 7602e-6, UB: 0.011403, Y: 7602e-6, VB: 0.011403, WB: 0.026607, XB: 0.011403, YB: 7602e-6, ZB: 0.049413, aB: 0.022806, bB: 0.011403, cB: 0.026607, dB: 7602e-6, eB: 0.022806, fB: 0.060816, gB: 0.060816, hB: 0.011403, iB: 0.034209, P: 0.193851, Q: 0.03801, R: 0.034209, S: 0.110229, T: 0.049413, U: 0.07602, V: 0.072219, W: 0.448518, Z: 0.019005, a: 0.060816, b: 0.026607, c: 0.072219, d: 0.053214, e: 0.045612, f: 0.049413, g: 0.034209, h: 0.106428, i: 0.098826, j: 0.129234, k: 0.163443, l: 0.387702, X: 1.47099, m: 17.8077, H: 1.61923, qB: 0.015204, "2B": 0.011403, "3B": 0 }, B: "webkit", C: ["", "", "", "", "I", "n", "J", "D", "E", "F", "A", "B", "C", "K", "L", "G", "M", "N", "O", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "AB", "BB", "CB", "DB", "EB", "FB", "GB", "HB", "IB", "JB", "KB", "LB", "MB", "NB", "OB", "PB", "QB", "RB", "nB", "SB", "oB", "TB", "UB", "Y", "VB", "WB", "XB", "YB", "ZB", "aB", "bB", "cB", "dB", "eB", "fB", "gB", "hB", "iB", "P", "Q", "R", "S", "T", "U", "V", "W", "Z", "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "X", "m", "H", "qB", "2B", "3B"], E: "Chrome", F: { "0": 1384214400, "1": 1389657600, "2": 1392940800, "3": 1397001600, "4": 1400544e3, "5": 1405468800, "6": 1409011200, "7": 141264e4, "8": 1416268800, "9": 1421798400, I: 1264377600, n: 1274745600, J: 1283385600, D: 1287619200, E: 1291248e3, F: 1296777600, A: 1299542400, B: 1303862400, C: 1307404800, K: 1312243200, L: 1316131200, G: 1316131200, M: 1319500800, N: 1323734400, O: 1328659200, o: 1332892800, p: 133704e4, q: 1340668800, r: 1343692800, s: 1348531200, t: 1352246400, u: 1357862400, v: 1361404800, w: 1364428800, x: 1369094400, y: 1374105600, z: 1376956800, AB: 1425513600, BB: 1429401600, CB: 143208e4, DB: 1437523200, EB: 1441152e3, FB: 1444780800, GB: 1449014400, HB: 1453248e3, IB: 1456963200, JB: 1460592e3, KB: 1464134400, LB: 1469059200, MB: 1472601600, NB: 1476230400, OB: 1480550400, PB: 1485302400, QB: 1489017600, RB: 149256e4, nB: 1496707200, SB: 1500940800, oB: 1504569600, TB: 1508198400, UB: 1512518400, Y: 1516752e3, VB: 1520294400, WB: 1523923200, XB: 1527552e3, YB: 1532390400, ZB: 1536019200, aB: 1539648e3, bB: 1543968e3, cB: 154872e4, dB: 1552348800, eB: 1555977600, fB: 1559606400, gB: 1564444800, hB: 1568073600, iB: 1571702400, P: 1575936e3, Q: 1580860800, R: 1586304e3, S: 1589846400, T: 1594684800, U: 1598313600, V: 1601942400, W: 1605571200, Z: 1611014400, a: 1614556800, b: 1618272e3, c: 1621987200, d: 1626739200, e: 1630368e3, f: 1632268800, g: 1634601600, h: 1637020800, i: 1641340800, j: 1643673600, k: 1646092800, l: 1648512e3, X: 1650931200, m: 1653350400, H: 1655769600, qB: null, "2B": null, "3B": null } }, E: { A: { I: 0, n: 8322e-6, J: 4656e-6, D: 4465e-6, E: 4356e-6, F: 4891e-6, A: 4425e-6, B: 4318e-6, C: 3801e-6, K: 0.034209, L: 0.140637, G: 0.045612, "4B": 0, rB: 8692e-6, "5B": 7602e-6, "6B": 456e-5, "7B": 4283e-6, "8B": 0.015204, sB: 7602e-6, jB: 0.022806, kB: 0.045612, "9B": 0.254667, AC: 0.41811, BC: 0.083622, tB: 0.079821, uB: 0.528339, vB: 1.47859, CC: 0, lB: 3801e-6, DC: 0 }, B: "webkit", C: ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "4B", "rB", "I", "n", "5B", "J", "6B", "D", "7B", "E", "F", "8B", "A", "sB", "B", "jB", "C", "kB", "K", "9B", "L", "AC", "G", "BC", "tB", "uB", "vB", "CC", "lB", "DC"], E: "Safari", F: { "4B": 1205798400, rB: 1226534400, I: 1244419200, n: 1275868800, "5B": 131112e4, J: 1343174400, "6B": 13824e5, D: 13824e5, "7B": 1410998400, E: 1413417600, F: 1443657600, "8B": 1458518400, A: 1474329600, sB: 1490572800, B: 1505779200, jB: 1522281600, C: 1537142400, kB: 1553472e3, K: 1568851200, "9B": 1585008e3, L: 1600214400, AC: 1619395200, G: 1632096e3, BC: 1635292800, tB: 1639353600, uB: 1647216e3, vB: 1652745600, CC: null, lB: null, DC: null } }, F: { A: { "0": 3801e-6, "1": 5152e-6, "2": 5014e-6, "3": 9758e-6, "4": 4879e-6, "5": 3801e-6, "6": 4283e-6, "7": 4367e-6, "8": 4534e-6, "9": 7602e-6, F: 82e-4, B: 0.016581, C: 4317e-6, G: 685e-5, M: 685e-5, N: 685e-5, O: 5014e-6, o: 6015e-6, p: 4879e-6, q: 6597e-6, r: 6597e-6, s: 0.013434, t: 6702e-6, u: 6015e-6, v: 5595e-6, w: 4393e-6, x: 7602e-6, y: 4879e-6, z: 4879e-6, AB: 4227e-6, BB: 4418e-6, CB: 4161e-6, DB: 4227e-6, EB: 4725e-6, FB: 0.011403, GB: 8942e-6, HB: 4707e-6, IB: 4827e-6, JB: 4707e-6, KB: 4707e-6, LB: 4326e-6, MB: 8922e-6, NB: 0.014349, OB: 4425e-6, PB: 472e-5, QB: 4425e-6, RB: 4425e-6, SB: 472e-5, TB: 4532e-6, UB: 4566e-6, Y: 0.02283, VB: 867e-5, WB: 4656e-6, XB: 4642e-6, YB: 3867e-6, ZB: 944e-5, aB: 4293e-6, bB: 3867e-6, cB: 4298e-6, dB: 0.096692, eB: 4201e-6, fB: 4141e-6, gB: 4257e-6, hB: 3939e-6, iB: 8236e-6, P: 3939e-6, Q: 3939e-6, R: 8514e-6, pB: 3939e-6, S: 3939e-6, T: 3801e-6, U: 0.034209, V: 0.300279, W: 0.592956, EC: 685e-5, FC: 0, GC: 8392e-6, HC: 4706e-6, jB: 6229e-6, wB: 4879e-6, IC: 8786e-6, kB: 472e-5 }, B: "webkit", C: ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "F", "EC", "FC", "GC", "HC", "B", "jB", "wB", "IC", "C", "kB", "G", "M", "N", "O", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "AB", "BB", "CB", "DB", "EB", "FB", "GB", "HB", "IB", "JB", "KB", "LB", "MB", "NB", "OB", "PB", "QB", "RB", "SB", "TB", "UB", "Y", "VB", "WB", "XB", "YB", "ZB", "aB", "bB", "cB", "dB", "eB", "fB", "gB", "hB", "iB", "P", "Q", "R", "pB", "S", "T", "U", "V", "W", "", ""], E: "Opera", F: { "0": 1438646400, "1": 1442448e3, "2": 1445904e3, "3": 1449100800, "4": 1454371200, "5": 1457308800, "6": 146232e4, "7": 1465344e3, "8": 1470096e3, "9": 1474329600, F: 1150761600, EC: 1223424e3, FC: 1251763200, GC: 1267488e3, HC: 1277942400, B: 1292457600, jB: 1302566400, wB: 1309219200, IC: 1323129600, C: 1323129600, kB: 1352073600, G: 1372723200, M: 1377561600, N: 1381104e3, O: 1386288e3, o: 1390867200, p: 1393891200, q: 1399334400, r: 1401753600, s: 1405987200, t: 1409616e3, u: 1413331200, v: 1417132800, w: 1422316800, x: 1425945600, y: 1430179200, z: 1433808e3, AB: 1477267200, BB: 1481587200, CB: 1486425600, DB: 1490054400, EB: 1494374400, FB: 1498003200, GB: 1502236800, HB: 1506470400, IB: 1510099200, JB: 1515024e3, KB: 1517961600, LB: 1521676800, MB: 1525910400, NB: 1530144e3, OB: 1534982400, PB: 1537833600, QB: 1543363200, RB: 1548201600, SB: 1554768e3, TB: 1561593600, UB: 1566259200, Y: 1570406400, VB: 1573689600, WB: 1578441600, XB: 1583971200, YB: 1587513600, ZB: 1592956800, aB: 1595894400, bB: 1600128e3, cB: 1603238400, dB: 161352e4, eB: 1612224e3, fB: 1616544e3, gB: 1619568e3, hB: 1623715200, iB: 1627948800, P: 1631577600, Q: 1633392e3, R: 1635984e3, pB: 1638403200, S: 1642550400, T: 1644969600, U: 1647993600, V: 1650412800, W: null }, D: { F: "o", B: "o", C: "o", EC: "o", FC: "o", GC: "o", HC: "o", jB: "o", wB: "o", IC: "o", kB: "o" } }, G: { A: { E: 0, rB: 149648e-8, JC: 0, xB: 149648e-8, KC: 448945e-8, LC: 448945e-8, MC: 0.0164613, NC: 748241e-8, OC: 0.0164613, PC: 0.0748241, QC: 897889e-8, RC: 0.0823065, SC: 0.040405, TC: 0.0299296, UC: 0.0299296, VC: 0.559684, WC: 0.0254402, XC: 0.0119719, YC: 0.0553698, ZC: 0.173592, aC: 0.528258, bC: 1.278, cC: 0.399561, tB: 0.749737, uB: 2.16691, vB: 8.63769, lB: 0.0284332 }, B: "webkit", C: ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "rB", "JC", "xB", "KC", "LC", "MC", "E", "NC", "OC", "PC", "QC", "RC", "SC", "TC", "UC", "VC", "WC", "XC", "YC", "ZC", "aC", "bC", "cC", "tB", "uB", "vB", "lB", "", ""], E: "Safari on iOS", F: { rB: 1270252800, JC: 1283904e3, xB: 1299628800, KC: 1331078400, LC: 1359331200, MC: 1394409600, E: 1410912e3, NC: 1413763200, OC: 1442361600, PC: 1458518400, QC: 1473724800, RC: 1490572800, SC: 1505779200, TC: 1522281600, UC: 1537142400, VC: 1553472e3, WC: 1568851200, XC: 1572220800, YC: 1580169600, ZC: 1585008e3, aC: 1600214400, bC: 1619395200, cC: 1632096e3, tB: 1639353600, uB: 1647216e3, vB: 1652659200, lB: null } }, H: { A: { dC: 0.950748 }, B: "o", C: ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "dC", "", "", ""], E: "Opera Mini", F: { dC: 1426464e3 } }, I: { A: { mB: 0, I: 0.0154975, H: 0, eC: 0, fC: 0, gC: 0, hC: 0.0206633, xB: 0.06199, iC: 0, jC: 0.304784 }, B: "webkit", C: ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "eC", "fC", "gC", "mB", "I", "hC", "xB", "iC", "jC", "H", "", "", ""], E: "Android Browser", F: { eC: 1256515200, fC: 1274313600, gC: 1291593600, mB: 1298332800, I: 1318896e3, hC: 1341792e3, xB: 1374624e3, iC: 1386547200, jC: 1401667200, H: 1655856e3 } }, J: { A: { D: 0, A: 0 }, B: "webkit", C: ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "D", "A", "", "", ""], E: "Blackberry Browser", F: { D: 1325376e3, A: 1359504e3 } }, K: { A: { A: 0, B: 0, C: 0, Y: 0.0111391, jB: 0, wB: 0, kB: 0 }, B: "o", C: ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "A", "B", "jB", "wB", "C", "kB", "Y", "", "", ""], E: "Opera Mobile", F: { A: 1287100800, B: 1300752e3, jB: 1314835200, wB: 1318291200, C: 1330300800, kB: 1349740800, Y: 1613433600 }, D: { Y: "webkit" } }, L: { A: { H: 42.3898 }, B: "webkit", C: ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "H", "", "", ""], E: "Chrome for Android", F: { H: 1655769600 } }, M: { A: { X: 0.30995 }, B: "moz", C: ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "X", "", "", ""], E: "Firefox for Android", F: { X: 1653955200 } }, N: { A: { A: 0.0115934, B: 0.022664 }, B: "ms", C: ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "A", "B", "", "", ""], E: "IE Mobile", F: { A: 1340150400, B: 1353456e3 } }, O: { A: { kC: 0.712885 }, B: "webkit", C: ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "kC", "", "", ""], E: "UC Browser for Android", F: { kC: 1471392e3 }, D: { kC: "webkit" } }, P: { A: { I: 0.207064, lC: 0.0103543, mC: 0.010304, nC: 0.0828255, oC: 0.0103584, pC: 0.0103532, sB: 0.0105043, qC: 0.0414128, rC: 0.0207064, sC: 0.0828255, tC: 0.0931787, uC: 0.0931787, lB: 0.238123, vC: 2.11205 }, B: "webkit", C: ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "I", "lC", "mC", "nC", "oC", "pC", "sB", "qC", "rC", "sC", "tC", "uC", "lB", "vC", "", "", ""], E: "Samsung Internet", F: { I: 1461024e3, lC: 1481846400, mC: 1509408e3, nC: 1528329600, oC: 1546128e3, pC: 1554163200, sB: 1567900800, qC: 1582588800, rC: 1593475200, sC: 1605657600, tC: 1618531200, uC: 1629072e3, lB: 1640736e3, vC: 1651708800 } }, Q: { A: { wC: 0.142577 }, B: "webkit", C: ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "wC", "", "", ""], E: "QQ Browser", F: { wC: 1589846400 } }, R: { A: { xC: 0 }, B: "webkit", C: ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "xC", "", "", ""], E: "Baidu Browser", F: { xC: 1491004800 } }, S: { A: { yC: 0.049592 }, B: "moz", C: ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "yC", "", "", ""], E: "KaiOS Browser", F: { yC: 1527811200 } } };
 });
 var require_agents2 = __commonJSMin((exports, module2) => {
   "use strict";
@@ -34377,9 +34378,9 @@ var require_browserslist = __commonJSMin((exports, module2) => {
       }
       function resolve(e3, s3) {
         if (Array.isArray(e3)) {
-          e3 = flatten(e3.map(parse2));
+          e3 = flatten2(e3.map(parse4));
         } else {
-          e3 = parse2(e3);
+          e3 = parse4(e3);
         }
         return e3.reduce(function(e4, r3, n2) {
           var t2 = r3.queryString;
@@ -34478,7 +34479,7 @@ var require_browserslist = __commonJSMin((exports, module2) => {
         }
         return u2;
       }
-      function parse2(e3) {
+      function parse4(e3) {
         var s3 = [];
         do {
           e3 = doMatch(e3, s3);
@@ -34511,11 +34512,11 @@ var require_browserslist = __commonJSMin((exports, module2) => {
         }
         return "";
       }
-      function flatten(e3) {
+      function flatten2(e3) {
         if (!Array.isArray(e3))
           return [e3];
         return e3.reduce(function(e4, s3) {
-          return e4.concat(flatten(s3));
+          return e4.concat(flatten2(s3));
         }, []);
       }
       browserslist.cache = {};
@@ -35704,9 +35705,9 @@ var require_recursive_readdir = __commonJSMin((exports, module2) => {
         }
         return i(e3);
       }
-      Minimatch.prototype.parse = parse2;
+      Minimatch.prototype.parse = parse4;
       var l = {};
-      function parse2(e3, t3) {
+      function parse4(e3, t3) {
         if (e3.length > 1024 * 64) {
           throw new TypeError("pattern is too long");
         }
@@ -37870,19 +37871,27 @@ var require_format = __commonJSMin((exports) => {
   "use strict";
   Object.defineProperty(exports, "__esModule", { value: true });
   exports.formatProxyOptions = exports.formatWebpackMessages = void 0;
-  var friendlySyntaxErrorLabel = "Syntax error:";
+  var friendlySyntaxErrorLabel = "SyntaxError:";
   function isLikelyASyntaxError(message) {
     return message.includes(friendlySyntaxErrorLabel);
   }
-  function formatMessage(message) {
-    var _a;
+  function formatMessage(stats) {
     let lines = [];
-    if (typeof message === "object") {
-      message = `${message.moduleName && `${message.moduleName}
-`}${message.details || message.stack || message.message}`;
+    let message;
+    if (typeof stats === "object") {
+      const fileName = stats.moduleName ? `File: ${stats.moduleName}
+` : "";
+      const mainMessage = stats.message;
+      const details = stats.details ? `
+Details: ${stats.details}
+` : "";
+      const stack = stats.stack ? `
+${stats.stack}` : "";
+      message = `${fileName}${mainMessage}${details}${stack}`;
+    } else {
+      message = stats;
     }
     lines = message.split("\n");
-    lines = lines.filter((line) => !/Module [A-z ]+\(from/.test(line));
     lines = lines.map((line) => {
       const parsingError = /Line (\d+):(?:(\d+):)?\s*Parsing error: (.+)$/.exec(line);
       if (!parsingError) {
@@ -37899,11 +37908,8 @@ var require_format = __commonJSMin((exports) => {
       lines.splice(1, 1);
     }
     lines[0] = lines[0].replace(/^(.*) \d+:\d+-\d+$/, "$1");
-    if ((_a = lines[1]) === null || _a === void 0 ? void 0 : _a.startsWith("Module not found: ")) {
-      lines = [
-        lines[0],
-        lines[1].replace("Error: ", "").replace("Module not found: Cannot find file:", "Cannot find file:").replace("[CaseSensitivePathsPlugin] ", "").replace("Cannot resolve 'file' or 'directory' ", "")
-      ];
+    if (lines[1] && lines[1].indexOf("Module not found:") !== -1) {
+      lines[1] = lines[1].replace("Error: ", "");
     }
     message = lines.join("\n");
     message = message.replace(/^\s*at\s((?!webpack:).)*:\d+:\d+[\s)]*(\n|$)/gm, "");
@@ -38297,10 +38303,10 @@ var require_type = __commonJSMin((exports) => {
     return typeof obj === "undefined";
   }
   exports.isUndefined = isUndefined;
-  function isArray(obj) {
+  function isArray2(obj) {
     return Array.isArray(obj);
   }
-  exports.isArray = isArray;
+  exports.isArray = isArray2;
   function isFunction(func) {
     return typeof func === "function";
   }
@@ -38452,7 +38458,6 @@ var require_constants = __commonJSMin((exports) => {
     "@modern-js/plugin-electron": { cli: "@modern-js/plugin-electron/cli" },
     "@modern-js/plugin-testing": { cli: "@modern-js/plugin-testing/cli" },
     "@modern-js/plugin-storybook": { cli: "@modern-js/plugin-storybook/cli" },
-    "@modern-js/plugin-docsite": { cli: "@modern-js/plugin-docsite/cli" },
     "@modern-js/plugin-express": {
       cli: "@modern-js/plugin-express/cli",
       server: "@modern-js/plugin-express"
@@ -38470,7 +38475,6 @@ var require_constants = __commonJSMin((exports) => {
       server: "@modern-js/plugin-nest/server"
     },
     "@modern-js/plugin-unbundle": { cli: "@modern-js/plugin-unbundle" },
-    "@modern-js/plugin-server-build": { cli: "@modern-js/plugin-server-build" },
     "@modern-js/plugin-server": {
       cli: "@modern-js/plugin-server/cli",
       server: "@modern-js/plugin-server/server"
@@ -38478,7 +38482,6 @@ var require_constants = __commonJSMin((exports) => {
     "@modern-js/plugin-garfish": {
       cli: "@modern-js/plugin-garfish/cli"
     },
-    "@modern-js/plugin-jarvis": { cli: "@modern-js/plugin-jarvis/cli" },
     "@modern-js/plugin-tailwindcss": { cli: "@modern-js/plugin-tailwindcss/cli" },
     "@modern-js/plugin-lambda-fc": { cli: "@modern-js/plugin-lambda-fc/cli" },
     "@modern-js/plugin-lambda-scf": { cli: "@modern-js/plugin-lambda-scf/cli" },
@@ -38494,10 +38497,7 @@ var require_constants = __commonJSMin((exports) => {
     "@modern-js/plugin-multiprocess": {
       cli: "@modern-js/plugin-multiprocess/cli"
     },
-    "@modern-js/plugin-nocode": { cli: "@modern-js/plugin-nocode/cli" },
-    "@modern-js/plugin-design-token": {
-      cli: "@modern-js/plugin-design-token/cli"
-    }
+    "@modern-js/plugin-nocode": { cli: "@modern-js/plugin-nocode/cli" }
   };
   exports.PLUGIN_SCHEMAS = {
     "@modern-js/runtime": [
@@ -39234,7 +39234,7 @@ var require_watch = __commonJSMin((exports) => {
   };
   Object.defineProperty(exports, "__esModule", { value: true });
   exports.watch = exports.WatchChangeType = void 0;
-  var path7 = __importStar(__require("path"));
+  var path8 = __importStar(__require("path"));
   var compiled_1 = require_compiled();
   exports.WatchChangeType = {
     ADD: "add",
@@ -39248,17 +39248,17 @@ var require_watch = __commonJSMin((exports) => {
     });
     watcher.on("ready", () => ready = true);
     watcher.on("change", async (filePath) => {
-      const changedFilePath = path7.resolve(filePath);
+      const changedFilePath = path8.resolve(filePath);
       await runTask({ changedFilePath, changeType: exports.WatchChangeType.CHANGE });
     });
     watcher.on("add", async (filePath) => {
-      const changedFilePath = path7.resolve(filePath);
+      const changedFilePath = path8.resolve(filePath);
       if (ready) {
         await runTask({ changedFilePath, changeType: exports.WatchChangeType.ADD });
       }
     });
     watcher.on("unlink", async (filePath) => {
-      const changedFilePath = path7.resolve(filePath);
+      const changedFilePath = path8.resolve(filePath);
       await runTask({ changedFilePath, changeType: exports.WatchChangeType.UNLINK });
     });
     watcher.on("error", (err) => {
@@ -39325,11 +39325,11 @@ var require_getServerConfig = __commonJSMin((exports) => {
   };
   Object.defineProperty(exports, "__esModule", { value: true });
   exports.getServerConfig = void 0;
-  var path7 = __importStar(__require("path"));
+  var path8 = __importStar(__require("path"));
   var constants_1 = require_constants();
   var findExists_1 = require_findExists();
   var getServerConfig = async (appDirectory, configFile) => {
-    const configFilePath = (0, findExists_1.findExists)(constants_1.CONFIG_FILE_EXTENSIONS.map((extension) => path7.resolve(appDirectory, `${configFile}${extension}`)));
+    const configFilePath = (0, findExists_1.findExists)(constants_1.CONFIG_FILE_EXTENSIONS.map((extension) => path8.resolve(appDirectory, `${configFile}${extension}`)));
     return configFilePath;
   };
   exports.getServerConfig = getServerConfig;
@@ -39483,10 +39483,10 @@ var require_analyzeProject = __commonJSMin((exports) => {
   };
   Object.defineProperty(exports, "__esModule", { value: true });
   exports.isApiOnly = void 0;
-  var path7 = __importStar(__require("path"));
+  var path8 = __importStar(__require("path"));
   var compiled_1 = require_compiled();
   var isApiOnly = async (appDirectory) => {
-    const srcDir = path7.join(appDirectory, "src");
+    const srcDir = path8.join(appDirectory, "src");
     const existSrc = await compiled_1.fs.pathExists(srcDir);
     const options2 = (0, compiled_1.minimist)(process.argv.slice(2));
     return !existSrc || Boolean(options2["api-only"]);
@@ -39500,7 +39500,14 @@ var require_chainId = __commonJSMin((exports) => {
   exports.CHAIN_ID = {
     RULE: {
       MJS: "mjs",
-      LOADERS: "loaders"
+      LOADERS: "loaders",
+      FONT: "font",
+      IMAGE: "image",
+      JS: "js",
+      TS: "ts",
+      CSS: "css",
+      LESS: "less",
+      SASS: "sass"
     },
     ONE_OF: {
       JS: "js",
@@ -39526,6 +39533,8 @@ var require_chainId = __commonJSMin((exports) => {
     USE: {
       TS: "ts",
       CSS: "css",
+      SASS: "sass",
+      LESS: "less",
       URL: "url",
       FILE: "file",
       SVGR: "svgr",
@@ -39643,8 +39652,8 @@ var require_context = __commonJSMin((exports) => {
         if (fs_1.existsSync(process.env.GITHUB_EVENT_PATH)) {
           this.payload = JSON.parse(fs_1.readFileSync(process.env.GITHUB_EVENT_PATH, { encoding: "utf8" }));
         } else {
-          const path7 = process.env.GITHUB_EVENT_PATH;
-          process.stdout.write(`GITHUB_EVENT_PATH ${path7} does not exist${os_1.EOL}`);
+          const path8 = process.env.GITHUB_EVENT_PATH;
+          process.stdout.write(`GITHUB_EVENT_PATH ${path8} does not exist${os_1.EOL}`);
         }
       }
       this.eventName = process.env.GITHUB_EVENT_NAME;
@@ -117995,14 +118004,14 @@ var require_url_state_machine = __commonJSMin((exports, module2) => {
     return url.replace(/\u0009|\u000A|\u000D/g, "");
   }
   function shortenPath(url) {
-    const path7 = url.path;
-    if (path7.length === 0) {
+    const path8 = url.path;
+    if (path8.length === 0) {
       return;
     }
-    if (url.scheme === "file" && path7.length === 1 && isNormalizedWindowsDriveLetter(path7[0])) {
+    if (url.scheme === "file" && path8.length === 1 && isNormalizedWindowsDriveLetter(path8[0])) {
       return;
     }
-    path7.pop();
+    path8.pop();
   }
   function includesCredentials(url) {
     return url.username !== "" || url.password !== "";
@@ -122802,7 +122811,7 @@ var require_polyfills = __commonJSMin((exports, module2) => {
     fs8.fstatSync = statFixSync(fs8.fstatSync);
     fs8.lstatSync = statFixSync(fs8.lstatSync);
     if (!fs8.lchmod) {
-      fs8.lchmod = function(path7, mode, cb) {
+      fs8.lchmod = function(path8, mode, cb) {
         if (cb)
           process.nextTick(cb);
       };
@@ -122810,7 +122819,7 @@ var require_polyfills = __commonJSMin((exports, module2) => {
       };
     }
     if (!fs8.lchown) {
-      fs8.lchown = function(path7, uid, gid, cb) {
+      fs8.lchown = function(path8, uid, gid, cb) {
         if (cb)
           process.nextTick(cb);
       };
@@ -122843,7 +122852,7 @@ var require_polyfills = __commonJSMin((exports, module2) => {
       }(fs8.rename);
     }
     fs8.read = function(fs$read) {
-      function read(fd, buffer, offset, length, position, callback_) {
+      function read2(fd, buffer, offset, length, position, callback_) {
         var callback;
         if (callback_ && typeof callback_ === "function") {
           var eagCounter = 0;
@@ -122858,8 +122867,8 @@ var require_polyfills = __commonJSMin((exports, module2) => {
         return fs$read.call(fs8, fd, buffer, offset, length, position, callback);
       }
       if (Object.setPrototypeOf)
-        Object.setPrototypeOf(read, fs$read);
-      return read;
+        Object.setPrototypeOf(read2, fs$read);
+      return read2;
     }(fs8.read);
     fs8.readSync = function(fs$readSync) {
       return function(fd, buffer, offset, length, position) {
@@ -122878,8 +122887,8 @@ var require_polyfills = __commonJSMin((exports, module2) => {
       };
     }(fs8.readSync);
     function patchLchmod(fs9) {
-      fs9.lchmod = function(path7, mode, callback) {
-        fs9.open(path7, constants.O_WRONLY | constants.O_SYMLINK, mode, function(err, fd) {
+      fs9.lchmod = function(path8, mode, callback) {
+        fs9.open(path8, constants.O_WRONLY | constants.O_SYMLINK, mode, function(err, fd) {
           if (err) {
             if (callback)
               callback(err);
@@ -122893,8 +122902,8 @@ var require_polyfills = __commonJSMin((exports, module2) => {
           });
         });
       };
-      fs9.lchmodSync = function(path7, mode) {
-        var fd = fs9.openSync(path7, constants.O_WRONLY | constants.O_SYMLINK, mode);
+      fs9.lchmodSync = function(path8, mode) {
+        var fd = fs9.openSync(path8, constants.O_WRONLY | constants.O_SYMLINK, mode);
         var threw = true;
         var ret;
         try {
@@ -122915,8 +122924,8 @@ var require_polyfills = __commonJSMin((exports, module2) => {
     }
     function patchLutimes(fs9) {
       if (constants.hasOwnProperty("O_SYMLINK")) {
-        fs9.lutimes = function(path7, at, mt, cb) {
-          fs9.open(path7, constants.O_SYMLINK, function(er, fd) {
+        fs9.lutimes = function(path8, at, mt, cb) {
+          fs9.open(path8, constants.O_SYMLINK, function(er, fd) {
             if (er) {
               if (cb)
                 cb(er);
@@ -122930,8 +122939,8 @@ var require_polyfills = __commonJSMin((exports, module2) => {
             });
           });
         };
-        fs9.lutimesSync = function(path7, at, mt) {
-          var fd = fs9.openSync(path7, constants.O_SYMLINK);
+        fs9.lutimesSync = function(path8, at, mt) {
+          var fd = fs9.openSync(path8, constants.O_SYMLINK);
           var ret;
           var threw = true;
           try {
@@ -123061,12 +123070,12 @@ var require_legacy_streams = __commonJSMin((exports, module2) => {
       ReadStream,
       WriteStream
     };
-    function ReadStream(path7, options2) {
+    function ReadStream(path8, options2) {
       if (!(this instanceof ReadStream))
-        return new ReadStream(path7, options2);
+        return new ReadStream(path8, options2);
       Stream2.call(this);
       var self2 = this;
-      this.path = path7;
+      this.path = path8;
       this.fd = null;
       this.readable = true;
       this.paused = false;
@@ -123112,11 +123121,11 @@ var require_legacy_streams = __commonJSMin((exports, module2) => {
         self2._read();
       });
     }
-    function WriteStream(path7, options2) {
+    function WriteStream(path8, options2) {
       if (!(this instanceof WriteStream))
-        return new WriteStream(path7, options2);
+        return new WriteStream(path8, options2);
       Stream2.call(this);
-      this.path = path7;
+      this.path = path8;
       this.fd = null;
       this.writable = true;
       this.flags = "w";
@@ -123251,14 +123260,14 @@ var require_graceful_fs = __commonJSMin((exports, module2) => {
     fs9.createWriteStream = createWriteStream;
     var fs$readFile = fs9.readFile;
     fs9.readFile = readFile2;
-    function readFile2(path7, options2, cb) {
+    function readFile2(path8, options2, cb) {
       if (typeof options2 === "function")
         cb = options2, options2 = null;
-      return go$readFile(path7, options2, cb);
-      function go$readFile(path8, options3, cb2, startTime) {
-        return fs$readFile(path8, options3, function(err) {
+      return go$readFile(path8, options2, cb);
+      function go$readFile(path9, options3, cb2, startTime) {
+        return fs$readFile(path9, options3, function(err) {
           if (err && (err.code === "EMFILE" || err.code === "ENFILE"))
-            enqueue([go$readFile, [path8, options3, cb2], err, startTime || Date.now(), Date.now()]);
+            enqueue([go$readFile, [path9, options3, cb2], err, startTime || Date.now(), Date.now()]);
           else {
             if (typeof cb2 === "function")
               cb2.apply(this, arguments);
@@ -123268,14 +123277,14 @@ var require_graceful_fs = __commonJSMin((exports, module2) => {
     }
     var fs$writeFile = fs9.writeFile;
     fs9.writeFile = writeFile;
-    function writeFile(path7, data, options2, cb) {
+    function writeFile(path8, data, options2, cb) {
       if (typeof options2 === "function")
         cb = options2, options2 = null;
-      return go$writeFile(path7, data, options2, cb);
-      function go$writeFile(path8, data2, options3, cb2, startTime) {
-        return fs$writeFile(path8, data2, options3, function(err) {
+      return go$writeFile(path8, data, options2, cb);
+      function go$writeFile(path9, data2, options3, cb2, startTime) {
+        return fs$writeFile(path9, data2, options3, function(err) {
           if (err && (err.code === "EMFILE" || err.code === "ENFILE"))
-            enqueue([go$writeFile, [path8, data2, options3, cb2], err, startTime || Date.now(), Date.now()]);
+            enqueue([go$writeFile, [path9, data2, options3, cb2], err, startTime || Date.now(), Date.now()]);
           else {
             if (typeof cb2 === "function")
               cb2.apply(this, arguments);
@@ -123286,14 +123295,14 @@ var require_graceful_fs = __commonJSMin((exports, module2) => {
     var fs$appendFile = fs9.appendFile;
     if (fs$appendFile)
       fs9.appendFile = appendFile;
-    function appendFile(path7, data, options2, cb) {
+    function appendFile(path8, data, options2, cb) {
       if (typeof options2 === "function")
         cb = options2, options2 = null;
-      return go$appendFile(path7, data, options2, cb);
-      function go$appendFile(path8, data2, options3, cb2, startTime) {
-        return fs$appendFile(path8, data2, options3, function(err) {
+      return go$appendFile(path8, data, options2, cb);
+      function go$appendFile(path9, data2, options3, cb2, startTime) {
+        return fs$appendFile(path9, data2, options3, function(err) {
           if (err && (err.code === "EMFILE" || err.code === "ENFILE"))
-            enqueue([go$appendFile, [path8, data2, options3, cb2], err, startTime || Date.now(), Date.now()]);
+            enqueue([go$appendFile, [path9, data2, options3, cb2], err, startTime || Date.now(), Date.now()]);
           else {
             if (typeof cb2 === "function")
               cb2.apply(this, arguments);
@@ -123323,14 +123332,14 @@ var require_graceful_fs = __commonJSMin((exports, module2) => {
     }
     var fs$readdir = fs9.readdir;
     fs9.readdir = readdir;
-    function readdir(path7, options2, cb) {
+    function readdir(path8, options2, cb) {
       if (typeof options2 === "function")
         cb = options2, options2 = null;
-      return go$readdir(path7, options2, cb);
-      function go$readdir(path8, options3, cb2, startTime) {
-        return fs$readdir(path8, options3, function(err, files) {
+      return go$readdir(path8, options2, cb);
+      function go$readdir(path9, options3, cb2, startTime) {
+        return fs$readdir(path9, options3, function(err, files) {
           if (err && (err.code === "EMFILE" || err.code === "ENFILE"))
-            enqueue([go$readdir, [path8, options3, cb2], err, startTime || Date.now(), Date.now()]);
+            enqueue([go$readdir, [path9, options3, cb2], err, startTime || Date.now(), Date.now()]);
           else {
             if (files && files.sort)
               files.sort();
@@ -123397,7 +123406,7 @@ var require_graceful_fs = __commonJSMin((exports, module2) => {
       enumerable: true,
       configurable: true
     });
-    function ReadStream(path7, options2) {
+    function ReadStream(path8, options2) {
       if (this instanceof ReadStream)
         return fs$ReadStream.apply(this, arguments), this;
       else
@@ -123417,7 +123426,7 @@ var require_graceful_fs = __commonJSMin((exports, module2) => {
         }
       });
     }
-    function WriteStream(path7, options2) {
+    function WriteStream(path8, options2) {
       if (this instanceof WriteStream)
         return fs$WriteStream.apply(this, arguments), this;
       else
@@ -123435,22 +123444,22 @@ var require_graceful_fs = __commonJSMin((exports, module2) => {
         }
       });
     }
-    function createReadStream(path7, options2) {
-      return new fs9.ReadStream(path7, options2);
+    function createReadStream(path8, options2) {
+      return new fs9.ReadStream(path8, options2);
     }
-    function createWriteStream(path7, options2) {
-      return new fs9.WriteStream(path7, options2);
+    function createWriteStream(path8, options2) {
+      return new fs9.WriteStream(path8, options2);
     }
     var fs$open = fs9.open;
     fs9.open = open;
-    function open(path7, flags, mode, cb) {
+    function open(path8, flags, mode, cb) {
       if (typeof mode === "function")
         cb = mode, mode = null;
-      return go$open(path7, flags, mode, cb);
-      function go$open(path8, flags2, mode2, cb2, startTime) {
-        return fs$open(path8, flags2, mode2, function(err, fd) {
+      return go$open(path8, flags, mode, cb);
+      function go$open(path9, flags2, mode2, cb2, startTime) {
+        return fs$open(path9, flags2, mode2, function(err, fd) {
           if (err && (err.code === "EMFILE" || err.code === "ENFILE"))
-            enqueue([go$open, [path8, flags2, mode2, cb2], err, startTime || Date.now(), Date.now()]);
+            enqueue([go$open, [path9, flags2, mode2, cb2], err, startTime || Date.now(), Date.now()]);
           else {
             if (typeof cb2 === "function")
               cb2.apply(this, arguments);
@@ -123595,9 +123604,9 @@ var require_fs = __commonJSMin((exports) => {
 });
 var require_win32 = __commonJSMin((exports, module2) => {
   "use strict";
-  var path7 = __require("path");
+  var path8 = __require("path");
   function getRootPath(p) {
-    p = path7.normalize(path7.resolve(p)).split(path7.sep);
+    p = path8.normalize(path8.resolve(p)).split(path8.sep);
     if (p.length > 0)
       return p[0];
     return null;
@@ -123616,7 +123625,7 @@ var require_win32 = __commonJSMin((exports, module2) => {
 var require_mkdirs = __commonJSMin((exports, module2) => {
   "use strict";
   var fs8 = require_graceful_fs();
-  var path7 = __require("path");
+  var path8 = __require("path");
   var invalidWin32Path = require_win32().invalidWin32Path;
   var o777 = parseInt("0777", 8);
   function mkdirs(p, opts, callback, made) {
@@ -123640,7 +123649,7 @@ var require_mkdirs = __commonJSMin((exports, module2) => {
       made = null;
     callback = callback || function() {
     };
-    p = path7.resolve(p);
+    p = path8.resolve(p);
     xfs.mkdir(p, mode, (er) => {
       if (!er) {
         made = made || p;
@@ -123648,9 +123657,9 @@ var require_mkdirs = __commonJSMin((exports, module2) => {
       }
       switch (er.code) {
         case "ENOENT":
-          if (path7.dirname(p) === p)
+          if (path8.dirname(p) === p)
             return callback(er);
-          mkdirs(path7.dirname(p), opts, (er2, made2) => {
+          mkdirs(path8.dirname(p), opts, (er2, made2) => {
             if (er2)
               callback(er2, made2);
             else
@@ -123673,7 +123682,7 @@ var require_mkdirs = __commonJSMin((exports, module2) => {
 var require_mkdirs_sync = __commonJSMin((exports, module2) => {
   "use strict";
   var fs8 = require_graceful_fs();
-  var path7 = __require("path");
+  var path8 = __require("path");
   var invalidWin32Path = require_win32().invalidWin32Path;
   var o777 = parseInt("0777", 8);
   function mkdirsSync(p, opts, made) {
@@ -123692,15 +123701,15 @@ var require_mkdirs_sync = __commonJSMin((exports, module2) => {
     }
     if (!made)
       made = null;
-    p = path7.resolve(p);
+    p = path8.resolve(p);
     try {
       xfs.mkdirSync(p, mode);
       made = made || p;
     } catch (err0) {
       if (err0.code === "ENOENT") {
-        if (path7.dirname(p) === p)
+        if (path8.dirname(p) === p)
           throw err0;
-        made = mkdirsSync(path7.dirname(p), opts, made);
+        made = mkdirsSync(path8.dirname(p), opts, made);
         mkdirsSync(p, opts, made);
       } else {
         let stat;
@@ -123735,10 +123744,10 @@ var require_utimes = __commonJSMin((exports, module2) => {
   "use strict";
   var fs8 = require_graceful_fs();
   var os2 = __require("os");
-  var path7 = __require("path");
+  var path8 = __require("path");
   function hasMillisResSync() {
-    let tmpfile = path7.join("millis-test-sync" + Date.now().toString() + Math.random().toString().slice(2));
-    tmpfile = path7.join(os2.tmpdir(), tmpfile);
+    let tmpfile = path8.join("millis-test-sync" + Date.now().toString() + Math.random().toString().slice(2));
+    tmpfile = path8.join(os2.tmpdir(), tmpfile);
     const d = new Date(1435410243862);
     fs8.writeFileSync(tmpfile, "https://github.com/jprichardson/node-fs-extra/pull/141");
     const fd = fs8.openSync(tmpfile, "r+");
@@ -123747,8 +123756,8 @@ var require_utimes = __commonJSMin((exports, module2) => {
     return fs8.statSync(tmpfile).mtime > 1435410243e3;
   }
   function hasMillisRes(callback) {
-    let tmpfile = path7.join("millis-test" + Date.now().toString() + Math.random().toString().slice(2));
-    tmpfile = path7.join(os2.tmpdir(), tmpfile);
+    let tmpfile = path8.join("millis-test" + Date.now().toString() + Math.random().toString().slice(2));
+    tmpfile = path8.join(os2.tmpdir(), tmpfile);
     const d = new Date(1435410243862);
     fs8.writeFile(tmpfile, "https://github.com/jprichardson/node-fs-extra/pull/141", (err) => {
       if (err)
@@ -123781,8 +123790,8 @@ var require_utimes = __commonJSMin((exports, module2) => {
       throw new Error("fs-extra: timeRemoveMillis() unknown parameter type");
     }
   }
-  function utimesMillis(path8, atime, mtime, callback) {
-    fs8.open(path8, "r+", (err, fd) => {
+  function utimesMillis(path9, atime, mtime, callback) {
+    fs8.open(path9, "r+", (err, fd) => {
       if (err)
         return callback(err);
       fs8.futimes(fd, atime, mtime, (futimesErr) => {
@@ -123793,8 +123802,8 @@ var require_utimes = __commonJSMin((exports, module2) => {
       });
     });
   }
-  function utimesMillisSync(path8, atime, mtime) {
-    const fd = fs8.openSync(path8, "r+");
+  function utimesMillisSync(path9, atime, mtime) {
+    const fd = fs8.openSync(path9, "r+");
     fs8.futimesSync(fd, atime, mtime);
     return fs8.closeSync(fd);
   }
@@ -123822,7 +123831,7 @@ var require_buffer = __commonJSMin((exports, module2) => {
 var require_copy_sync = __commonJSMin((exports, module2) => {
   "use strict";
   var fs8 = require_graceful_fs();
-  var path7 = __require("path");
+  var path8 = __require("path");
   var mkdirpSync = require_mkdirs2().mkdirsSync;
   var utimesSync = require_utimes().utimesMillisSync;
   var notExist = Symbol("notExist");
@@ -123841,7 +123850,7 @@ var require_copy_sync = __commonJSMin((exports, module2) => {
     const destStat = checkPaths(src, dest);
     if (opts.filter && !opts.filter(src, dest))
       return;
-    const destParent = path7.dirname(dest);
+    const destParent = path8.dirname(dest);
     if (!fs8.existsSync(destParent))
       mkdirpSync(destParent);
     return startCopy(destStat, src, dest, opts);
@@ -123918,15 +123927,15 @@ var require_copy_sync = __commonJSMin((exports, module2) => {
     fs8.readdirSync(src).forEach((item) => copyDirItem(item, src, dest, opts));
   }
   function copyDirItem(item, src, dest, opts) {
-    const srcItem = path7.join(src, item);
-    const destItem = path7.join(dest, item);
+    const srcItem = path8.join(src, item);
+    const destItem = path8.join(dest, item);
     const destStat = checkPaths(srcItem, destItem);
     return startCopy(destStat, srcItem, destItem, opts);
   }
   function onLink(destStat, src, dest, opts) {
     let resolvedSrc = fs8.readlinkSync(src);
     if (opts.dereference) {
-      resolvedSrc = path7.resolve(process.cwd(), resolvedSrc);
+      resolvedSrc = path8.resolve(process.cwd(), resolvedSrc);
     }
     if (destStat === notExist) {
       return fs8.symlinkSync(resolvedSrc, dest);
@@ -123940,7 +123949,7 @@ var require_copy_sync = __commonJSMin((exports, module2) => {
         throw err;
       }
       if (opts.dereference) {
-        resolvedDest = path7.resolve(process.cwd(), resolvedDest);
+        resolvedDest = path8.resolve(process.cwd(), resolvedDest);
       }
       if (isSrcSubdir(resolvedSrc, resolvedDest)) {
         throw new Error(`Cannot copy '${resolvedSrc}' to a subdirectory of itself, '${resolvedDest}'.`);
@@ -123956,8 +123965,8 @@ var require_copy_sync = __commonJSMin((exports, module2) => {
     return fs8.symlinkSync(resolvedSrc, dest);
   }
   function isSrcSubdir(src, dest) {
-    const srcArray = path7.resolve(src).split(path7.sep);
-    const destArray = path7.resolve(dest).split(path7.sep);
+    const srcArray = path8.resolve(src).split(path8.sep);
+    const destArray = path8.resolve(dest).split(path8.sep);
     return srcArray.reduce((acc, current, i) => acc && destArray[i] === current, true);
   }
   function checkStats(src, dest) {
@@ -123994,8 +124003,8 @@ var require_path_exists = __commonJSMin((exports, module2) => {
   "use strict";
   var u = require_universalify().fromPromise;
   var fs8 = require_fs();
-  function pathExists(path7) {
-    return fs8.access(path7).then(() => true).catch(() => false);
+  function pathExists(path8) {
+    return fs8.access(path8).then(() => true).catch(() => false);
   }
   module2.exports = {
     pathExists: u(pathExists),
@@ -124005,7 +124014,7 @@ var require_path_exists = __commonJSMin((exports, module2) => {
 var require_copy = __commonJSMin((exports, module2) => {
   "use strict";
   var fs8 = require_graceful_fs();
-  var path7 = __require("path");
+  var path8 = __require("path");
   var mkdirp = require_mkdirs2().mkdirs;
   var pathExists = require_path_exists().pathExists;
   var utimes = require_utimes().utimesMillis;
@@ -124036,7 +124045,7 @@ var require_copy = __commonJSMin((exports, module2) => {
     });
   }
   function checkParentDir(destStat, src, dest, opts, cb) {
-    const destParent = path7.dirname(dest);
+    const destParent = path8.dirname(dest);
     pathExists(destParent, (err, dirExists) => {
       if (err)
         return cb(err);
@@ -124154,8 +124163,8 @@ var require_copy = __commonJSMin((exports, module2) => {
     return copyDirItem(items, item, src, dest, opts, cb);
   }
   function copyDirItem(items, item, src, dest, opts, cb) {
-    const srcItem = path7.join(src, item);
-    const destItem = path7.join(dest, item);
+    const srcItem = path8.join(src, item);
+    const destItem = path8.join(dest, item);
     checkPaths(srcItem, destItem, (err, destStat) => {
       if (err)
         return cb(err);
@@ -124171,7 +124180,7 @@ var require_copy = __commonJSMin((exports, module2) => {
       if (err)
         return cb(err);
       if (opts.dereference) {
-        resolvedSrc = path7.resolve(process.cwd(), resolvedSrc);
+        resolvedSrc = path8.resolve(process.cwd(), resolvedSrc);
       }
       if (destStat === notExist) {
         return fs8.symlink(resolvedSrc, dest, cb);
@@ -124183,7 +124192,7 @@ var require_copy = __commonJSMin((exports, module2) => {
             return cb(err2);
           }
           if (opts.dereference) {
-            resolvedDest = path7.resolve(process.cwd(), resolvedDest);
+            resolvedDest = path8.resolve(process.cwd(), resolvedDest);
           }
           if (isSrcSubdir(resolvedSrc, resolvedDest)) {
             return cb(new Error(`Cannot copy '${resolvedSrc}' to a subdirectory of itself, '${resolvedDest}'.`));
@@ -124204,8 +124213,8 @@ var require_copy = __commonJSMin((exports, module2) => {
     });
   }
   function isSrcSubdir(src, dest) {
-    const srcArray = path7.resolve(src).split(path7.sep);
-    const destArray = path7.resolve(dest).split(path7.sep);
+    const srcArray = path8.resolve(src).split(path8.sep);
+    const destArray = path8.resolve(dest).split(path8.sep);
     return srcArray.reduce((acc, current, i) => acc && destArray[i] === current, true);
   }
   function checkStats(src, dest, cb) {
@@ -124248,7 +124257,7 @@ var require_copy2 = __commonJSMin((exports, module2) => {
 var require_rimraf = __commonJSMin((exports, module2) => {
   "use strict";
   var fs8 = require_graceful_fs();
-  var path7 = __require("path");
+  var path8 = __require("path");
   var assert = __require("assert");
   var isWindows = process.platform === "win32";
   function defaults(options2) {
@@ -124405,7 +124414,7 @@ var require_rimraf = __commonJSMin((exports, module2) => {
       if (n === 0)
         return options2.rmdir(p, cb);
       files.forEach((f) => {
-        rimraf(path7.join(p, f), options2, (er2) => {
+        rimraf(path8.join(p, f), options2, (er2) => {
           if (errState) {
             return;
           }
@@ -124474,7 +124483,7 @@ var require_rimraf = __commonJSMin((exports, module2) => {
   function rmkidsSync(p, options2) {
     assert(p);
     assert(options2);
-    options2.readdirSync(p).forEach((f) => rimrafSync(path7.join(p, f), options2));
+    options2.readdirSync(p).forEach((f) => rimrafSync(path8.join(p, f), options2));
     if (isWindows) {
       const startTime = Date.now();
       do {
@@ -124505,7 +124514,7 @@ var require_empty = __commonJSMin((exports, module2) => {
   "use strict";
   var u = require_universalify().fromCallback;
   var fs8 = __require("fs");
-  var path7 = __require("path");
+  var path8 = __require("path");
   var mkdir = require_mkdirs2();
   var remove = require_remove2();
   var emptyDir = u(function emptyDir2(dir, callback) {
@@ -124514,7 +124523,7 @@ var require_empty = __commonJSMin((exports, module2) => {
     fs8.readdir(dir, (err, items) => {
       if (err)
         return mkdir.mkdirs(dir, callback);
-      items = items.map((item) => path7.join(dir, item));
+      items = items.map((item) => path8.join(dir, item));
       deleteItem();
       function deleteItem() {
         const item = items.pop();
@@ -124536,7 +124545,7 @@ var require_empty = __commonJSMin((exports, module2) => {
       return mkdir.mkdirsSync(dir);
     }
     items.forEach((item) => {
-      item = path7.join(dir, item);
+      item = path8.join(dir, item);
       remove.removeSync(item);
     });
   }
@@ -124550,7 +124559,7 @@ var require_empty = __commonJSMin((exports, module2) => {
 var require_file = __commonJSMin((exports, module2) => {
   "use strict";
   var u = require_universalify().fromCallback;
-  var path7 = __require("path");
+  var path8 = __require("path");
   var fs8 = require_graceful_fs();
   var mkdir = require_mkdirs2();
   var pathExists = require_path_exists().pathExists;
@@ -124565,7 +124574,7 @@ var require_file = __commonJSMin((exports, module2) => {
     fs8.stat(file, (err, stats) => {
       if (!err && stats.isFile())
         return callback();
-      const dir = path7.dirname(file);
+      const dir = path8.dirname(file);
       pathExists(dir, (err2, dirExists) => {
         if (err2)
           return callback(err2);
@@ -124587,7 +124596,7 @@ var require_file = __commonJSMin((exports, module2) => {
     }
     if (stats && stats.isFile())
       return;
-    const dir = path7.dirname(file);
+    const dir = path8.dirname(file);
     if (!fs8.existsSync(dir)) {
       mkdir.mkdirsSync(dir);
     }
@@ -124601,7 +124610,7 @@ var require_file = __commonJSMin((exports, module2) => {
 var require_link = __commonJSMin((exports, module2) => {
   "use strict";
   var u = require_universalify().fromCallback;
-  var path7 = __require("path");
+  var path8 = __require("path");
   var fs8 = require_graceful_fs();
   var mkdir = require_mkdirs2();
   var pathExists = require_path_exists().pathExists;
@@ -124623,7 +124632,7 @@ var require_link = __commonJSMin((exports, module2) => {
           err2.message = err2.message.replace("lstat", "ensureLink");
           return callback(err2);
         }
-        const dir = path7.dirname(dstpath);
+        const dir = path8.dirname(dstpath);
         pathExists(dir, (err3, dirExists) => {
           if (err3)
             return callback(err3);
@@ -124648,7 +124657,7 @@ var require_link = __commonJSMin((exports, module2) => {
       err.message = err.message.replace("lstat", "ensureLink");
       throw err;
     }
-    const dir = path7.dirname(dstpath);
+    const dir = path8.dirname(dstpath);
     const dirExists = fs8.existsSync(dir);
     if (dirExists)
       return fs8.linkSync(srcpath, dstpath);
@@ -124662,11 +124671,11 @@ var require_link = __commonJSMin((exports, module2) => {
 });
 var require_symlink_paths = __commonJSMin((exports, module2) => {
   "use strict";
-  var path7 = __require("path");
+  var path8 = __require("path");
   var fs8 = require_graceful_fs();
   var pathExists = require_path_exists().pathExists;
   function symlinkPaths(srcpath, dstpath, callback) {
-    if (path7.isAbsolute(srcpath)) {
+    if (path8.isAbsolute(srcpath)) {
       return fs8.lstat(srcpath, (err) => {
         if (err) {
           err.message = err.message.replace("lstat", "ensureSymlink");
@@ -124678,8 +124687,8 @@ var require_symlink_paths = __commonJSMin((exports, module2) => {
         });
       });
     } else {
-      const dstdir = path7.dirname(dstpath);
-      const relativeToDst = path7.join(dstdir, srcpath);
+      const dstdir = path8.dirname(dstpath);
+      const relativeToDst = path8.join(dstdir, srcpath);
       return pathExists(relativeToDst, (err, exists) => {
         if (err)
           return callback(err);
@@ -124696,7 +124705,7 @@ var require_symlink_paths = __commonJSMin((exports, module2) => {
             }
             return callback(null, {
               "toCwd": srcpath,
-              "toDst": path7.relative(dstdir, srcpath)
+              "toDst": path8.relative(dstdir, srcpath)
             });
           });
         }
@@ -124705,7 +124714,7 @@ var require_symlink_paths = __commonJSMin((exports, module2) => {
   }
   function symlinkPathsSync(srcpath, dstpath) {
     let exists;
-    if (path7.isAbsolute(srcpath)) {
+    if (path8.isAbsolute(srcpath)) {
       exists = fs8.existsSync(srcpath);
       if (!exists)
         throw new Error("absolute srcpath does not exist");
@@ -124714,8 +124723,8 @@ var require_symlink_paths = __commonJSMin((exports, module2) => {
         "toDst": srcpath
       };
     } else {
-      const dstdir = path7.dirname(dstpath);
-      const relativeToDst = path7.join(dstdir, srcpath);
+      const dstdir = path8.dirname(dstpath);
+      const relativeToDst = path8.join(dstdir, srcpath);
       exists = fs8.existsSync(relativeToDst);
       if (exists) {
         return {
@@ -124728,7 +124737,7 @@ var require_symlink_paths = __commonJSMin((exports, module2) => {
           throw new Error("relative srcpath does not exist");
         return {
           "toCwd": srcpath,
-          "toDst": path7.relative(dstdir, srcpath)
+          "toDst": path8.relative(dstdir, srcpath)
         };
       }
     }
@@ -124772,7 +124781,7 @@ var require_symlink_type = __commonJSMin((exports, module2) => {
 var require_symlink = __commonJSMin((exports, module2) => {
   "use strict";
   var u = require_universalify().fromCallback;
-  var path7 = __require("path");
+  var path8 = __require("path");
   var fs8 = require_graceful_fs();
   var _mkdirs = require_mkdirs2();
   var mkdirs = _mkdirs.mkdirs;
@@ -124799,7 +124808,7 @@ var require_symlink = __commonJSMin((exports, module2) => {
         symlinkType(relative.toCwd, type, (err3, type2) => {
           if (err3)
             return callback(err3);
-          const dir = path7.dirname(dstpath);
+          const dir = path8.dirname(dstpath);
           pathExists(dir, (err4, dirExists) => {
             if (err4)
               return callback(err4);
@@ -124822,7 +124831,7 @@ var require_symlink = __commonJSMin((exports, module2) => {
     const relative = symlinkPathsSync(srcpath, dstpath);
     srcpath = relative.toDst;
     type = symlinkTypeSync(relative.toCwd, type);
-    const dir = path7.dirname(dstpath);
+    const dir = path8.dirname(dstpath);
     const exists = fs8.existsSync(dir);
     if (exists)
       return fs8.symlinkSync(srcpath, dstpath, type);
@@ -124905,7 +124914,7 @@ var require_polyfills2 = __commonJSMin((exports, module2) => {
     fs8.fstatSync = statFixSync(fs8.fstatSync);
     fs8.lstatSync = statFixSync(fs8.lstatSync);
     if (fs8.chmod && !fs8.lchmod) {
-      fs8.lchmod = function(path7, mode, cb) {
+      fs8.lchmod = function(path8, mode, cb) {
         if (cb)
           process.nextTick(cb);
       };
@@ -124913,7 +124922,7 @@ var require_polyfills2 = __commonJSMin((exports, module2) => {
       };
     }
     if (fs8.chown && !fs8.lchown) {
-      fs8.lchown = function(path7, uid, gid, cb) {
+      fs8.lchown = function(path8, uid, gid, cb) {
         if (cb)
           process.nextTick(cb);
       };
@@ -124949,7 +124958,7 @@ var require_polyfills2 = __commonJSMin((exports, module2) => {
       }(fs8.rename);
     }
     fs8.read = typeof fs8.read !== "function" ? fs8.read : function(fs$read) {
-      function read(fd, buffer, offset, length, position, callback_) {
+      function read2(fd, buffer, offset, length, position, callback_) {
         var callback;
         if (callback_ && typeof callback_ === "function") {
           var eagCounter = 0;
@@ -124964,8 +124973,8 @@ var require_polyfills2 = __commonJSMin((exports, module2) => {
         return fs$read.call(fs8, fd, buffer, offset, length, position, callback);
       }
       if (Object.setPrototypeOf)
-        Object.setPrototypeOf(read, fs$read);
-      return read;
+        Object.setPrototypeOf(read2, fs$read);
+      return read2;
     }(fs8.read);
     fs8.readSync = typeof fs8.readSync !== "function" ? fs8.readSync : function(fs$readSync) {
       return function(fd, buffer, offset, length, position) {
@@ -124984,8 +124993,8 @@ var require_polyfills2 = __commonJSMin((exports, module2) => {
       };
     }(fs8.readSync);
     function patchLchmod(fs9) {
-      fs9.lchmod = function(path7, mode, callback) {
-        fs9.open(path7, constants.O_WRONLY | constants.O_SYMLINK, mode, function(err, fd) {
+      fs9.lchmod = function(path8, mode, callback) {
+        fs9.open(path8, constants.O_WRONLY | constants.O_SYMLINK, mode, function(err, fd) {
           if (err) {
             if (callback)
               callback(err);
@@ -124999,8 +125008,8 @@ var require_polyfills2 = __commonJSMin((exports, module2) => {
           });
         });
       };
-      fs9.lchmodSync = function(path7, mode) {
-        var fd = fs9.openSync(path7, constants.O_WRONLY | constants.O_SYMLINK, mode);
+      fs9.lchmodSync = function(path8, mode) {
+        var fd = fs9.openSync(path8, constants.O_WRONLY | constants.O_SYMLINK, mode);
         var threw = true;
         var ret;
         try {
@@ -125021,8 +125030,8 @@ var require_polyfills2 = __commonJSMin((exports, module2) => {
     }
     function patchLutimes(fs9) {
       if (constants.hasOwnProperty("O_SYMLINK") && fs9.futimes) {
-        fs9.lutimes = function(path7, at, mt, cb) {
-          fs9.open(path7, constants.O_SYMLINK, function(er, fd) {
+        fs9.lutimes = function(path8, at, mt, cb) {
+          fs9.open(path8, constants.O_SYMLINK, function(er, fd) {
             if (er) {
               if (cb)
                 cb(er);
@@ -125036,8 +125045,8 @@ var require_polyfills2 = __commonJSMin((exports, module2) => {
             });
           });
         };
-        fs9.lutimesSync = function(path7, at, mt) {
-          var fd = fs9.openSync(path7, constants.O_SYMLINK);
+        fs9.lutimesSync = function(path8, at, mt) {
+          var fd = fs9.openSync(path8, constants.O_SYMLINK);
           var ret;
           var threw = true;
           try {
@@ -125169,12 +125178,12 @@ var require_legacy_streams2 = __commonJSMin((exports, module2) => {
       ReadStream,
       WriteStream
     };
-    function ReadStream(path7, options2) {
+    function ReadStream(path8, options2) {
       if (!(this instanceof ReadStream))
-        return new ReadStream(path7, options2);
+        return new ReadStream(path8, options2);
       Stream2.call(this);
       var self2 = this;
-      this.path = path7;
+      this.path = path8;
       this.fd = null;
       this.readable = true;
       this.paused = false;
@@ -125220,11 +125229,11 @@ var require_legacy_streams2 = __commonJSMin((exports, module2) => {
         self2._read();
       });
     }
-    function WriteStream(path7, options2) {
+    function WriteStream(path8, options2) {
       if (!(this instanceof WriteStream))
-        return new WriteStream(path7, options2);
+        return new WriteStream(path8, options2);
       Stream2.call(this);
-      this.path = path7;
+      this.path = path8;
       this.fd = null;
       this.writable = true;
       this.flags = "w";
@@ -125359,14 +125368,14 @@ var require_graceful_fs2 = __commonJSMin((exports, module2) => {
     fs9.createWriteStream = createWriteStream;
     var fs$readFile = fs9.readFile;
     fs9.readFile = readFile2;
-    function readFile2(path7, options2, cb) {
+    function readFile2(path8, options2, cb) {
       if (typeof options2 === "function")
         cb = options2, options2 = null;
-      return go$readFile(path7, options2, cb);
-      function go$readFile(path8, options3, cb2, startTime) {
-        return fs$readFile(path8, options3, function(err) {
+      return go$readFile(path8, options2, cb);
+      function go$readFile(path9, options3, cb2, startTime) {
+        return fs$readFile(path9, options3, function(err) {
           if (err && (err.code === "EMFILE" || err.code === "ENFILE"))
-            enqueue([go$readFile, [path8, options3, cb2], err, startTime || Date.now(), Date.now()]);
+            enqueue([go$readFile, [path9, options3, cb2], err, startTime || Date.now(), Date.now()]);
           else {
             if (typeof cb2 === "function")
               cb2.apply(this, arguments);
@@ -125376,14 +125385,14 @@ var require_graceful_fs2 = __commonJSMin((exports, module2) => {
     }
     var fs$writeFile = fs9.writeFile;
     fs9.writeFile = writeFile;
-    function writeFile(path7, data, options2, cb) {
+    function writeFile(path8, data, options2, cb) {
       if (typeof options2 === "function")
         cb = options2, options2 = null;
-      return go$writeFile(path7, data, options2, cb);
-      function go$writeFile(path8, data2, options3, cb2, startTime) {
-        return fs$writeFile(path8, data2, options3, function(err) {
+      return go$writeFile(path8, data, options2, cb);
+      function go$writeFile(path9, data2, options3, cb2, startTime) {
+        return fs$writeFile(path9, data2, options3, function(err) {
           if (err && (err.code === "EMFILE" || err.code === "ENFILE"))
-            enqueue([go$writeFile, [path8, data2, options3, cb2], err, startTime || Date.now(), Date.now()]);
+            enqueue([go$writeFile, [path9, data2, options3, cb2], err, startTime || Date.now(), Date.now()]);
           else {
             if (typeof cb2 === "function")
               cb2.apply(this, arguments);
@@ -125394,14 +125403,14 @@ var require_graceful_fs2 = __commonJSMin((exports, module2) => {
     var fs$appendFile = fs9.appendFile;
     if (fs$appendFile)
       fs9.appendFile = appendFile;
-    function appendFile(path7, data, options2, cb) {
+    function appendFile(path8, data, options2, cb) {
       if (typeof options2 === "function")
         cb = options2, options2 = null;
-      return go$appendFile(path7, data, options2, cb);
-      function go$appendFile(path8, data2, options3, cb2, startTime) {
-        return fs$appendFile(path8, data2, options3, function(err) {
+      return go$appendFile(path8, data, options2, cb);
+      function go$appendFile(path9, data2, options3, cb2, startTime) {
+        return fs$appendFile(path9, data2, options3, function(err) {
           if (err && (err.code === "EMFILE" || err.code === "ENFILE"))
-            enqueue([go$appendFile, [path8, data2, options3, cb2], err, startTime || Date.now(), Date.now()]);
+            enqueue([go$appendFile, [path9, data2, options3, cb2], err, startTime || Date.now(), Date.now()]);
           else {
             if (typeof cb2 === "function")
               cb2.apply(this, arguments);
@@ -125432,21 +125441,21 @@ var require_graceful_fs2 = __commonJSMin((exports, module2) => {
     var fs$readdir = fs9.readdir;
     fs9.readdir = readdir;
     var noReaddirOptionVersions = /^v[0-5]\./;
-    function readdir(path7, options2, cb) {
+    function readdir(path8, options2, cb) {
       if (typeof options2 === "function")
         cb = options2, options2 = null;
-      var go$readdir = noReaddirOptionVersions.test(process.version) ? function go$readdir2(path8, options3, cb2, startTime) {
-        return fs$readdir(path8, fs$readdirCallback(path8, options3, cb2, startTime));
-      } : function go$readdir2(path8, options3, cb2, startTime) {
-        return fs$readdir(path8, options3, fs$readdirCallback(path8, options3, cb2, startTime));
+      var go$readdir = noReaddirOptionVersions.test(process.version) ? function go$readdir2(path9, options3, cb2, startTime) {
+        return fs$readdir(path9, fs$readdirCallback(path9, options3, cb2, startTime));
+      } : function go$readdir2(path9, options3, cb2, startTime) {
+        return fs$readdir(path9, options3, fs$readdirCallback(path9, options3, cb2, startTime));
       };
-      return go$readdir(path7, options2, cb);
-      function fs$readdirCallback(path8, options3, cb2, startTime) {
+      return go$readdir(path8, options2, cb);
+      function fs$readdirCallback(path9, options3, cb2, startTime) {
         return function(err, files) {
           if (err && (err.code === "EMFILE" || err.code === "ENFILE"))
             enqueue([
               go$readdir,
-              [path8, options3, cb2],
+              [path9, options3, cb2],
               err,
               startTime || Date.now(),
               Date.now()
@@ -125517,7 +125526,7 @@ var require_graceful_fs2 = __commonJSMin((exports, module2) => {
       enumerable: true,
       configurable: true
     });
-    function ReadStream(path7, options2) {
+    function ReadStream(path8, options2) {
       if (this instanceof ReadStream)
         return fs$ReadStream.apply(this, arguments), this;
       else
@@ -125537,7 +125546,7 @@ var require_graceful_fs2 = __commonJSMin((exports, module2) => {
         }
       });
     }
-    function WriteStream(path7, options2) {
+    function WriteStream(path8, options2) {
       if (this instanceof WriteStream)
         return fs$WriteStream.apply(this, arguments), this;
       else
@@ -125555,22 +125564,22 @@ var require_graceful_fs2 = __commonJSMin((exports, module2) => {
         }
       });
     }
-    function createReadStream(path7, options2) {
-      return new fs9.ReadStream(path7, options2);
+    function createReadStream(path8, options2) {
+      return new fs9.ReadStream(path8, options2);
     }
-    function createWriteStream(path7, options2) {
-      return new fs9.WriteStream(path7, options2);
+    function createWriteStream(path8, options2) {
+      return new fs9.WriteStream(path8, options2);
     }
     var fs$open = fs9.open;
     fs9.open = open;
-    function open(path7, flags, mode, cb) {
+    function open(path8, flags, mode, cb) {
       if (typeof mode === "function")
         cb = mode, mode = null;
-      return go$open(path7, flags, mode, cb);
-      function go$open(path8, flags2, mode2, cb2, startTime) {
-        return fs$open(path8, flags2, mode2, function(err, fd) {
+      return go$open(path8, flags, mode, cb);
+      function go$open(path9, flags2, mode2, cb2, startTime) {
+        return fs$open(path9, flags2, mode2, function(err, fd) {
           if (err && (err.code === "EMFILE" || err.code === "ENFILE"))
-            enqueue([go$open, [path8, flags2, mode2, cb2], err, startTime || Date.now(), Date.now()]);
+            enqueue([go$open, [path9, flags2, mode2, cb2], err, startTime || Date.now(), Date.now()]);
           else {
             if (typeof cb2 === "function")
               cb2.apply(this, arguments);
@@ -125757,7 +125766,7 @@ var require_jsonfile2 = __commonJSMin((exports, module2) => {
 });
 var require_output_json = __commonJSMin((exports, module2) => {
   "use strict";
-  var path7 = __require("path");
+  var path8 = __require("path");
   var mkdir = require_mkdirs2();
   var pathExists = require_path_exists().pathExists;
   var jsonFile = require_jsonfile2();
@@ -125766,7 +125775,7 @@ var require_output_json = __commonJSMin((exports, module2) => {
       callback = options2;
       options2 = {};
     }
-    const dir = path7.dirname(file);
+    const dir = path8.dirname(file);
     pathExists(dir, (err, itDoes) => {
       if (err)
         return callback(err);
@@ -125784,11 +125793,11 @@ var require_output_json = __commonJSMin((exports, module2) => {
 var require_output_json_sync = __commonJSMin((exports, module2) => {
   "use strict";
   var fs8 = require_graceful_fs();
-  var path7 = __require("path");
+  var path8 = __require("path");
   var mkdir = require_mkdirs2();
   var jsonFile = require_jsonfile2();
   function outputJsonSync(file, data, options2) {
-    const dir = path7.dirname(file);
+    const dir = path8.dirname(file);
     if (!fs8.existsSync(dir)) {
       mkdir.mkdirsSync(dir);
     }
@@ -125813,7 +125822,7 @@ var require_json = __commonJSMin((exports, module2) => {
 var require_move_sync = __commonJSMin((exports, module2) => {
   "use strict";
   var fs8 = require_graceful_fs();
-  var path7 = __require("path");
+  var path8 = __require("path");
   var copySync = require_copy_sync2().copySync;
   var removeSync = require_remove2().removeSync;
   var mkdirpSync = require_mkdirs2().mkdirsSync;
@@ -125821,13 +125830,13 @@ var require_move_sync = __commonJSMin((exports, module2) => {
   function moveSync(src, dest, options2) {
     options2 = options2 || {};
     const overwrite = options2.overwrite || options2.clobber || false;
-    src = path7.resolve(src);
-    dest = path7.resolve(dest);
+    src = path8.resolve(src);
+    dest = path8.resolve(dest);
     if (src === dest)
       return fs8.accessSync(src);
     if (isSrcSubdir(src, dest))
       throw new Error(`Cannot move '${src}' into itself '${dest}'.`);
-    mkdirpSync(path7.dirname(dest));
+    mkdirpSync(path8.dirname(dest));
     tryRenameSync();
     function tryRenameSync() {
       if (overwrite) {
@@ -125898,7 +125907,7 @@ var require_move_sync = __commonJSMin((exports, module2) => {
   }
   function isSrcSubdir(src, dest) {
     try {
-      return fs8.statSync(src).isDirectory() && src !== dest && dest.indexOf(src) > -1 && dest.split(path7.dirname(src) + path7.sep)[1].split(path7.sep)[0] === path7.basename(src);
+      return fs8.statSync(src).isDirectory() && src !== dest && dest.indexOf(src) > -1 && dest.split(path8.dirname(src) + path8.sep)[1].split(path8.sep)[0] === path8.basename(src);
     } catch (e) {
       return false;
     }
@@ -125911,7 +125920,7 @@ var require_move = __commonJSMin((exports, module2) => {
   "use strict";
   var u = require_universalify().fromCallback;
   var fs8 = require_graceful_fs();
-  var path7 = __require("path");
+  var path8 = __require("path");
   var copy = require_copy2().copy;
   var remove = require_remove2().remove;
   var mkdirp = require_mkdirs2().mkdirp;
@@ -125922,8 +125931,8 @@ var require_move = __commonJSMin((exports, module2) => {
       opts = {};
     }
     const overwrite = opts.overwrite || opts.clobber || false;
-    src = path7.resolve(src);
-    dest = path7.resolve(dest);
+    src = path8.resolve(src);
+    dest = path8.resolve(dest);
     if (src === dest)
       return fs8.access(src, cb);
     fs8.stat(src, (err, st) => {
@@ -125932,7 +125941,7 @@ var require_move = __commonJSMin((exports, module2) => {
       if (st.isDirectory() && isSrcSubdir(src, dest)) {
         return cb(new Error(`Cannot move '${src}' to a subdirectory of itself, '${dest}'.`));
       }
-      mkdirp(path7.dirname(dest), (err2) => {
+      mkdirp(path8.dirname(dest), (err2) => {
         if (err2)
           return cb(err2);
         return doRename(src, dest, overwrite, cb);
@@ -125976,8 +125985,8 @@ var require_move = __commonJSMin((exports, module2) => {
     });
   }
   function isSrcSubdir(src, dest) {
-    const srcArray = src.split(path7.sep);
-    const destArray = dest.split(path7.sep);
+    const srcArray = src.split(path8.sep);
+    const destArray = dest.split(path8.sep);
     return srcArray.reduce((acc, current, i) => {
       return acc && destArray[i] === current;
     }, true);
@@ -125990,7 +125999,7 @@ var require_output = __commonJSMin((exports, module2) => {
   "use strict";
   var u = require_universalify().fromCallback;
   var fs8 = require_graceful_fs();
-  var path7 = __require("path");
+  var path8 = __require("path");
   var mkdir = require_mkdirs2();
   var pathExists = require_path_exists().pathExists;
   function outputFile(file, data, encoding, callback) {
@@ -125998,7 +126007,7 @@ var require_output = __commonJSMin((exports, module2) => {
       callback = encoding;
       encoding = "utf8";
     }
-    const dir = path7.dirname(file);
+    const dir = path8.dirname(file);
     pathExists(dir, (err, itDoes) => {
       if (err)
         return callback(err);
@@ -126012,7 +126021,7 @@ var require_output = __commonJSMin((exports, module2) => {
     });
   }
   function outputFileSync(file, ...args) {
-    const dir = path7.dirname(file);
+    const dir = path8.dirname(file);
     if (fs8.existsSync(dir)) {
       return fs8.writeFileSync(file, ...args);
     }
@@ -128787,7 +128796,7 @@ var require_which2 = __commonJSMin((exports, module2) => {
   module2.exports = which;
   which.sync = whichSync;
   var isWindows = process.platform === "win32" || process.env.OSTYPE === "cygwin" || process.env.OSTYPE === "msys";
-  var path7 = __require("path");
+  var path8 = __require("path");
   var COLON = isWindows ? ";" : ":";
   var isexe = require_isexe();
   function getNotFoundError(cmd) {
@@ -128836,7 +128845,7 @@ var require_which2 = __commonJSMin((exports, module2) => {
       var pathPart = pathEnv[i];
       if (pathPart.charAt(0) === '"' && pathPart.slice(-1) === '"')
         pathPart = pathPart.slice(1, -1);
-      var p = path7.join(pathPart, cmd);
+      var p = path8.join(pathPart, cmd);
       if (!pathPart && /^\.[\\\/]/.test(cmd)) {
         p = cmd.slice(0, 2) + p;
       }
@@ -128868,7 +128877,7 @@ var require_which2 = __commonJSMin((exports, module2) => {
       var pathPart = pathEnv[i];
       if (pathPart.charAt(0) === '"' && pathPart.slice(-1) === '"')
         pathPart = pathPart.slice(1, -1);
-      var p = path7.join(pathPart, cmd);
+      var p = path8.join(pathPart, cmd);
       if (!pathPart && /^\.[\\\/]/.test(cmd)) {
         p = cmd.slice(0, 2) + p;
       }
@@ -129710,7 +129719,7 @@ var require_lru_cache = __commonJSMin((exports, module2) => {
 });
 var require_resolveCommand2 = __commonJSMin((exports, module2) => {
   "use strict";
-  var path7 = __require("path");
+  var path8 = __require("path");
   var which = require_which2();
   var LRU = require_lru_cache();
   var commandCache = new LRU({ max: 50, maxAge: 30 * 1e3 });
@@ -129722,7 +129731,7 @@ var require_resolveCommand2 = __commonJSMin((exports, module2) => {
       return commandCache.get(command);
     }
     try {
-      resolved = !noExtension ? which.sync(command) : which.sync(command, { pathExt: path7.delimiter + (process.env.PATHEXT || "") });
+      resolved = !noExtension ? which.sync(command) : which.sync(command, { pathExt: path8.delimiter + (process.env.PATHEXT || "") });
     } catch (e) {
     }
     commandCache.set(command + "!" + noExtension, resolved);
@@ -129872,7 +129881,7 @@ var require_parse2 = __commonJSMin((exports, module2) => {
     }
     return parsed;
   }
-  function parse2(command, args, options2) {
+  function parse4(command, args, options2) {
     var parsed;
     if (args && !Array.isArray(args)) {
       options2 = args;
@@ -129889,7 +129898,7 @@ var require_parse2 = __commonJSMin((exports, module2) => {
     };
     return options2.shell ? parseShell(parsed) : parseNonShell(parsed);
   }
-  module2.exports = parse2;
+  module2.exports = parse4;
 });
 var require_enoent2 = __commonJSMin((exports, module2) => {
   "use strict";
@@ -129946,13 +129955,13 @@ var require_enoent2 = __commonJSMin((exports, module2) => {
 var require_cross_spawn2 = __commonJSMin((exports, module2) => {
   "use strict";
   var cp = __require("child_process");
-  var parse2 = require_parse2();
+  var parse4 = require_parse2();
   var enoent = require_enoent2();
   var cpSpawnSync = cp.spawnSync;
   function spawn2(command, args, options2) {
     var parsed;
     var spawned;
-    parsed = parse2(command, args, options2);
+    parsed = parse4(command, args, options2);
     spawned = cp.spawn(parsed.command, parsed.args, parsed.options);
     enoent.hookChildProcess(spawned, parsed);
     return spawned;
@@ -129967,7 +129976,7 @@ var require_cross_spawn2 = __commonJSMin((exports, module2) => {
         throw new Error("In order to use spawnSync on node 0.10 or older, you must install spawn-sync:\n\n  npm install spawn-sync --save");
       }
     }
-    parsed = parse2(command, args, options2);
+    parsed = parse4(command, args, options2);
     result = cpSpawnSync(parsed.command, parsed.args, parsed.options);
     result.error = result.error || enoent.verifyENOENTSync(result.status, parsed);
     return result;
@@ -129975,7 +129984,7 @@ var require_cross_spawn2 = __commonJSMin((exports, module2) => {
   module2.exports = spawn2;
   module2.exports.spawn = spawn2;
   module2.exports.sync = spawnSync;
-  module2.exports._parse = parse2;
+  module2.exports._parse = parse4;
   module2.exports._enoent = enoent;
 });
 var require_promise2 = __commonJSMin((exports, module2) => {
@@ -130814,9 +130823,9 @@ var require_fs2 = __commonJSMin((exports) => {
 });
 var require_win322 = __commonJSMin((exports, module2) => {
   "use strict";
-  var path7 = __require("path");
+  var path8 = __require("path");
   function getRootPath(p) {
-    p = path7.normalize(path7.resolve(p)).split(path7.sep);
+    p = path8.normalize(path8.resolve(p)).split(path8.sep);
     if (p.length > 0)
       return p[0];
     return null;
@@ -130835,7 +130844,7 @@ var require_win322 = __commonJSMin((exports, module2) => {
 var require_mkdirs3 = __commonJSMin((exports, module2) => {
   "use strict";
   var fs8 = require_graceful_fs();
-  var path7 = __require("path");
+  var path8 = __require("path");
   var invalidWin32Path = require_win322().invalidWin32Path;
   var o777 = parseInt("0777", 8);
   function mkdirs(p, opts, callback, made) {
@@ -130859,7 +130868,7 @@ var require_mkdirs3 = __commonJSMin((exports, module2) => {
       made = null;
     callback = callback || function() {
     };
-    p = path7.resolve(p);
+    p = path8.resolve(p);
     xfs.mkdir(p, mode, (er) => {
       if (!er) {
         made = made || p;
@@ -130867,9 +130876,9 @@ var require_mkdirs3 = __commonJSMin((exports, module2) => {
       }
       switch (er.code) {
         case "ENOENT":
-          if (path7.dirname(p) === p)
+          if (path8.dirname(p) === p)
             return callback(er);
-          mkdirs(path7.dirname(p), opts, (er2, made2) => {
+          mkdirs(path8.dirname(p), opts, (er2, made2) => {
             if (er2)
               callback(er2, made2);
             else
@@ -130892,7 +130901,7 @@ var require_mkdirs3 = __commonJSMin((exports, module2) => {
 var require_mkdirs_sync2 = __commonJSMin((exports, module2) => {
   "use strict";
   var fs8 = require_graceful_fs();
-  var path7 = __require("path");
+  var path8 = __require("path");
   var invalidWin32Path = require_win322().invalidWin32Path;
   var o777 = parseInt("0777", 8);
   function mkdirsSync(p, opts, made) {
@@ -130911,15 +130920,15 @@ var require_mkdirs_sync2 = __commonJSMin((exports, module2) => {
     }
     if (!made)
       made = null;
-    p = path7.resolve(p);
+    p = path8.resolve(p);
     try {
       xfs.mkdirSync(p, mode);
       made = made || p;
     } catch (err0) {
       if (err0.code === "ENOENT") {
-        if (path7.dirname(p) === p)
+        if (path8.dirname(p) === p)
           throw err0;
-        made = mkdirsSync(path7.dirname(p), opts, made);
+        made = mkdirsSync(path8.dirname(p), opts, made);
         mkdirsSync(p, opts, made);
       } else {
         let stat;
@@ -130954,10 +130963,10 @@ var require_utimes2 = __commonJSMin((exports, module2) => {
   "use strict";
   var fs8 = require_graceful_fs();
   var os2 = __require("os");
-  var path7 = __require("path");
+  var path8 = __require("path");
   function hasMillisResSync() {
-    let tmpfile = path7.join("millis-test-sync" + Date.now().toString() + Math.random().toString().slice(2));
-    tmpfile = path7.join(os2.tmpdir(), tmpfile);
+    let tmpfile = path8.join("millis-test-sync" + Date.now().toString() + Math.random().toString().slice(2));
+    tmpfile = path8.join(os2.tmpdir(), tmpfile);
     const d = new Date(1435410243862);
     fs8.writeFileSync(tmpfile, "https://github.com/jprichardson/node-fs-extra/pull/141");
     const fd = fs8.openSync(tmpfile, "r+");
@@ -130966,8 +130975,8 @@ var require_utimes2 = __commonJSMin((exports, module2) => {
     return fs8.statSync(tmpfile).mtime > 1435410243e3;
   }
   function hasMillisRes(callback) {
-    let tmpfile = path7.join("millis-test" + Date.now().toString() + Math.random().toString().slice(2));
-    tmpfile = path7.join(os2.tmpdir(), tmpfile);
+    let tmpfile = path8.join("millis-test" + Date.now().toString() + Math.random().toString().slice(2));
+    tmpfile = path8.join(os2.tmpdir(), tmpfile);
     const d = new Date(1435410243862);
     fs8.writeFile(tmpfile, "https://github.com/jprichardson/node-fs-extra/pull/141", (err) => {
       if (err)
@@ -131000,8 +131009,8 @@ var require_utimes2 = __commonJSMin((exports, module2) => {
       throw new Error("fs-extra: timeRemoveMillis() unknown parameter type");
     }
   }
-  function utimesMillis(path8, atime, mtime, callback) {
-    fs8.open(path8, "r+", (err, fd) => {
+  function utimesMillis(path9, atime, mtime, callback) {
+    fs8.open(path9, "r+", (err, fd) => {
       if (err)
         return callback(err);
       fs8.futimes(fd, atime, mtime, (futimesErr) => {
@@ -131012,8 +131021,8 @@ var require_utimes2 = __commonJSMin((exports, module2) => {
       });
     });
   }
-  function utimesMillisSync(path8, atime, mtime) {
-    const fd = fs8.openSync(path8, "r+");
+  function utimesMillisSync(path9, atime, mtime) {
+    const fd = fs8.openSync(path9, "r+");
     fs8.futimesSync(fd, atime, mtime);
     return fs8.closeSync(fd);
   }
@@ -131028,7 +131037,7 @@ var require_utimes2 = __commonJSMin((exports, module2) => {
 var require_stat = __commonJSMin((exports, module2) => {
   "use strict";
   var fs8 = require_graceful_fs();
-  var path7 = __require("path");
+  var path8 = __require("path");
   var NODE_VERSION_MAJOR_WITH_BIGINT = 10;
   var NODE_VERSION_MINOR_WITH_BIGINT = 5;
   var NODE_VERSION_PATCH_WITH_BIGINT = 0;
@@ -131124,9 +131133,9 @@ var require_stat = __commonJSMin((exports, module2) => {
     return { srcStat, destStat };
   }
   function checkParentPaths(src, srcStat, dest, funcName, cb) {
-    const srcParent = path7.resolve(path7.dirname(src));
-    const destParent = path7.resolve(path7.dirname(dest));
-    if (destParent === srcParent || destParent === path7.parse(destParent).root)
+    const srcParent = path8.resolve(path8.dirname(src));
+    const destParent = path8.resolve(path8.dirname(dest));
+    if (destParent === srcParent || destParent === path8.parse(destParent).root)
       return cb();
     if (nodeSupportsBigInt()) {
       fs8.stat(destParent, { bigint: true }, (err, destStat) => {
@@ -131155,9 +131164,9 @@ var require_stat = __commonJSMin((exports, module2) => {
     }
   }
   function checkParentPathsSync(src, srcStat, dest, funcName) {
-    const srcParent = path7.resolve(path7.dirname(src));
-    const destParent = path7.resolve(path7.dirname(dest));
-    if (destParent === srcParent || destParent === path7.parse(destParent).root)
+    const srcParent = path8.resolve(path8.dirname(src));
+    const destParent = path8.resolve(path8.dirname(dest));
+    if (destParent === srcParent || destParent === path8.parse(destParent).root)
       return;
     let destStat;
     try {
@@ -131177,8 +131186,8 @@ var require_stat = __commonJSMin((exports, module2) => {
     return checkParentPathsSync(src, srcStat, destParent, funcName);
   }
   function isSrcSubdir(src, dest) {
-    const srcArr = path7.resolve(src).split(path7.sep).filter((i) => i);
-    const destArr = path7.resolve(dest).split(path7.sep).filter((i) => i);
+    const srcArr = path8.resolve(src).split(path8.sep).filter((i) => i);
+    const destArr = path8.resolve(dest).split(path8.sep).filter((i) => i);
     return srcArr.reduce((acc, cur, i) => acc && destArr[i] === cur, true);
   }
   function errMsg(src, dest, funcName) {
@@ -131208,7 +131217,7 @@ var require_buffer2 = __commonJSMin((exports, module2) => {
 var require_copy_sync3 = __commonJSMin((exports, module2) => {
   "use strict";
   var fs8 = require_graceful_fs();
-  var path7 = __require("path");
+  var path8 = __require("path");
   var mkdirpSync = require_mkdirs4().mkdirsSync;
   var utimesSync = require_utimes2().utimesMillisSync;
   var stat = require_stat();
@@ -131231,7 +131240,7 @@ var require_copy_sync3 = __commonJSMin((exports, module2) => {
   function handleFilterAndCopy(destStat, src, dest, opts) {
     if (opts.filter && !opts.filter(src, dest))
       return;
-    const destParent = path7.dirname(dest);
+    const destParent = path8.dirname(dest);
     if (!fs8.existsSync(destParent))
       mkdirpSync(destParent);
     return startCopy(destStat, src, dest, opts);
@@ -131308,15 +131317,15 @@ var require_copy_sync3 = __commonJSMin((exports, module2) => {
     fs8.readdirSync(src).forEach((item) => copyDirItem(item, src, dest, opts));
   }
   function copyDirItem(item, src, dest, opts) {
-    const srcItem = path7.join(src, item);
-    const destItem = path7.join(dest, item);
+    const srcItem = path8.join(src, item);
+    const destItem = path8.join(dest, item);
     const { destStat } = stat.checkPathsSync(srcItem, destItem, "copy");
     return startCopy(destStat, srcItem, destItem, opts);
   }
   function onLink(destStat, src, dest, opts) {
     let resolvedSrc = fs8.readlinkSync(src);
     if (opts.dereference) {
-      resolvedSrc = path7.resolve(process.cwd(), resolvedSrc);
+      resolvedSrc = path8.resolve(process.cwd(), resolvedSrc);
     }
     if (!destStat) {
       return fs8.symlinkSync(resolvedSrc, dest);
@@ -131330,7 +131339,7 @@ var require_copy_sync3 = __commonJSMin((exports, module2) => {
         throw err;
       }
       if (opts.dereference) {
-        resolvedDest = path7.resolve(process.cwd(), resolvedDest);
+        resolvedDest = path8.resolve(process.cwd(), resolvedDest);
       }
       if (stat.isSrcSubdir(resolvedSrc, resolvedDest)) {
         throw new Error(`Cannot copy '${resolvedSrc}' to a subdirectory of itself, '${resolvedDest}'.`);
@@ -131357,8 +131366,8 @@ var require_path_exists2 = __commonJSMin((exports, module2) => {
   "use strict";
   var u = require_universalify().fromPromise;
   var fs8 = require_fs2();
-  function pathExists(path7) {
-    return fs8.access(path7).then(() => true).catch(() => false);
+  function pathExists(path8) {
+    return fs8.access(path8).then(() => true).catch(() => false);
   }
   module2.exports = {
     pathExists: u(pathExists),
@@ -131368,7 +131377,7 @@ var require_path_exists2 = __commonJSMin((exports, module2) => {
 var require_copy3 = __commonJSMin((exports, module2) => {
   "use strict";
   var fs8 = require_graceful_fs();
-  var path7 = __require("path");
+  var path8 = __require("path");
   var mkdirp = require_mkdirs4().mkdirs;
   var pathExists = require_path_exists2().pathExists;
   var utimes = require_utimes2().utimesMillis;
@@ -131404,7 +131413,7 @@ var require_copy3 = __commonJSMin((exports, module2) => {
     });
   }
   function checkParentDir(destStat, src, dest, opts, cb) {
-    const destParent = path7.dirname(dest);
+    const destParent = path8.dirname(dest);
     pathExists(destParent, (err, dirExists) => {
       if (err)
         return cb(err);
@@ -131519,8 +131528,8 @@ var require_copy3 = __commonJSMin((exports, module2) => {
     return copyDirItem(items, item, src, dest, opts, cb);
   }
   function copyDirItem(items, item, src, dest, opts, cb) {
-    const srcItem = path7.join(src, item);
-    const destItem = path7.join(dest, item);
+    const srcItem = path8.join(src, item);
+    const destItem = path8.join(dest, item);
     stat.checkPaths(srcItem, destItem, "copy", (err, stats) => {
       if (err)
         return cb(err);
@@ -131537,7 +131546,7 @@ var require_copy3 = __commonJSMin((exports, module2) => {
       if (err)
         return cb(err);
       if (opts.dereference) {
-        resolvedSrc = path7.resolve(process.cwd(), resolvedSrc);
+        resolvedSrc = path8.resolve(process.cwd(), resolvedSrc);
       }
       if (!destStat) {
         return fs8.symlink(resolvedSrc, dest, cb);
@@ -131549,7 +131558,7 @@ var require_copy3 = __commonJSMin((exports, module2) => {
             return cb(err2);
           }
           if (opts.dereference) {
-            resolvedDest = path7.resolve(process.cwd(), resolvedDest);
+            resolvedDest = path8.resolve(process.cwd(), resolvedDest);
           }
           if (stat.isSrcSubdir(resolvedSrc, resolvedDest)) {
             return cb(new Error(`Cannot copy '${resolvedSrc}' to a subdirectory of itself, '${resolvedDest}'.`));
@@ -131581,7 +131590,7 @@ var require_copy4 = __commonJSMin((exports, module2) => {
 var require_rimraf2 = __commonJSMin((exports, module2) => {
   "use strict";
   var fs8 = require_graceful_fs();
-  var path7 = __require("path");
+  var path8 = __require("path");
   var assert = __require("assert");
   var isWindows = process.platform === "win32";
   function defaults(options2) {
@@ -131738,7 +131747,7 @@ var require_rimraf2 = __commonJSMin((exports, module2) => {
       if (n === 0)
         return options2.rmdir(p, cb);
       files.forEach((f) => {
-        rimraf(path7.join(p, f), options2, (er2) => {
+        rimraf(path8.join(p, f), options2, (er2) => {
           if (errState) {
             return;
           }
@@ -131807,7 +131816,7 @@ var require_rimraf2 = __commonJSMin((exports, module2) => {
   function rmkidsSync(p, options2) {
     assert(p);
     assert(options2);
-    options2.readdirSync(p).forEach((f) => rimrafSync(path7.join(p, f), options2));
+    options2.readdirSync(p).forEach((f) => rimrafSync(path8.join(p, f), options2));
     if (isWindows) {
       const startTime = Date.now();
       do {
@@ -131838,7 +131847,7 @@ var require_empty2 = __commonJSMin((exports, module2) => {
   "use strict";
   var u = require_universalify().fromCallback;
   var fs8 = require_graceful_fs();
-  var path7 = __require("path");
+  var path8 = __require("path");
   var mkdir = require_mkdirs4();
   var remove = require_remove3();
   var emptyDir = u(function emptyDir2(dir, callback) {
@@ -131847,7 +131856,7 @@ var require_empty2 = __commonJSMin((exports, module2) => {
     fs8.readdir(dir, (err, items) => {
       if (err)
         return mkdir.mkdirs(dir, callback);
-      items = items.map((item) => path7.join(dir, item));
+      items = items.map((item) => path8.join(dir, item));
       deleteItem();
       function deleteItem() {
         const item = items.pop();
@@ -131869,7 +131878,7 @@ var require_empty2 = __commonJSMin((exports, module2) => {
       return mkdir.mkdirsSync(dir);
     }
     items.forEach((item) => {
-      item = path7.join(dir, item);
+      item = path8.join(dir, item);
       remove.removeSync(item);
     });
   }
@@ -131883,7 +131892,7 @@ var require_empty2 = __commonJSMin((exports, module2) => {
 var require_file2 = __commonJSMin((exports, module2) => {
   "use strict";
   var u = require_universalify().fromCallback;
-  var path7 = __require("path");
+  var path8 = __require("path");
   var fs8 = require_graceful_fs();
   var mkdir = require_mkdirs4();
   var pathExists = require_path_exists2().pathExists;
@@ -131898,7 +131907,7 @@ var require_file2 = __commonJSMin((exports, module2) => {
     fs8.stat(file, (err, stats) => {
       if (!err && stats.isFile())
         return callback();
-      const dir = path7.dirname(file);
+      const dir = path8.dirname(file);
       pathExists(dir, (err2, dirExists) => {
         if (err2)
           return callback(err2);
@@ -131920,7 +131929,7 @@ var require_file2 = __commonJSMin((exports, module2) => {
     }
     if (stats && stats.isFile())
       return;
-    const dir = path7.dirname(file);
+    const dir = path8.dirname(file);
     if (!fs8.existsSync(dir)) {
       mkdir.mkdirsSync(dir);
     }
@@ -131934,7 +131943,7 @@ var require_file2 = __commonJSMin((exports, module2) => {
 var require_link2 = __commonJSMin((exports, module2) => {
   "use strict";
   var u = require_universalify().fromCallback;
-  var path7 = __require("path");
+  var path8 = __require("path");
   var fs8 = require_graceful_fs();
   var mkdir = require_mkdirs4();
   var pathExists = require_path_exists2().pathExists;
@@ -131956,7 +131965,7 @@ var require_link2 = __commonJSMin((exports, module2) => {
           err2.message = err2.message.replace("lstat", "ensureLink");
           return callback(err2);
         }
-        const dir = path7.dirname(dstpath);
+        const dir = path8.dirname(dstpath);
         pathExists(dir, (err3, dirExists) => {
           if (err3)
             return callback(err3);
@@ -131981,7 +131990,7 @@ var require_link2 = __commonJSMin((exports, module2) => {
       err.message = err.message.replace("lstat", "ensureLink");
       throw err;
     }
-    const dir = path7.dirname(dstpath);
+    const dir = path8.dirname(dstpath);
     const dirExists = fs8.existsSync(dir);
     if (dirExists)
       return fs8.linkSync(srcpath, dstpath);
@@ -131995,11 +132004,11 @@ var require_link2 = __commonJSMin((exports, module2) => {
 });
 var require_symlink_paths2 = __commonJSMin((exports, module2) => {
   "use strict";
-  var path7 = __require("path");
+  var path8 = __require("path");
   var fs8 = require_graceful_fs();
   var pathExists = require_path_exists2().pathExists;
   function symlinkPaths(srcpath, dstpath, callback) {
-    if (path7.isAbsolute(srcpath)) {
+    if (path8.isAbsolute(srcpath)) {
       return fs8.lstat(srcpath, (err) => {
         if (err) {
           err.message = err.message.replace("lstat", "ensureSymlink");
@@ -132011,8 +132020,8 @@ var require_symlink_paths2 = __commonJSMin((exports, module2) => {
         });
       });
     } else {
-      const dstdir = path7.dirname(dstpath);
-      const relativeToDst = path7.join(dstdir, srcpath);
+      const dstdir = path8.dirname(dstpath);
+      const relativeToDst = path8.join(dstdir, srcpath);
       return pathExists(relativeToDst, (err, exists) => {
         if (err)
           return callback(err);
@@ -132029,7 +132038,7 @@ var require_symlink_paths2 = __commonJSMin((exports, module2) => {
             }
             return callback(null, {
               "toCwd": srcpath,
-              "toDst": path7.relative(dstdir, srcpath)
+              "toDst": path8.relative(dstdir, srcpath)
             });
           });
         }
@@ -132038,7 +132047,7 @@ var require_symlink_paths2 = __commonJSMin((exports, module2) => {
   }
   function symlinkPathsSync(srcpath, dstpath) {
     let exists;
-    if (path7.isAbsolute(srcpath)) {
+    if (path8.isAbsolute(srcpath)) {
       exists = fs8.existsSync(srcpath);
       if (!exists)
         throw new Error("absolute srcpath does not exist");
@@ -132047,8 +132056,8 @@ var require_symlink_paths2 = __commonJSMin((exports, module2) => {
         "toDst": srcpath
       };
     } else {
-      const dstdir = path7.dirname(dstpath);
-      const relativeToDst = path7.join(dstdir, srcpath);
+      const dstdir = path8.dirname(dstpath);
+      const relativeToDst = path8.join(dstdir, srcpath);
       exists = fs8.existsSync(relativeToDst);
       if (exists) {
         return {
@@ -132061,7 +132070,7 @@ var require_symlink_paths2 = __commonJSMin((exports, module2) => {
           throw new Error("relative srcpath does not exist");
         return {
           "toCwd": srcpath,
-          "toDst": path7.relative(dstdir, srcpath)
+          "toDst": path8.relative(dstdir, srcpath)
         };
       }
     }
@@ -132105,7 +132114,7 @@ var require_symlink_type2 = __commonJSMin((exports, module2) => {
 var require_symlink2 = __commonJSMin((exports, module2) => {
   "use strict";
   var u = require_universalify().fromCallback;
-  var path7 = __require("path");
+  var path8 = __require("path");
   var fs8 = require_graceful_fs();
   var _mkdirs = require_mkdirs4();
   var mkdirs = _mkdirs.mkdirs;
@@ -132132,7 +132141,7 @@ var require_symlink2 = __commonJSMin((exports, module2) => {
         symlinkType(relative.toCwd, type, (err3, type2) => {
           if (err3)
             return callback(err3);
-          const dir = path7.dirname(dstpath);
+          const dir = path8.dirname(dstpath);
           pathExists(dir, (err4, dirExists) => {
             if (err4)
               return callback(err4);
@@ -132155,7 +132164,7 @@ var require_symlink2 = __commonJSMin((exports, module2) => {
     const relative = symlinkPathsSync(srcpath, dstpath);
     srcpath = relative.toDst;
     type = symlinkTypeSync(relative.toCwd, type);
-    const dir = path7.dirname(dstpath);
+    const dir = path8.dirname(dstpath);
     const exists = fs8.existsSync(dir);
     if (exists)
       return fs8.symlinkSync(srcpath, dstpath, type);
@@ -132200,7 +132209,7 @@ var require_jsonfile3 = __commonJSMin((exports, module2) => {
 });
 var require_output_json2 = __commonJSMin((exports, module2) => {
   "use strict";
-  var path7 = __require("path");
+  var path8 = __require("path");
   var mkdir = require_mkdirs4();
   var pathExists = require_path_exists2().pathExists;
   var jsonFile = require_jsonfile3();
@@ -132209,7 +132218,7 @@ var require_output_json2 = __commonJSMin((exports, module2) => {
       callback = options2;
       options2 = {};
     }
-    const dir = path7.dirname(file);
+    const dir = path8.dirname(file);
     pathExists(dir, (err, itDoes) => {
       if (err)
         return callback(err);
@@ -132227,11 +132236,11 @@ var require_output_json2 = __commonJSMin((exports, module2) => {
 var require_output_json_sync2 = __commonJSMin((exports, module2) => {
   "use strict";
   var fs8 = require_graceful_fs();
-  var path7 = __require("path");
+  var path8 = __require("path");
   var mkdir = require_mkdirs4();
   var jsonFile = require_jsonfile3();
   function outputJsonSync(file, data, options2) {
-    const dir = path7.dirname(file);
+    const dir = path8.dirname(file);
     if (!fs8.existsSync(dir)) {
       mkdir.mkdirsSync(dir);
     }
@@ -132256,7 +132265,7 @@ var require_json3 = __commonJSMin((exports, module2) => {
 var require_move_sync2 = __commonJSMin((exports, module2) => {
   "use strict";
   var fs8 = require_graceful_fs();
-  var path7 = __require("path");
+  var path8 = __require("path");
   var copySync = require_copy_sync4().copySync;
   var removeSync = require_remove3().removeSync;
   var mkdirpSync = require_mkdirs4().mkdirpSync;
@@ -132266,7 +132275,7 @@ var require_move_sync2 = __commonJSMin((exports, module2) => {
     const overwrite = opts.overwrite || opts.clobber || false;
     const { srcStat } = stat.checkPathsSync(src, dest, "move");
     stat.checkParentPathsSync(src, srcStat, dest, "move");
-    mkdirpSync(path7.dirname(dest));
+    mkdirpSync(path8.dirname(dest));
     return doRename(src, dest, overwrite);
   }
   function doRename(src, dest, overwrite) {
@@ -132306,7 +132315,7 @@ var require_move_sync3 = __commonJSMin((exports, module2) => {
 var require_move2 = __commonJSMin((exports, module2) => {
   "use strict";
   var fs8 = require_graceful_fs();
-  var path7 = __require("path");
+  var path8 = __require("path");
   var copy = require_copy4().copy;
   var remove = require_remove3().remove;
   var mkdirp = require_mkdirs4().mkdirp;
@@ -132325,7 +132334,7 @@ var require_move2 = __commonJSMin((exports, module2) => {
       stat.checkParentPaths(src, srcStat, dest, "move", (err2) => {
         if (err2)
           return cb(err2);
-        mkdirp(path7.dirname(dest), (err3) => {
+        mkdirp(path8.dirname(dest), (err3) => {
           if (err3)
             return cb(err3);
           return doRename(src, dest, overwrite, cb);
@@ -132382,7 +132391,7 @@ var require_output2 = __commonJSMin((exports, module2) => {
   "use strict";
   var u = require_universalify().fromCallback;
   var fs8 = require_graceful_fs();
-  var path7 = __require("path");
+  var path8 = __require("path");
   var mkdir = require_mkdirs4();
   var pathExists = require_path_exists2().pathExists;
   function outputFile(file, data, encoding, callback) {
@@ -132390,7 +132399,7 @@ var require_output2 = __commonJSMin((exports, module2) => {
       callback = encoding;
       encoding = "utf8";
     }
-    const dir = path7.dirname(file);
+    const dir = path8.dirname(file);
     pathExists(dir, (err, itDoes) => {
       if (err)
         return callback(err);
@@ -132404,7 +132413,7 @@ var require_output2 = __commonJSMin((exports, module2) => {
     });
   }
   function outputFileSync(file, ...args) {
-    const dir = path7.dirname(file);
+    const dir = path8.dirname(file);
     if (fs8.existsSync(dir)) {
       return fs8.writeFileSync(file, ...args);
     }
@@ -132553,10 +132562,10 @@ var require_array = __commonJSMin((exports) => {
   "use strict";
   Object.defineProperty(exports, "__esModule", { value: true });
   exports.splitWhen = exports.flatten = void 0;
-  function flatten(items) {
+  function flatten2(items) {
     return items.reduce((collection, item) => [].concat(collection, item), []);
   }
-  exports.flatten = flatten;
+  exports.flatten = flatten2;
   function splitWhen(items, predicate) {
     const result = [[]];
     let groupIndex = 0;
@@ -132606,7 +132615,7 @@ var require_path2 = __commonJSMin((exports) => {
   "use strict";
   Object.defineProperty(exports, "__esModule", { value: true });
   exports.removeLeadingDotSegment = exports.escape = exports.makeAbsolute = exports.unixify = void 0;
-  var path7 = __require("path");
+  var path8 = __require("path");
   var LEADING_DOT_SEGMENT_CHARACTERS_COUNT = 2;
   var UNESCAPED_GLOB_SYMBOLS_RE = /(\\?)([()*?[\]{|}]|^!|[!+@](?=\())/g;
   function unixify(filepath) {
@@ -132614,7 +132623,7 @@ var require_path2 = __commonJSMin((exports) => {
   }
   exports.unixify = unixify;
   function makeAbsolute(cwd, filepath) {
-    return path7.resolve(cwd, filepath);
+    return path8.resolve(cwd, filepath);
   }
   exports.makeAbsolute = makeAbsolute;
   function escape(pattern) {
@@ -133537,7 +133546,7 @@ var require_parse3 = __commonJSMin((exports, module2) => {
     CHAR_NO_BREAK_SPACE,
     CHAR_ZERO_WIDTH_NOBREAK_SPACE
   } = require_constants2();
-  var parse2 = (input, options2 = {}) => {
+  var parse4 = (input, options2 = {}) => {
     if (typeof input !== "string") {
       throw new TypeError("Expected a string");
     }
@@ -133743,14 +133752,14 @@ var require_parse3 = __commonJSMin((exports, module2) => {
     push({ type: "eos" });
     return ast;
   };
-  module2.exports = parse2;
+  module2.exports = parse4;
 });
 var require_braces = __commonJSMin((exports, module2) => {
   "use strict";
   var stringify = require_stringify();
   var compile = require_compile();
   var expand2 = require_expand();
-  var parse2 = require_parse3();
+  var parse4 = require_parse3();
   var braces = (input, options2 = {}) => {
     let output = [];
     if (Array.isArray(input)) {
@@ -133770,7 +133779,7 @@ var require_braces = __commonJSMin((exports, module2) => {
     }
     return output;
   };
-  braces.parse = (input, options2 = {}) => parse2(input, options2);
+  braces.parse = (input, options2 = {}) => parse4(input, options2);
   braces.stringify = (input, options2 = {}) => {
     if (typeof input === "string") {
       return stringify(braces.parse(input, options2), options2);
@@ -133806,7 +133815,7 @@ var require_braces = __commonJSMin((exports, module2) => {
 });
 var require_constants3 = __commonJSMin((exports, module2) => {
   "use strict";
-  var path7 = __require("path");
+  var path8 = __require("path");
   var WIN_SLASH = "\\\\/";
   var WIN_NO_SLASH = `[^${WIN_SLASH}]`;
   var DOT_LITERAL = "\\.";
@@ -133928,7 +133937,7 @@ var require_constants3 = __commonJSMin((exports, module2) => {
     CHAR_UNDERSCORE: 95,
     CHAR_VERTICAL_LINE: 124,
     CHAR_ZERO_WIDTH_NOBREAK_SPACE: 65279,
-    SEP: path7.sep,
+    SEP: path8.sep,
     extglobChars(chars) {
       return {
         "!": { type: "negate", open: "(?:(?!(?:", close: `))${chars.STAR})` },
@@ -133945,7 +133954,7 @@ var require_constants3 = __commonJSMin((exports, module2) => {
 });
 var require_utils6 = __commonJSMin((exports) => {
   "use strict";
-  var path7 = __require("path");
+  var path8 = __require("path");
   var win32 = process.platform === "win32";
   var {
     REGEX_BACKSLASH,
@@ -133974,7 +133983,7 @@ var require_utils6 = __commonJSMin((exports) => {
     if (options2 && typeof options2.windows === "boolean") {
       return options2.windows;
     }
-    return win32 === true || path7.sep === "\\";
+    return win32 === true || path8.sep === "\\";
   };
   exports.escapeLast = (input, char, lastIdx) => {
     const idx = input.lastIndexOf(char, lastIdx);
@@ -134343,7 +134352,7 @@ var require_parse4 = __commonJSMin((exports, module2) => {
   var syntaxError = (type, char) => {
     return `Missing ${type}: "${char}" - use "\\\\${char}" to match literal characters`;
   };
-  var parse2 = (input, options2) => {
+  var parse4 = (input, options2) => {
     if (typeof input !== "string") {
       throw new TypeError("Expected a string");
     }
@@ -135021,7 +135030,7 @@ var require_parse4 = __commonJSMin((exports, module2) => {
     }
     return state;
   };
-  parse2.fastpaths = (input, options2) => {
+  parse4.fastpaths = (input, options2) => {
     const opts = { ...options2 };
     const max = typeof opts.maxLength === "number" ? Math.min(MAX_LENGTH, opts.maxLength) : MAX_LENGTH;
     const len = input.length;
@@ -135090,13 +135099,13 @@ var require_parse4 = __commonJSMin((exports, module2) => {
     }
     return source;
   };
-  module2.exports = parse2;
+  module2.exports = parse4;
 });
 var require_picomatch = __commonJSMin((exports, module2) => {
   "use strict";
-  var path7 = __require("path");
+  var path8 = __require("path");
   var scan = require_scan();
-  var parse2 = require_parse4();
+  var parse4 = require_parse4();
   var utils = require_utils6();
   var constants = require_constants3();
   var isObject2 = (val) => val && typeof val === "object" && !Array.isArray(val);
@@ -135180,13 +135189,13 @@ var require_picomatch = __commonJSMin((exports, module2) => {
   };
   picomatch.matchBase = (input, glob, options2, posix = utils.isWindows(options2)) => {
     const regex = glob instanceof RegExp ? glob : picomatch.makeRe(glob, options2);
-    return regex.test(path7.basename(input));
+    return regex.test(path8.basename(input));
   };
   picomatch.isMatch = (str, patterns, options2) => picomatch(patterns, options2)(str);
   picomatch.parse = (pattern, options2) => {
     if (Array.isArray(pattern))
       return pattern.map((p) => picomatch.parse(p, options2));
-    return parse2(pattern, { ...options2, fastpaths: false });
+    return parse4(pattern, { ...options2, fastpaths: false });
   };
   picomatch.scan = (input, options2) => scan(input, options2);
   picomatch.compileRe = (state, options2, returnOutput = false, returnState = false) => {
@@ -135212,10 +135221,10 @@ var require_picomatch = __commonJSMin((exports, module2) => {
     }
     let parsed = { negated: false, fastpaths: true };
     if (options2.fastpaths !== false && (input[0] === "." || input[0] === "*")) {
-      parsed.output = parse2.fastpaths(input, options2);
+      parsed.output = parse4.fastpaths(input, options2);
     }
     if (!parsed.output) {
-      parsed = parse2(input, options2);
+      parsed = parse4(input, options2);
     }
     return picomatch.compileRe(parsed, options2, returnOutput, returnState);
   };
@@ -135243,7 +135252,7 @@ var require_micromatch = __commonJSMin((exports, module2) => {
   var picomatch = require_picomatch2();
   var utils = require_utils6();
   var isEmptyString = (val) => val === "" || val === "./";
-  var micromatch = (list, patterns, options2) => {
+  var micromatch2 = (list, patterns, options2) => {
     patterns = [].concat(patterns);
     list = [].concat(list);
     let omit2 = /* @__PURE__ */ new Set();
@@ -135286,11 +135295,11 @@ var require_micromatch = __commonJSMin((exports, module2) => {
     }
     return matches;
   };
-  micromatch.match = micromatch;
-  micromatch.matcher = (pattern, options2) => picomatch(pattern, options2);
-  micromatch.isMatch = (str, patterns, options2) => picomatch(patterns, options2)(str);
-  micromatch.any = micromatch.isMatch;
-  micromatch.not = (list, patterns, options2 = {}) => {
+  micromatch2.match = micromatch2;
+  micromatch2.matcher = (pattern, options2) => picomatch(pattern, options2);
+  micromatch2.isMatch = (str, patterns, options2) => picomatch(patterns, options2)(str);
+  micromatch2.any = micromatch2.isMatch;
+  micromatch2.not = (list, patterns, options2 = {}) => {
     patterns = [].concat(patterns).map(String);
     let result = /* @__PURE__ */ new Set();
     let items = [];
@@ -135299,7 +135308,7 @@ var require_micromatch = __commonJSMin((exports, module2) => {
         options2.onResult(state);
       items.push(state.output);
     };
-    let matches = micromatch(list, patterns, { ...options2, onResult });
+    let matches = micromatch2(list, patterns, { ...options2, onResult });
     for (let item of items) {
       if (!matches.includes(item)) {
         result.add(item);
@@ -135307,12 +135316,12 @@ var require_micromatch = __commonJSMin((exports, module2) => {
     }
     return [...result];
   };
-  micromatch.contains = (str, pattern, options2) => {
+  micromatch2.contains = (str, pattern, options2) => {
     if (typeof str !== "string") {
       throw new TypeError(`Expected a string: "${util2.inspect(str)}"`);
     }
     if (Array.isArray(pattern)) {
-      return pattern.some((p) => micromatch.contains(str, p, options2));
+      return pattern.some((p) => micromatch2.contains(str, p, options2));
     }
     if (typeof pattern === "string") {
       if (isEmptyString(str) || isEmptyString(pattern)) {
@@ -135322,19 +135331,19 @@ var require_micromatch = __commonJSMin((exports, module2) => {
         return true;
       }
     }
-    return micromatch.isMatch(str, pattern, { ...options2, contains: true });
+    return micromatch2.isMatch(str, pattern, { ...options2, contains: true });
   };
-  micromatch.matchKeys = (obj, patterns, options2) => {
+  micromatch2.matchKeys = (obj, patterns, options2) => {
     if (!utils.isObject(obj)) {
       throw new TypeError("Expected the first argument to be an object");
     }
-    let keys = micromatch(Object.keys(obj), patterns, options2);
+    let keys = micromatch2(Object.keys(obj), patterns, options2);
     let res = {};
     for (let key of keys)
       res[key] = obj[key];
     return res;
   };
-  micromatch.some = (list, patterns, options2) => {
+  micromatch2.some = (list, patterns, options2) => {
     let items = [].concat(list);
     for (let pattern of [].concat(patterns)) {
       let isMatch = picomatch(String(pattern), options2);
@@ -135344,7 +135353,7 @@ var require_micromatch = __commonJSMin((exports, module2) => {
     }
     return false;
   };
-  micromatch.every = (list, patterns, options2) => {
+  micromatch2.every = (list, patterns, options2) => {
     let items = [].concat(list);
     for (let pattern of [].concat(patterns)) {
       let isMatch = picomatch(String(pattern), options2);
@@ -135354,13 +135363,13 @@ var require_micromatch = __commonJSMin((exports, module2) => {
     }
     return true;
   };
-  micromatch.all = (str, patterns, options2) => {
+  micromatch2.all = (str, patterns, options2) => {
     if (typeof str !== "string") {
       throw new TypeError(`Expected a string: "${util2.inspect(str)}"`);
     }
     return [].concat(patterns).every((p) => picomatch(p, options2)(str));
   };
-  micromatch.capture = (glob, input, options2) => {
+  micromatch2.capture = (glob, input, options2) => {
     let posix = utils.isWindows(options2);
     let regex = picomatch.makeRe(String(glob), { ...options2, capture: true });
     let match = regex.exec(posix ? utils.toPosixSlashes(input) : input);
@@ -135368,9 +135377,9 @@ var require_micromatch = __commonJSMin((exports, module2) => {
       return match.slice(1).map((v) => v === void 0 ? "" : v);
     }
   };
-  micromatch.makeRe = (...args) => picomatch.makeRe(...args);
-  micromatch.scan = (...args) => picomatch.scan(...args);
-  micromatch.parse = (patterns, options2) => {
+  micromatch2.makeRe = (...args) => picomatch.makeRe(...args);
+  micromatch2.scan = (...args) => picomatch.scan(...args);
+  micromatch2.parse = (patterns, options2) => {
     let res = [];
     for (let pattern of [].concat(patterns || [])) {
       for (let str of braces(String(pattern), options2)) {
@@ -135379,7 +135388,7 @@ var require_micromatch = __commonJSMin((exports, module2) => {
     }
     return res;
   };
-  micromatch.braces = (pattern, options2) => {
+  micromatch2.braces = (pattern, options2) => {
     if (typeof pattern !== "string")
       throw new TypeError("Expected a string");
     if (options2 && options2.nobrace === true || !/\{.*\}/.test(pattern)) {
@@ -135387,20 +135396,20 @@ var require_micromatch = __commonJSMin((exports, module2) => {
     }
     return braces(pattern, options2);
   };
-  micromatch.braceExpand = (pattern, options2) => {
+  micromatch2.braceExpand = (pattern, options2) => {
     if (typeof pattern !== "string")
       throw new TypeError("Expected a string");
-    return micromatch.braces(pattern, { ...options2, expand: true });
+    return micromatch2.braces(pattern, { ...options2, expand: true });
   };
-  module2.exports = micromatch;
+  module2.exports = micromatch2;
 });
 var require_pattern = __commonJSMin((exports) => {
   "use strict";
   Object.defineProperty(exports, "__esModule", { value: true });
   exports.matchAny = exports.convertPatternsToRe = exports.makeRe = exports.getPatternParts = exports.expandBraceExpansion = exports.expandPatternsWithBraceExpansion = exports.isAffectDepthOfReadingPattern = exports.endsWithSlashGlobStar = exports.hasGlobStar = exports.getBaseDirectory = exports.isPatternRelatedToParentDirectory = exports.getPatternsOutsideCurrentDirectory = exports.getPatternsInsideCurrentDirectory = exports.getPositivePatterns = exports.getNegativePatterns = exports.isPositivePattern = exports.isNegativePattern = exports.convertToNegativePattern = exports.convertToPositivePattern = exports.isDynamicPattern = exports.isStaticPattern = void 0;
-  var path7 = __require("path");
+  var path8 = __require("path");
   var globParent = require_glob_parent();
-  var micromatch = require_micromatch();
+  var micromatch2 = require_micromatch();
   var GLOBSTAR = "**";
   var ESCAPE_SYMBOL = "\\";
   var COMMON_GLOB_SYMBOLS_RE = /[*?]|^!/;
@@ -135480,7 +135489,7 @@ var require_pattern = __commonJSMin((exports) => {
   }
   exports.endsWithSlashGlobStar = endsWithSlashGlobStar;
   function isAffectDepthOfReadingPattern(pattern) {
-    const basename = path7.basename(pattern);
+    const basename = path8.basename(pattern);
     return endsWithSlashGlobStar(pattern) || isStaticPattern(basename);
   }
   exports.isAffectDepthOfReadingPattern = isAffectDepthOfReadingPattern;
@@ -135491,14 +135500,14 @@ var require_pattern = __commonJSMin((exports) => {
   }
   exports.expandPatternsWithBraceExpansion = expandPatternsWithBraceExpansion;
   function expandBraceExpansion(pattern) {
-    return micromatch.braces(pattern, {
+    return micromatch2.braces(pattern, {
       expand: true,
       nodupes: true
     });
   }
   exports.expandBraceExpansion = expandBraceExpansion;
   function getPatternParts(pattern, options2) {
-    let { parts } = micromatch.scan(pattern, Object.assign(Object.assign({}, options2), { parts: true }));
+    let { parts } = micromatch2.scan(pattern, Object.assign(Object.assign({}, options2), { parts: true }));
     if (parts.length === 0) {
       parts = [pattern];
     }
@@ -135510,7 +135519,7 @@ var require_pattern = __commonJSMin((exports) => {
   }
   exports.getPatternParts = getPatternParts;
   function makeRe(pattern, options2) {
-    return micromatch.makeRe(pattern, options2);
+    return micromatch2.makeRe(pattern, options2);
   }
   exports.makeRe = makeRe;
   function convertPatternsToRe(patterns, options2) {
@@ -135564,8 +135573,8 @@ var require_utils7 = __commonJSMin((exports) => {
   exports.errno = errno;
   var fs8 = require_fs3();
   exports.fs = fs8;
-  var path7 = require_path2();
-  exports.path = path7;
+  var path8 = require_path2();
+  exports.path = path8;
   var pattern = require_pattern();
   exports.pattern = pattern;
   var stream = require_stream2();
@@ -135647,8 +135656,8 @@ var require_async = __commonJSMin((exports) => {
   "use strict";
   Object.defineProperty(exports, "__esModule", { value: true });
   exports.read = void 0;
-  function read(path7, settings, callback) {
-    settings.fs.lstat(path7, (lstatError, lstat2) => {
+  function read2(path8, settings, callback) {
+    settings.fs.lstat(path8, (lstatError, lstat2) => {
       if (lstatError !== null) {
         callFailureCallback(callback, lstatError);
         return;
@@ -135657,7 +135666,7 @@ var require_async = __commonJSMin((exports) => {
         callSuccessCallback(callback, lstat2);
         return;
       }
-      settings.fs.stat(path7, (statError, stat) => {
+      settings.fs.stat(path8, (statError, stat) => {
         if (statError !== null) {
           if (settings.throwErrorOnBrokenSymbolicLink) {
             callFailureCallback(callback, statError);
@@ -135673,7 +135682,7 @@ var require_async = __commonJSMin((exports) => {
       });
     });
   }
-  exports.read = read;
+  exports.read = read2;
   function callFailureCallback(callback, error) {
     callback(error);
   }
@@ -135685,13 +135694,13 @@ var require_sync = __commonJSMin((exports) => {
   "use strict";
   Object.defineProperty(exports, "__esModule", { value: true });
   exports.read = void 0;
-  function read(path7, settings) {
-    const lstat2 = settings.fs.lstatSync(path7);
+  function read2(path8, settings) {
+    const lstat2 = settings.fs.lstatSync(path8);
     if (!lstat2.isSymbolicLink() || !settings.followSymbolicLink) {
       return lstat2;
     }
     try {
-      const stat = settings.fs.statSync(path7);
+      const stat = settings.fs.statSync(path8);
       if (settings.markSymbolicLink) {
         stat.isSymbolicLink = () => true;
       }
@@ -135703,7 +135712,7 @@ var require_sync = __commonJSMin((exports) => {
       throw error;
     }
   }
-  exports.read = read;
+  exports.read = read2;
 });
 var require_fs4 = __commonJSMin((exports) => {
   "use strict";
@@ -135750,17 +135759,17 @@ var require_out = __commonJSMin((exports) => {
   var sync2 = require_sync();
   var settings_1 = require_settings();
   exports.Settings = settings_1.default;
-  function stat(path7, optionsOrSettingsOrCallback, callback) {
+  function stat(path8, optionsOrSettingsOrCallback, callback) {
     if (typeof optionsOrSettingsOrCallback === "function") {
-      async.read(path7, getSettings(), optionsOrSettingsOrCallback);
+      async.read(path8, getSettings(), optionsOrSettingsOrCallback);
       return;
     }
-    async.read(path7, getSettings(optionsOrSettingsOrCallback), callback);
+    async.read(path8, getSettings(optionsOrSettingsOrCallback), callback);
   }
   exports.stat = stat;
-  function statSync(path7, optionsOrSettings) {
+  function statSync(path8, optionsOrSettings) {
     const settings = getSettings(optionsOrSettings);
-    return sync2.read(path7, settings);
+    return sync2.read(path8, settings);
   }
   exports.statSync = statSync;
   function getSettings(settingsOrOptions = {}) {
@@ -135890,14 +135899,14 @@ var require_async2 = __commonJSMin((exports) => {
   var constants_1 = require_constants4();
   var utils = require_utils8();
   var common = require_common2();
-  function read(directory, settings, callback) {
+  function read2(directory, settings, callback) {
     if (!settings.stats && constants_1.IS_SUPPORT_READDIR_WITH_FILE_TYPES) {
       readdirWithFileTypes(directory, settings, callback);
       return;
     }
     readdir(directory, settings, callback);
   }
-  exports.read = read;
+  exports.read = read2;
   function readdirWithFileTypes(directory, settings, callback) {
     settings.fs.readdir(directory, { withFileTypes: true }, (readdirError, dirents) => {
       if (readdirError !== null) {
@@ -135951,16 +135960,16 @@ var require_async2 = __commonJSMin((exports) => {
         return;
       }
       const tasks = names.map((name2) => {
-        const path7 = common.joinPathSegments(directory, name2, settings.pathSegmentSeparator);
+        const path8 = common.joinPathSegments(directory, name2, settings.pathSegmentSeparator);
         return (done) => {
-          fsStat.stat(path7, settings.fsStatSettings, (error, stats) => {
+          fsStat.stat(path8, settings.fsStatSettings, (error, stats) => {
             if (error !== null) {
               done(error);
               return;
             }
             const entry = {
               name: name2,
-              path: path7,
+              path: path8,
               dirent: utils.fs.createDirentFromStats(name2, stats)
             };
             if (settings.stats) {
@@ -135995,13 +136004,13 @@ var require_sync2 = __commonJSMin((exports) => {
   var constants_1 = require_constants4();
   var utils = require_utils8();
   var common = require_common2();
-  function read(directory, settings) {
+  function read2(directory, settings) {
     if (!settings.stats && constants_1.IS_SUPPORT_READDIR_WITH_FILE_TYPES) {
       return readdirWithFileTypes(directory, settings);
     }
     return readdir(directory, settings);
   }
-  exports.read = read;
+  exports.read = read2;
   function readdirWithFileTypes(directory, settings) {
     const dirents = settings.fs.readdirSync(directory, { withFileTypes: true });
     return dirents.map((dirent) => {
@@ -136066,7 +136075,7 @@ var require_fs6 = __commonJSMin((exports) => {
 var require_settings2 = __commonJSMin((exports) => {
   "use strict";
   Object.defineProperty(exports, "__esModule", { value: true });
-  var path7 = __require("path");
+  var path8 = __require("path");
   var fsStat = require_out();
   var fs8 = require_fs6();
   var Settings = class {
@@ -136074,7 +136083,7 @@ var require_settings2 = __commonJSMin((exports) => {
       this._options = _options;
       this.followSymbolicLinks = this._getValue(this._options.followSymbolicLinks, false);
       this.fs = fs8.createFileSystemAdapter(this._options.fs);
-      this.pathSegmentSeparator = this._getValue(this._options.pathSegmentSeparator, path7.sep);
+      this.pathSegmentSeparator = this._getValue(this._options.pathSegmentSeparator, path8.sep);
       this.stats = this._getValue(this._options.stats, false);
       this.throwErrorOnBrokenSymbolicLink = this._getValue(this._options.throwErrorOnBrokenSymbolicLink, true);
       this.fsStatSettings = new fsStat.Settings({
@@ -136097,17 +136106,17 @@ var require_out2 = __commonJSMin((exports) => {
   var sync2 = require_sync2();
   var settings_1 = require_settings2();
   exports.Settings = settings_1.default;
-  function scandir(path7, optionsOrSettingsOrCallback, callback) {
+  function scandir(path8, optionsOrSettingsOrCallback, callback) {
     if (typeof optionsOrSettingsOrCallback === "function") {
-      async.read(path7, getSettings(), optionsOrSettingsOrCallback);
+      async.read(path8, getSettings(), optionsOrSettingsOrCallback);
       return;
     }
-    async.read(path7, getSettings(optionsOrSettingsOrCallback), callback);
+    async.read(path8, getSettings(optionsOrSettingsOrCallback), callback);
   }
   exports.scandir = scandir;
-  function scandirSync(path7, optionsOrSettings) {
+  function scandirSync(path8, optionsOrSettings) {
     const settings = getSettings(optionsOrSettings);
-    return sync2.read(path7, settings);
+    return sync2.read(path8, settings);
   }
   exports.scandirSync = scandirSync;
   function getSettings(settingsOrOptions = {}) {
@@ -136666,7 +136675,7 @@ var require_sync4 = __commonJSMin((exports) => {
 var require_settings3 = __commonJSMin((exports) => {
   "use strict";
   Object.defineProperty(exports, "__esModule", { value: true });
-  var path7 = __require("path");
+  var path8 = __require("path");
   var fsScandir = require_out2();
   var Settings = class {
     constructor(_options = {}) {
@@ -136676,7 +136685,7 @@ var require_settings3 = __commonJSMin((exports) => {
       this.deepFilter = this._getValue(this._options.deepFilter, null);
       this.entryFilter = this._getValue(this._options.entryFilter, null);
       this.errorFilter = this._getValue(this._options.errorFilter, null);
-      this.pathSegmentSeparator = this._getValue(this._options.pathSegmentSeparator, path7.sep);
+      this.pathSegmentSeparator = this._getValue(this._options.pathSegmentSeparator, path8.sep);
       this.fsScandirSettings = new fsScandir.Settings({
         followSymbolicLinks: this._options.followSymbolicLinks,
         fs: this._options.fs,
@@ -136730,7 +136739,7 @@ var require_out3 = __commonJSMin((exports) => {
 var require_reader2 = __commonJSMin((exports) => {
   "use strict";
   Object.defineProperty(exports, "__esModule", { value: true });
-  var path7 = __require("path");
+  var path8 = __require("path");
   var fsStat = require_out();
   var utils = require_utils7();
   var Reader = class {
@@ -136743,7 +136752,7 @@ var require_reader2 = __commonJSMin((exports) => {
       });
     }
     _getFullEntryPath(filepath) {
-      return path7.resolve(this._settings.cwd, filepath);
+      return path8.resolve(this._settings.cwd, filepath);
     }
     _makeEntry(stats, pattern) {
       const entry = {
@@ -137063,7 +137072,7 @@ var require_entry2 = __commonJSMin((exports) => {
 var require_provider = __commonJSMin((exports) => {
   "use strict";
   Object.defineProperty(exports, "__esModule", { value: true });
-  var path7 = __require("path");
+  var path8 = __require("path");
   var deep_1 = require_deep();
   var entry_1 = require_entry();
   var error_1 = require_error2();
@@ -137077,7 +137086,7 @@ var require_provider = __commonJSMin((exports) => {
       this.entryTransformer = new entry_2.default(this._settings);
     }
     _getRootDirectory(task) {
-      return path7.resolve(this._settings.cwd, task.base);
+      return path8.resolve(this._settings.cwd, task.base);
     }
     _getReaderOptions(task) {
       const basePath = task.base === "." ? "" : task.base;
@@ -137396,15 +137405,15 @@ var require_path_type = __commonJSMin((exports) => {
 });
 var require_dir_glob = __commonJSMin((exports, module2) => {
   "use strict";
-  var path7 = __require("path");
+  var path8 = __require("path");
   var pathType = require_path_type();
   var getExtensions = (extensions) => extensions.length > 1 ? `{${extensions.join(",")}}` : extensions[0];
   var getPath = (filepath, cwd) => {
     const pth = filepath[0] === "!" ? filepath.slice(1) : filepath;
-    return path7.isAbsolute(pth) ? pth : path7.join(cwd, pth);
+    return path8.isAbsolute(pth) ? pth : path8.join(cwd, pth);
   };
   var addExtensions = (file, extensions) => {
-    if (path7.extname(file)) {
+    if (path8.extname(file)) {
       return `**/${file}`;
     }
     return `**/${file}.${getExtensions(extensions)}`;
@@ -137417,15 +137426,15 @@ var require_dir_glob = __commonJSMin((exports, module2) => {
       throw new TypeError(`Expected \`extensions\` to be of type \`Array\` but received type \`${typeof options2.extensions}\``);
     }
     if (options2.files && options2.extensions) {
-      return options2.files.map((x) => path7.posix.join(directory, addExtensions(x, options2.extensions)));
+      return options2.files.map((x) => path8.posix.join(directory, addExtensions(x, options2.extensions)));
     }
     if (options2.files) {
-      return options2.files.map((x) => path7.posix.join(directory, `**/${x}`));
+      return options2.files.map((x) => path8.posix.join(directory, `**/${x}`));
     }
     if (options2.extensions) {
-      return [path7.posix.join(directory, `**/*.${getExtensions(options2.extensions)}`)];
+      return [path8.posix.join(directory, `**/*.${getExtensions(options2.extensions)}`)];
     }
-    return [path7.posix.join(directory, "**")];
+    return [path8.posix.join(directory, "**")];
   };
   module2.exports = async (input, options2) => {
     options2 = {
@@ -137575,20 +137584,20 @@ var require_ignore = __commonJSMin((exports, module2) => {
   var throwError = (message, Ctor) => {
     throw new Ctor(message);
   };
-  var checkPath = (path7, originalPath, doThrow) => {
-    if (!isString(path7)) {
+  var checkPath = (path8, originalPath, doThrow) => {
+    if (!isString(path8)) {
       return doThrow(`path must be a string, but got \`${originalPath}\``, TypeError);
     }
-    if (!path7) {
+    if (!path8) {
       return doThrow(`path must not be empty`, TypeError);
     }
-    if (checkPath.isNotRelative(path7)) {
+    if (checkPath.isNotRelative(path8)) {
       const r = "`path.relative()`d";
       return doThrow(`path should be a ${r} string, but got "${originalPath}"`, RangeError);
     }
     return true;
   };
-  var isNotRelative = (path7) => REGEX_TEST_INVALID_PATH.test(path7);
+  var isNotRelative = (path8) => REGEX_TEST_INVALID_PATH.test(path8);
   checkPath.isNotRelative = isNotRelative;
   checkPath.convert = (p) => p;
   var Ignore = class {
@@ -137627,7 +137636,7 @@ var require_ignore = __commonJSMin((exports, module2) => {
     addPattern(pattern) {
       return this.add(pattern);
     }
-    _testOne(path7, checkUnignored) {
+    _testOne(path8, checkUnignored) {
       let ignored = false;
       let unignored = false;
       this._rules.forEach((rule) => {
@@ -137635,7 +137644,7 @@ var require_ignore = __commonJSMin((exports, module2) => {
         if (unignored === negative && ignored !== unignored || negative && !ignored && !unignored && !checkUnignored) {
           return;
         }
-        const matched = rule.regex.test(path7);
+        const matched = rule.regex.test(path8);
         if (matched) {
           ignored = !negative;
           unignored = negative;
@@ -137647,40 +137656,40 @@ var require_ignore = __commonJSMin((exports, module2) => {
       };
     }
     _test(originalPath, cache, checkUnignored, slices) {
-      const path7 = originalPath && checkPath.convert(originalPath);
-      checkPath(path7, originalPath, throwError);
-      return this._t(path7, cache, checkUnignored, slices);
+      const path8 = originalPath && checkPath.convert(originalPath);
+      checkPath(path8, originalPath, throwError);
+      return this._t(path8, cache, checkUnignored, slices);
     }
-    _t(path7, cache, checkUnignored, slices) {
-      if (path7 in cache) {
-        return cache[path7];
+    _t(path8, cache, checkUnignored, slices) {
+      if (path8 in cache) {
+        return cache[path8];
       }
       if (!slices) {
-        slices = path7.split(SLASH);
+        slices = path8.split(SLASH);
       }
       slices.pop();
       if (!slices.length) {
-        return cache[path7] = this._testOne(path7, checkUnignored);
+        return cache[path8] = this._testOne(path8, checkUnignored);
       }
       const parent = this._t(slices.join(SLASH) + SLASH, cache, checkUnignored, slices);
-      return cache[path7] = parent.ignored ? parent : this._testOne(path7, checkUnignored);
+      return cache[path8] = parent.ignored ? parent : this._testOne(path8, checkUnignored);
     }
-    ignores(path7) {
-      return this._test(path7, this._ignoreCache, false).ignored;
+    ignores(path8) {
+      return this._test(path8, this._ignoreCache, false).ignored;
     }
     createFilter() {
-      return (path7) => !this.ignores(path7);
+      return (path8) => !this.ignores(path8);
     }
     filter(paths) {
       return makeArray(paths).filter(this.createFilter());
     }
-    test(path7) {
-      return this._test(path7, this._testCache, true);
+    test(path8) {
+      return this._test(path8, this._testCache, true);
     }
   };
   var factory = (options2) => new Ignore(options2);
   var returnFalse = () => false;
-  var isPathValid = (path7) => checkPath(path7 && checkPath.convert(path7), path7, returnFalse);
+  var isPathValid = (path8) => checkPath(path8 && checkPath.convert(path8), path8, returnFalse);
   factory.isPathValid = isPathValid;
   factory.default = factory;
   module2.exports = factory;
@@ -137688,25 +137697,25 @@ var require_ignore = __commonJSMin((exports, module2) => {
     const makePosix = (str) => /^\\\\\?\\/.test(str) || /["<>|\u0000-\u001F]+/u.test(str) ? str : str.replace(/\\/g, "/");
     checkPath.convert = makePosix;
     const REGIX_IS_WINDOWS_PATH_ABSOLUTE = /^[a-z]:\//i;
-    checkPath.isNotRelative = (path7) => REGIX_IS_WINDOWS_PATH_ABSOLUTE.test(path7) || isNotRelative(path7);
+    checkPath.isNotRelative = (path8) => REGIX_IS_WINDOWS_PATH_ABSOLUTE.test(path8) || isNotRelative(path8);
   }
 });
 var require_slash2 = __commonJSMin((exports, module2) => {
   "use strict";
-  module2.exports = (path7) => {
-    const isExtendedLengthPath = /^\\\\\?\\/.test(path7);
-    const hasNonAscii = /[^\u0000-\u0080]+/.test(path7);
+  module2.exports = (path8) => {
+    const isExtendedLengthPath = /^\\\\\?\\/.test(path8);
+    const hasNonAscii = /[^\u0000-\u0080]+/.test(path8);
     if (isExtendedLengthPath || hasNonAscii) {
-      return path7;
+      return path8;
     }
-    return path7.replace(/\\/g, "/");
+    return path8.replace(/\\/g, "/");
   };
 });
 var require_gitignore = __commonJSMin((exports, module2) => {
   "use strict";
   var { promisify } = __require("util");
   var fs8 = __require("fs");
-  var path7 = __require("path");
+  var path8 = __require("path");
   var fastGlob = require_out4();
   var gitIgnore = require_ignore();
   var slash = require_slash2();
@@ -137719,12 +137728,12 @@ var require_gitignore = __commonJSMin((exports, module2) => {
   var readFileP = promisify(fs8.readFile);
   var mapGitIgnorePatternTo = (base) => (ignore) => {
     if (ignore.startsWith("!")) {
-      return "!" + path7.posix.join(base, ignore.slice(1));
+      return "!" + path8.posix.join(base, ignore.slice(1));
     }
-    return path7.posix.join(base, ignore);
+    return path8.posix.join(base, ignore);
   };
   var parseGitIgnore = (content, options2) => {
-    const base = slash(path7.relative(options2.cwd, path7.dirname(options2.fileName)));
+    const base = slash(path8.relative(options2.cwd, path8.dirname(options2.fileName)));
     return content.split(/\r?\n/).filter(Boolean).filter((line) => !line.startsWith("#")).map(mapGitIgnorePatternTo(base));
   };
   var reduceIgnore = (files) => {
@@ -137739,19 +137748,19 @@ var require_gitignore = __commonJSMin((exports, module2) => {
   };
   var ensureAbsolutePathForCwd = (cwd, p) => {
     cwd = slash(cwd);
-    if (path7.isAbsolute(p)) {
+    if (path8.isAbsolute(p)) {
       if (slash(p).startsWith(cwd)) {
         return p;
       }
       throw new Error(`Path ${p} is not in cwd ${cwd}`);
     }
-    return path7.join(cwd, p);
+    return path8.join(cwd, p);
   };
   var getIsIgnoredPredecate = (ignores, cwd) => {
-    return (p) => ignores.ignores(slash(path7.relative(cwd, ensureAbsolutePathForCwd(cwd, p.path || p))));
+    return (p) => ignores.ignores(slash(path8.relative(cwd, ensureAbsolutePathForCwd(cwd, p.path || p))));
   };
   var getFile = async (file, cwd) => {
-    const filePath = path7.join(cwd, file);
+    const filePath = path8.join(cwd, file);
     const content = await readFileP(filePath, "utf8");
     return {
       cwd,
@@ -137760,7 +137769,7 @@ var require_gitignore = __commonJSMin((exports, module2) => {
     };
   };
   var getFileSync = (file, cwd) => {
-    const filePath = path7.join(cwd, file);
+    const filePath = path8.join(cwd, file);
     const content = fs8.readFileSync(filePath, "utf8");
     return {
       cwd,
@@ -138046,11 +138055,11 @@ var require_read_yaml_file = __commonJSMin((exports, module2) => {
   var pify = require_pify();
   var stripBom = require_strip_bom();
   var yaml2 = require_js_yaml3();
-  var parse2 = (data) => yaml2.safeLoad(stripBom(data));
-  var readYamlFile = (fp) => pify(fs8.readFile)(fp, "utf8").then((data) => parse2(data));
+  var parse4 = (data) => yaml2.safeLoad(stripBom(data));
+  var readYamlFile = (fp) => pify(fs8.readFile)(fp, "utf8").then((data) => parse4(data));
   module2.exports = readYamlFile;
   module2.exports.default = readYamlFile;
-  module2.exports.sync = (fp) => parse2(fs8.readFileSync(fp, "utf8"));
+  module2.exports.sync = (fp) => parse4(fs8.readFileSync(fp, "utf8"));
 });
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {
   try {
@@ -138330,7 +138339,7 @@ var require_p_locate = __commonJSMin((exports, module2) => {
 });
 var require_locate_path = __commonJSMin((exports, module2) => {
   "use strict";
-  var path7 = __require("path");
+  var path8 = __require("path");
   var fs8 = __require("fs");
   var { promisify } = __require("util");
   var pLocate = require_p_locate();
@@ -138358,7 +138367,7 @@ var require_locate_path = __commonJSMin((exports, module2) => {
     const statFn = options2.allowSymlinks ? fsStat : fsLStat;
     return pLocate(paths, async (path_) => {
       try {
-        const stat = await statFn(path7.resolve(options2.cwd, path_));
+        const stat = await statFn(path8.resolve(options2.cwd, path_));
         return matchType(options2.type, stat);
       } catch (_) {
         return false;
@@ -138376,7 +138385,7 @@ var require_locate_path = __commonJSMin((exports, module2) => {
     const statFn = options2.allowSymlinks ? fs8.statSync : fs8.lstatSync;
     for (const path_ of paths) {
       try {
-        const stat = statFn(path7.resolve(options2.cwd, path_));
+        const stat = statFn(path8.resolve(options2.cwd, path_));
         if (matchType(options2.type, stat)) {
           return path_;
         }
@@ -138390,17 +138399,17 @@ var require_path_exists3 = __commonJSMin((exports, module2) => {
   var fs8 = __require("fs");
   var { promisify } = __require("util");
   var pAccess = promisify(fs8.access);
-  module2.exports = async (path7) => {
+  module2.exports = async (path8) => {
     try {
-      await pAccess(path7);
+      await pAccess(path8);
       return true;
     } catch (_) {
       return false;
     }
   };
-  module2.exports.sync = (path7) => {
+  module2.exports.sync = (path8) => {
     try {
-      fs8.accessSync(path7);
+      fs8.accessSync(path8);
       return true;
     } catch (_) {
       return false;
@@ -138409,13 +138418,13 @@ var require_path_exists3 = __commonJSMin((exports, module2) => {
 });
 var require_find_up = __commonJSMin((exports, module2) => {
   "use strict";
-  var path7 = __require("path");
+  var path8 = __require("path");
   var locatePath = require_locate_path();
   var pathExists = require_path_exists3();
   var stop = Symbol("findUp.stop");
   module2.exports = async (name2, options2 = {}) => {
-    let directory = path7.resolve(options2.cwd || "");
-    const { root } = path7.parse(directory);
+    let directory = path8.resolve(options2.cwd || "");
+    const { root } = path8.parse(directory);
     const paths = [].concat(name2);
     const runMatcher = async (locateOptions) => {
       if (typeof name2 !== "function") {
@@ -138433,17 +138442,17 @@ var require_find_up = __commonJSMin((exports, module2) => {
         return;
       }
       if (foundPath) {
-        return path7.resolve(directory, foundPath);
+        return path8.resolve(directory, foundPath);
       }
       if (directory === root) {
         return;
       }
-      directory = path7.dirname(directory);
+      directory = path8.dirname(directory);
     }
   };
   module2.exports.sync = (name2, options2 = {}) => {
-    let directory = path7.resolve(options2.cwd || "");
-    const { root } = path7.parse(directory);
+    let directory = path8.resolve(options2.cwd || "");
+    const { root } = path8.parse(directory);
     const paths = [].concat(name2);
     const runMatcher = (locateOptions) => {
       if (typeof name2 !== "function") {
@@ -138461,12 +138470,12 @@ var require_find_up = __commonJSMin((exports, module2) => {
         return;
       }
       if (foundPath) {
-        return path7.resolve(directory, foundPath);
+        return path8.resolve(directory, foundPath);
       }
       if (directory === root) {
         return;
       }
-      directory = path7.dirname(directory);
+      directory = path8.dirname(directory);
     }
   };
   module2.exports.exists = pathExists;
@@ -138730,7 +138739,7 @@ var require_get_packages_cjs_prod = __commonJSMin((exports) => {
   var _inherits2 = _interopDefault(require_inherits());
   var _wrapNativeSuper2 = _interopDefault(require_wrapNativeSuper());
   var fs8 = _interopDefault(require_lib4());
-  var path7 = _interopDefault(__require("path"));
+  var path8 = _interopDefault(__require("path"));
   var globby = require_globby2();
   var globby__default = _interopDefault(globby);
   var readYamlFile = require_read_yaml_file();
@@ -138743,7 +138752,7 @@ var require_get_packages_cjs_prod = __commonJSMin((exports) => {
     }
     return _inherits2(PackageJsonMissingNameError2, _Error), PackageJsonMissingNameError2;
   }(_wrapNativeSuper2(Error));
-  function getPackages2(_x) {
+  function getPackages3(_x) {
     return _getPackages.apply(this, arguments);
   }
   function _getPackages() {
@@ -138755,7 +138764,7 @@ var require_get_packages_cjs_prod = __commonJSMin((exports) => {
             case 0:
               return _context.next = 2, findRoot2.findRoot(dir);
             case 2:
-              return cwd = _context.sent, _context.next = 5, fs8.readJson(path7.join(cwd, "package.json"));
+              return cwd = _context.sent, _context.next = 5, fs8.readJson(path8.join(cwd, "package.json"));
             case 5:
               if (!(pkg = _context.sent).workspaces) {
                 _context.next = 10;
@@ -138780,7 +138789,7 @@ var require_get_packages_cjs_prod = __commonJSMin((exports) => {
               }, _context.next = 37;
               break;
             case 14:
-              return _context.prev = 14, _context.next = 17, readYamlFile__default(path7.join(cwd, "pnpm-workspace.yaml"));
+              return _context.prev = 14, _context.next = 17, readYamlFile__default(path8.join(cwd, "pnpm-workspace.yaml"));
             case 17:
               (manifest = _context.sent) && manifest.packages && (tool = {
                 type: "pnpm",
@@ -138798,7 +138807,7 @@ var require_get_packages_cjs_prod = __commonJSMin((exports) => {
                 _context.next = 37;
                 break;
               }
-              return _context.prev = 26, _context.next = 29, fs8.readJson(path7.join(cwd, "lerna.json"));
+              return _context.prev = 26, _context.next = 29, fs8.readJson(path8.join(cwd, "lerna.json"));
             case 29:
               (lernaJson = _context.sent) && (tool = {
                 type: "lerna",
@@ -138839,11 +138848,11 @@ var require_get_packages_cjs_prod = __commonJSMin((exports) => {
               });
             case 44:
               return relativeDirectories = _context.sent, directories = relativeDirectories.map(function(p) {
-                return path7.resolve(cwd, p);
+                return path8.resolve(cwd, p);
               }), pkgJsonsMissingNameField = [], _context.next = 49, Promise.all(directories.sort().map(function(dir2) {
-                return fs8.readJson(path7.join(dir2, "package.json")).then(function(packageJson) {
-                  return packageJson.name || pkgJsonsMissingNameField.push(path7.relative(cwd, path7.join(dir2, "package.json"))), {
-                    packageJson,
+                return fs8.readJson(path8.join(dir2, "package.json")).then(function(packageJson2) {
+                  return packageJson2.name || pkgJsonsMissingNameField.push(path8.relative(cwd, path8.join(dir2, "package.json"))), {
+                    packageJson: packageJson2,
                     dir: dir2
                   };
                 }).catch(function(err) {
@@ -138877,7 +138886,7 @@ var require_get_packages_cjs_prod = __commonJSMin((exports) => {
     }))).apply(this, arguments);
   }
   function getPackagesSync(dir) {
-    var tool, cwd = findRoot2.findRootSync(dir), pkg = fs8.readJsonSync(path7.join(cwd, "package.json"));
+    var tool, cwd = findRoot2.findRootSync(dir), pkg = fs8.readJsonSync(path8.join(cwd, "package.json"));
     if (pkg.workspaces)
       Array.isArray(pkg.workspaces) ? tool = {
         type: "yarn",
@@ -138893,7 +138902,7 @@ var require_get_packages_cjs_prod = __commonJSMin((exports) => {
       };
     else {
       try {
-        var manifest = readYamlFile.sync(path7.join(cwd, "pnpm-workspace.yaml"));
+        var manifest = readYamlFile.sync(path8.join(cwd, "pnpm-workspace.yaml"));
         manifest && manifest.packages && (tool = {
           type: "pnpm",
           packageGlobs: manifest.packages
@@ -138904,7 +138913,7 @@ var require_get_packages_cjs_prod = __commonJSMin((exports) => {
       }
       if (!tool)
         try {
-          var lernaJson = fs8.readJsonSync(path7.join(cwd, "lerna.json"));
+          var lernaJson = fs8.readJsonSync(path8.join(cwd, "lerna.json"));
           lernaJson && (tool = {
             type: "lerna",
             packageGlobs: lernaJson.packages || ["packages/*"]
@@ -138933,12 +138942,12 @@ var require_get_packages_cjs_prod = __commonJSMin((exports) => {
       expandDirectories: false,
       ignore: ["**/node_modules"]
     }).map(function(p) {
-      return path7.resolve(cwd, p);
+      return path8.resolve(cwd, p);
     }), pkgJsonsMissingNameField = [], results = directories.sort().map(function(dir2) {
       try {
-        var packageJson = fs8.readJsonSync(path7.join(dir2, "package.json"));
-        return packageJson.name || pkgJsonsMissingNameField.push(path7.relative(cwd, path7.join(dir2, "package.json"))), {
-          packageJson,
+        var packageJson2 = fs8.readJsonSync(path8.join(dir2, "package.json"));
+        return packageJson2.name || pkgJsonsMissingNameField.push(path8.relative(cwd, path8.join(dir2, "package.json"))), {
+          packageJson: packageJson2,
           dir: dir2
         };
       } catch (err) {
@@ -138960,7 +138969,7 @@ var require_get_packages_cjs_prod = __commonJSMin((exports) => {
       packages: results
     };
   }
-  exports.PackageJsonMissingNameError = PackageJsonMissingNameError, exports.getPackages = getPackages2, exports.getPackagesSync = getPackagesSync;
+  exports.PackageJsonMissingNameError = PackageJsonMissingNameError, exports.getPackages = getPackages3, exports.getPackagesSync = getPackagesSync;
 });
 var require_get_packages_cjs = __commonJSMin((exports, module2) => {
   "use strict";
@@ -139065,14 +139074,14 @@ var require_is_windows = __commonJSMin((exports, module2) => {
 });
 var require_better_path_resolve = __commonJSMin((exports, module2) => {
   "use strict";
-  var path7 = __require("path");
+  var path8 = __require("path");
   var isWindows = require_is_windows();
-  module2.exports = isWindows() ? winResolve : path7.resolve;
+  module2.exports = isWindows() ? winResolve : path8.resolve;
   function winResolve(p) {
     if (arguments.length === 0)
-      return path7.resolve();
+      return path8.resolve();
     if (typeof p !== "string") {
-      return path7.resolve(p);
+      return path8.resolve(p);
     }
     if (p[1] === ":") {
       const cc = p[0].charCodeAt();
@@ -139083,21 +139092,21 @@ var require_better_path_resolve = __commonJSMin((exports, module2) => {
     if (p.endsWith(":")) {
       return p;
     }
-    return path7.resolve(p);
+    return path8.resolve(p);
   }
 });
 var require_is_subdir = __commonJSMin((exports, module2) => {
   "use strict";
   var betterPathResolve = require_better_path_resolve();
-  var path7 = __require("path");
+  var path8 = __require("path");
   function isSubdir2(parentDir, subdir) {
-    const rParent = `${betterPathResolve(parentDir)}${path7.sep}`;
-    const rDir = `${betterPathResolve(subdir)}${path7.sep}`;
+    const rParent = `${betterPathResolve(parentDir)}${path8.sep}`;
+    const rDir = `${betterPathResolve(subdir)}${path8.sep}`;
     return rDir.startsWith(rParent);
   }
   isSubdir2.strict = function isSubdirStrict(parentDir, subdir) {
-    const rParent = `${betterPathResolve(parentDir)}${path7.sep}`;
-    const rDir = `${betterPathResolve(subdir)}${path7.sep}`;
+    const rParent = `${betterPathResolve(parentDir)}${path8.sep}`;
+    const rDir = `${betterPathResolve(subdir)}${path8.sep}`;
     return rDir !== rParent && rDir.startsWith(rParent);
   };
   module2.exports = isSubdir2;
@@ -140012,15 +140021,15 @@ var require_route = __commonJSMin((exports, module2) => {
     };
   }
   function wrapConversion(toModel, graph) {
-    var path7 = [graph[toModel].parent, toModel];
+    var path8 = [graph[toModel].parent, toModel];
     var fn = conversions[graph[toModel].parent][toModel];
     var cur = graph[toModel].parent;
     while (graph[cur].parent) {
-      path7.unshift(graph[cur].parent);
+      path8.unshift(graph[cur].parent);
       fn = link(conversions[graph[cur].parent][cur], fn);
       cur = graph[cur].parent;
     }
-    fn.conversion = path7;
+    fn.conversion = path8;
     return fn;
   }
   module2.exports = function(fromModel) {
@@ -140290,14 +140299,14 @@ var require_templates = __commonJSMin((exports, module2) => {
     }
     return results;
   }
-  function buildStyle(chalk3, styles) {
+  function buildStyle(chalk4, styles) {
     const enabled = {};
     for (const layer of styles) {
       for (const style of layer.styles) {
         enabled[style[0]] = layer.inverse ? null : style.slice(1);
       }
     }
-    let current = chalk3;
+    let current = chalk4;
     for (const styleName of Object.keys(enabled)) {
       if (Array.isArray(enabled[styleName])) {
         if (!(styleName in current)) {
@@ -140312,7 +140321,7 @@ var require_templates = __commonJSMin((exports, module2) => {
     }
     return current;
   }
-  module2.exports = (chalk3, tmp) => {
+  module2.exports = (chalk4, tmp) => {
     const styles = [];
     const chunks = [];
     let chunk = [];
@@ -140322,13 +140331,13 @@ var require_templates = __commonJSMin((exports, module2) => {
       } else if (style) {
         const str = chunk.join("");
         chunk = [];
-        chunks.push(styles.length === 0 ? str : buildStyle(chalk3, styles)(str));
+        chunks.push(styles.length === 0 ? str : buildStyle(chalk4, styles)(str));
         styles.push({ inverse, styles: parseStyle(style) });
       } else if (close) {
         if (styles.length === 0) {
           throw new Error("Found extraneous } in Chalk template literal");
         }
-        chunks.push(buildStyle(chalk3, styles)(chunk.join("")));
+        chunks.push(buildStyle(chalk4, styles)(chunk.join("")));
         chunk = [];
         styles.pop();
       } else {
@@ -140361,16 +140370,16 @@ var require_chalk2 = __commonJSMin((exports, module2) => {
   }
   function Chalk(options2) {
     if (!this || !(this instanceof Chalk) || this.template) {
-      const chalk3 = {};
-      applyOptions(chalk3, options2);
-      chalk3.template = function() {
+      const chalk4 = {};
+      applyOptions(chalk4, options2);
+      chalk4.template = function() {
         const args = [].slice.call(arguments);
-        return chalkTag.apply(null, [chalk3.template].concat(args));
+        return chalkTag.apply(null, [chalk4.template].concat(args));
       };
-      Object.setPrototypeOf(chalk3, Chalk.prototype);
-      Object.setPrototypeOf(chalk3.template, chalk3);
-      chalk3.template.constructor = Chalk;
-      return chalk3.template;
+      Object.setPrototypeOf(chalk4, Chalk.prototype);
+      Object.setPrototypeOf(chalk4.template, chalk4);
+      chalk4.template.constructor = Chalk;
+      return chalk4.template;
     }
     applyOptions(this, options2);
   }
@@ -140489,7 +140498,7 @@ var require_chalk2 = __commonJSMin((exports, module2) => {
     ansiStyles.dim.open = originalDim;
     return str;
   }
-  function chalkTag(chalk3, strings) {
+  function chalkTag(chalk4, strings) {
     if (!Array.isArray(strings)) {
       return [].slice.call(arguments, 1).join(" ");
     }
@@ -140499,7 +140508,7 @@ var require_chalk2 = __commonJSMin((exports, module2) => {
       parts.push(String(args[i - 1]).replace(/[{}\\]/g, "\\$&"));
       parts.push(String(strings.raw[i]));
     }
-    return template(chalk3, parts.join(""));
+    return template(chalk4, parts.join(""));
   }
   Object.defineProperties(Chalk.prototype, styles);
   module2.exports = Chalk();
@@ -140568,6 +140577,2896 @@ var require_p_filter = __commonJSMin((exports, module2) => {
   };
   module2.exports = pFilter2;
   module2.exports.default = pFilter2;
+});
+var require_get_packages_cjs_prod2 = __commonJSMin((exports) => {
+  "use strict";
+  function _interopDefault(ex) {
+    return ex && typeof ex == "object" && "default" in ex ? ex.default : ex;
+  }
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  var _regeneratorRuntime2 = _interopDefault(require_regenerator());
+  var _asyncToGenerator2 = _interopDefault(require_asyncToGenerator());
+  var _classCallCheck2 = _interopDefault(require_classCallCheck());
+  var _possibleConstructorReturn2 = _interopDefault(require_possibleConstructorReturn());
+  var _getPrototypeOf2 = _interopDefault(require_getPrototypeOf());
+  var _inherits2 = _interopDefault(require_inherits());
+  var _wrapNativeSuper2 = _interopDefault(require_wrapNativeSuper());
+  var fs8 = _interopDefault(require_lib4());
+  var path8 = _interopDefault(__require("path"));
+  var globby = require_globby2();
+  var globby__default = _interopDefault(globby);
+  var readYamlFile = require_read_yaml_file();
+  var readYamlFile__default = _interopDefault(readYamlFile);
+  var findRoot2 = (init_find_root_esm(), __toCommonJS(find_root_esm_exports));
+  var PackageJsonMissingNameError = function(_Error) {
+    function PackageJsonMissingNameError2(directories) {
+      var _this;
+      return _classCallCheck2(this, PackageJsonMissingNameError2), (_this = _possibleConstructorReturn2(this, _getPrototypeOf2(PackageJsonMissingNameError2).call(this, 'The following package.jsons are missing the "name" field:\n'.concat(directories.join("\n"))))).directories = directories, _this;
+    }
+    return _inherits2(PackageJsonMissingNameError2, _Error), PackageJsonMissingNameError2;
+  }(_wrapNativeSuper2(Error));
+  function getPackages3(_x) {
+    return _getPackages.apply(this, arguments);
+  }
+  function _getPackages() {
+    return (_getPackages = _asyncToGenerator2(_regeneratorRuntime2.mark(function _callee(dir) {
+      var cwd, pkg, tool, manifest, lernaJson, root, directories, pkgJsonsMissingNameField, results;
+      return _regeneratorRuntime2.wrap(function(_context) {
+        for (; ; )
+          switch (_context.prev = _context.next) {
+            case 0:
+              return _context.next = 2, findRoot2.findRoot(dir);
+            case 2:
+              return cwd = _context.sent, _context.next = 5, fs8.readJson(path8.join(cwd, "package.json"));
+            case 5:
+              if (!(pkg = _context.sent).workspaces) {
+                _context.next = 10;
+                break;
+              }
+              Array.isArray(pkg.workspaces) ? tool = {
+                type: "yarn",
+                packageGlobs: pkg.workspaces
+              } : pkg.workspaces.packages && (tool = {
+                type: "yarn",
+                packageGlobs: pkg.workspaces.packages
+              }), _context.next = 37;
+              break;
+            case 10:
+              if (!pkg.bolt || !pkg.bolt.workspaces) {
+                _context.next = 14;
+                break;
+              }
+              tool = {
+                type: "bolt",
+                packageGlobs: pkg.bolt.workspaces
+              }, _context.next = 37;
+              break;
+            case 14:
+              return _context.prev = 14, _context.next = 17, readYamlFile__default(path8.join(cwd, "pnpm-workspace.yaml"));
+            case 17:
+              (manifest = _context.sent) && manifest.packages && (tool = {
+                type: "pnpm",
+                packageGlobs: manifest.packages
+              }), _context.next = 25;
+              break;
+            case 21:
+              if (_context.prev = 21, _context.t0 = _context.catch(14), _context.t0.code === "ENOENT") {
+                _context.next = 25;
+                break;
+              }
+              throw _context.t0;
+            case 25:
+              if (tool) {
+                _context.next = 37;
+                break;
+              }
+              return _context.prev = 26, _context.next = 29, fs8.readJson(path8.join(cwd, "lerna.json"));
+            case 29:
+              (lernaJson = _context.sent) && (tool = {
+                type: "lerna",
+                packageGlobs: lernaJson.packages || ["packages/*"]
+              }), _context.next = 37;
+              break;
+            case 33:
+              if (_context.prev = 33, _context.t1 = _context.catch(26), _context.t1.code === "ENOENT") {
+                _context.next = 37;
+                break;
+              }
+              throw _context.t1;
+            case 37:
+              if (tool) {
+                _context.next = 42;
+                break;
+              }
+              if (root = {
+                dir: cwd,
+                packageJson: pkg
+              }, pkg.name) {
+                _context.next = 41;
+                break;
+              }
+              throw new PackageJsonMissingNameError(["package.json"]);
+            case 41:
+              return _context.abrupt("return", {
+                tool: "root",
+                root,
+                packages: [root]
+              });
+            case 42:
+              return _context.next = 44, globby__default(tool.packageGlobs, {
+                cwd,
+                onlyDirectories: true,
+                absolute: true,
+                expandDirectories: false,
+                ignore: ["**/node_modules"]
+              });
+            case 44:
+              return directories = _context.sent, pkgJsonsMissingNameField = [], _context.next = 48, Promise.all(directories.sort().map(function(dir2) {
+                return fs8.readJson(path8.join(dir2, "package.json")).then(function(packageJson2) {
+                  return packageJson2.name || pkgJsonsMissingNameField.push(path8.relative(cwd, path8.join(dir2, "package.json"))), {
+                    packageJson: packageJson2,
+                    dir: dir2
+                  };
+                }).catch(function(err) {
+                  if (err.code === "ENOENT")
+                    return null;
+                  throw err;
+                });
+              }));
+            case 48:
+              if (_context.t2 = function(x) {
+                return x;
+              }, results = _context.sent.filter(_context.t2), pkgJsonsMissingNameField.length === 0) {
+                _context.next = 53;
+                break;
+              }
+              throw pkgJsonsMissingNameField.sort(), new PackageJsonMissingNameError(pkgJsonsMissingNameField);
+            case 53:
+              return _context.abrupt("return", {
+                tool: tool.type,
+                root: {
+                  dir: cwd,
+                  packageJson: pkg
+                },
+                packages: results
+              });
+            case 54:
+            case "end":
+              return _context.stop();
+          }
+      }, _callee, null, [[14, 21], [26, 33]]);
+    }))).apply(this, arguments);
+  }
+  function getPackagesSync(dir) {
+    var tool, cwd = findRoot2.findRootSync(dir), pkg = fs8.readJsonSync(path8.join(cwd, "package.json"));
+    if (pkg.workspaces)
+      Array.isArray(pkg.workspaces) ? tool = {
+        type: "yarn",
+        packageGlobs: pkg.workspaces
+      } : pkg.workspaces.packages && (tool = {
+        type: "yarn",
+        packageGlobs: pkg.workspaces.packages
+      });
+    else if (pkg.bolt && pkg.bolt.workspaces)
+      tool = {
+        type: "bolt",
+        packageGlobs: pkg.bolt.workspaces
+      };
+    else {
+      try {
+        var manifest = readYamlFile.sync(path8.join(cwd, "pnpm-workspace.yaml"));
+        manifest && manifest.packages && (tool = {
+          type: "pnpm",
+          packageGlobs: manifest.packages
+        });
+      } catch (err) {
+        if (err.code !== "ENOENT")
+          throw err;
+      }
+      if (!tool)
+        try {
+          var lernaJson = fs8.readJsonSync(path8.join(cwd, "lerna.json"));
+          lernaJson && (tool = {
+            type: "lerna",
+            packageGlobs: lernaJson.packages || ["packages/*"]
+          });
+        } catch (err) {
+          if (err.code !== "ENOENT")
+            throw err;
+        }
+    }
+    if (!tool) {
+      var root = {
+        dir: cwd,
+        packageJson: pkg
+      };
+      if (!pkg.name)
+        throw new PackageJsonMissingNameError(["package.json"]);
+      return {
+        tool: "root",
+        root,
+        packages: [root]
+      };
+    }
+    var directories = globby.sync(tool.packageGlobs, {
+      cwd,
+      onlyDirectories: true,
+      absolute: true,
+      expandDirectories: false,
+      ignore: ["**/node_modules"]
+    }), pkgJsonsMissingNameField = [], results = directories.sort().map(function(dir2) {
+      try {
+        var packageJson2 = fs8.readJsonSync(path8.join(dir2, "package.json"));
+        return packageJson2.name || pkgJsonsMissingNameField.push(path8.relative(cwd, path8.join(dir2, "package.json"))), {
+          packageJson: packageJson2,
+          dir: dir2
+        };
+      } catch (err) {
+        if (err.code === "ENOENT")
+          return null;
+        throw err;
+      }
+    }).filter(function(x) {
+      return x;
+    });
+    if (pkgJsonsMissingNameField.length !== 0)
+      throw pkgJsonsMissingNameField.sort(), new PackageJsonMissingNameError(pkgJsonsMissingNameField);
+    return {
+      tool: tool.type,
+      root: {
+        dir: cwd,
+        packageJson: pkg
+      },
+      packages: results
+    };
+  }
+  exports.PackageJsonMissingNameError = PackageJsonMissingNameError, exports.getPackages = getPackages3, exports.getPackagesSync = getPackagesSync;
+});
+var require_get_packages_cjs2 = __commonJSMin((exports, module2) => {
+  "use strict";
+  if (true) {
+    module2.exports = require_get_packages_cjs_prod2();
+  } else {
+    module2.exports = null;
+  }
+});
+var require_constants5 = __commonJSMin((exports, module2) => {
+  "use strict";
+  var path8 = __require("path");
+  var WIN_SLASH = "\\\\/";
+  var WIN_NO_SLASH = `[^${WIN_SLASH}]`;
+  var DOT_LITERAL = "\\.";
+  var PLUS_LITERAL = "\\+";
+  var QMARK_LITERAL = "\\?";
+  var SLASH_LITERAL = "\\/";
+  var ONE_CHAR = "(?=.)";
+  var QMARK = "[^/]";
+  var END_ANCHOR = `(?:${SLASH_LITERAL}|$)`;
+  var START_ANCHOR = `(?:^|${SLASH_LITERAL})`;
+  var DOTS_SLASH = `${DOT_LITERAL}{1,2}${END_ANCHOR}`;
+  var NO_DOT = `(?!${DOT_LITERAL})`;
+  var NO_DOTS = `(?!${START_ANCHOR}${DOTS_SLASH})`;
+  var NO_DOT_SLASH = `(?!${DOT_LITERAL}{0,1}${END_ANCHOR})`;
+  var NO_DOTS_SLASH = `(?!${DOTS_SLASH})`;
+  var QMARK_NO_DOT = `[^.${SLASH_LITERAL}]`;
+  var STAR = `${QMARK}*?`;
+  var POSIX_CHARS = {
+    DOT_LITERAL,
+    PLUS_LITERAL,
+    QMARK_LITERAL,
+    SLASH_LITERAL,
+    ONE_CHAR,
+    QMARK,
+    END_ANCHOR,
+    DOTS_SLASH,
+    NO_DOT,
+    NO_DOTS,
+    NO_DOT_SLASH,
+    NO_DOTS_SLASH,
+    QMARK_NO_DOT,
+    STAR,
+    START_ANCHOR
+  };
+  var WINDOWS_CHARS = {
+    ...POSIX_CHARS,
+    SLASH_LITERAL: `[${WIN_SLASH}]`,
+    QMARK: WIN_NO_SLASH,
+    STAR: `${WIN_NO_SLASH}*?`,
+    DOTS_SLASH: `${DOT_LITERAL}{1,2}(?:[${WIN_SLASH}]|$)`,
+    NO_DOT: `(?!${DOT_LITERAL})`,
+    NO_DOTS: `(?!(?:^|[${WIN_SLASH}])${DOT_LITERAL}{1,2}(?:[${WIN_SLASH}]|$))`,
+    NO_DOT_SLASH: `(?!${DOT_LITERAL}{0,1}(?:[${WIN_SLASH}]|$))`,
+    NO_DOTS_SLASH: `(?!${DOT_LITERAL}{1,2}(?:[${WIN_SLASH}]|$))`,
+    QMARK_NO_DOT: `[^.${WIN_SLASH}]`,
+    START_ANCHOR: `(?:^|[${WIN_SLASH}])`,
+    END_ANCHOR: `(?:[${WIN_SLASH}]|$)`
+  };
+  var POSIX_REGEX_SOURCE = {
+    alnum: "a-zA-Z0-9",
+    alpha: "a-zA-Z",
+    ascii: "\\x00-\\x7F",
+    blank: " \\t",
+    cntrl: "\\x00-\\x1F\\x7F",
+    digit: "0-9",
+    graph: "\\x21-\\x7E",
+    lower: "a-z",
+    print: "\\x20-\\x7E ",
+    punct: "\\-!\"#$%&'()\\*+,./:;<=>?@[\\]^_`{|}~",
+    space: " \\t\\r\\n\\v\\f",
+    upper: "A-Z",
+    word: "A-Za-z0-9_",
+    xdigit: "A-Fa-f0-9"
+  };
+  module2.exports = {
+    MAX_LENGTH: 1024 * 64,
+    POSIX_REGEX_SOURCE,
+    REGEX_BACKSLASH: /\\(?![*+?^${}(|)[\]])/g,
+    REGEX_NON_SPECIAL_CHARS: /^[^@![\].,$*+?^{}()|\\/]+/,
+    REGEX_SPECIAL_CHARS: /[-*+?.^${}(|)[\]]/,
+    REGEX_SPECIAL_CHARS_BACKREF: /(\\?)((\W)(\3*))/g,
+    REGEX_SPECIAL_CHARS_GLOBAL: /([-*+?.^${}(|)[\]])/g,
+    REGEX_REMOVE_BACKSLASH: /(?:\[.*?[^\\]\]|\\(?=.))/g,
+    REPLACEMENTS: {
+      "***": "*",
+      "**/**": "**",
+      "**/**/**": "**"
+    },
+    CHAR_0: 48,
+    CHAR_9: 57,
+    CHAR_UPPERCASE_A: 65,
+    CHAR_LOWERCASE_A: 97,
+    CHAR_UPPERCASE_Z: 90,
+    CHAR_LOWERCASE_Z: 122,
+    CHAR_LEFT_PARENTHESES: 40,
+    CHAR_RIGHT_PARENTHESES: 41,
+    CHAR_ASTERISK: 42,
+    CHAR_AMPERSAND: 38,
+    CHAR_AT: 64,
+    CHAR_BACKWARD_SLASH: 92,
+    CHAR_CARRIAGE_RETURN: 13,
+    CHAR_CIRCUMFLEX_ACCENT: 94,
+    CHAR_COLON: 58,
+    CHAR_COMMA: 44,
+    CHAR_DOT: 46,
+    CHAR_DOUBLE_QUOTE: 34,
+    CHAR_EQUAL: 61,
+    CHAR_EXCLAMATION_MARK: 33,
+    CHAR_FORM_FEED: 12,
+    CHAR_FORWARD_SLASH: 47,
+    CHAR_GRAVE_ACCENT: 96,
+    CHAR_HASH: 35,
+    CHAR_HYPHEN_MINUS: 45,
+    CHAR_LEFT_ANGLE_BRACKET: 60,
+    CHAR_LEFT_CURLY_BRACE: 123,
+    CHAR_LEFT_SQUARE_BRACKET: 91,
+    CHAR_LINE_FEED: 10,
+    CHAR_NO_BREAK_SPACE: 160,
+    CHAR_PERCENT: 37,
+    CHAR_PLUS: 43,
+    CHAR_QUESTION_MARK: 63,
+    CHAR_RIGHT_ANGLE_BRACKET: 62,
+    CHAR_RIGHT_CURLY_BRACE: 125,
+    CHAR_RIGHT_SQUARE_BRACKET: 93,
+    CHAR_SEMICOLON: 59,
+    CHAR_SINGLE_QUOTE: 39,
+    CHAR_SPACE: 32,
+    CHAR_TAB: 9,
+    CHAR_UNDERSCORE: 95,
+    CHAR_VERTICAL_LINE: 124,
+    CHAR_ZERO_WIDTH_NOBREAK_SPACE: 65279,
+    SEP: path8.sep,
+    extglobChars(chars) {
+      return {
+        "!": { type: "negate", open: "(?:(?!(?:", close: `))${chars.STAR})` },
+        "?": { type: "qmark", open: "(?:", close: ")?" },
+        "+": { type: "plus", open: "(?:", close: ")+" },
+        "*": { type: "star", open: "(?:", close: ")*" },
+        "@": { type: "at", open: "(?:", close: ")" }
+      };
+    },
+    globChars(win32) {
+      return win32 === true ? WINDOWS_CHARS : POSIX_CHARS;
+    }
+  };
+});
+var require_utils9 = __commonJSMin((exports) => {
+  "use strict";
+  var path8 = __require("path");
+  var win32 = process.platform === "win32";
+  var {
+    REGEX_BACKSLASH,
+    REGEX_REMOVE_BACKSLASH,
+    REGEX_SPECIAL_CHARS,
+    REGEX_SPECIAL_CHARS_GLOBAL
+  } = require_constants5();
+  exports.isObject = (val) => val !== null && typeof val === "object" && !Array.isArray(val);
+  exports.hasRegexChars = (str) => REGEX_SPECIAL_CHARS.test(str);
+  exports.isRegexChar = (str) => str.length === 1 && exports.hasRegexChars(str);
+  exports.escapeRegex = (str) => str.replace(REGEX_SPECIAL_CHARS_GLOBAL, "\\$1");
+  exports.toPosixSlashes = (str) => str.replace(REGEX_BACKSLASH, "/");
+  exports.removeBackslashes = (str) => {
+    return str.replace(REGEX_REMOVE_BACKSLASH, (match) => {
+      return match === "\\" ? "" : match;
+    });
+  };
+  exports.supportsLookbehinds = () => {
+    const segs = process.version.slice(1).split(".").map(Number);
+    if (segs.length === 3 && segs[0] >= 9 || segs[0] === 8 && segs[1] >= 10) {
+      return true;
+    }
+    return false;
+  };
+  exports.isWindows = (options2) => {
+    if (options2 && typeof options2.windows === "boolean") {
+      return options2.windows;
+    }
+    return win32 === true || path8.sep === "\\";
+  };
+  exports.escapeLast = (input, char, lastIdx) => {
+    const idx = input.lastIndexOf(char, lastIdx);
+    if (idx === -1)
+      return input;
+    if (input[idx - 1] === "\\")
+      return exports.escapeLast(input, char, idx - 1);
+    return `${input.slice(0, idx)}\\${input.slice(idx)}`;
+  };
+  exports.removePrefix = (input, state = {}) => {
+    let output = input;
+    if (output.startsWith("./")) {
+      output = output.slice(2);
+      state.prefix = "./";
+    }
+    return output;
+  };
+  exports.wrapOutput = (input, state = {}, options2 = {}) => {
+    const prepend = options2.contains ? "" : "^";
+    const append = options2.contains ? "" : "$";
+    let output = `${prepend}(?:${input})${append}`;
+    if (state.negated === true) {
+      output = `(?:^(?!${output}).*$)`;
+    }
+    return output;
+  };
+});
+var require_scan2 = __commonJSMin((exports, module2) => {
+  "use strict";
+  var utils = require_utils9();
+  var {
+    CHAR_ASTERISK,
+    CHAR_AT,
+    CHAR_BACKWARD_SLASH,
+    CHAR_COMMA,
+    CHAR_DOT,
+    CHAR_EXCLAMATION_MARK,
+    CHAR_FORWARD_SLASH,
+    CHAR_LEFT_CURLY_BRACE,
+    CHAR_LEFT_PARENTHESES,
+    CHAR_LEFT_SQUARE_BRACKET,
+    CHAR_PLUS,
+    CHAR_QUESTION_MARK,
+    CHAR_RIGHT_CURLY_BRACE,
+    CHAR_RIGHT_PARENTHESES,
+    CHAR_RIGHT_SQUARE_BRACKET
+  } = require_constants5();
+  var isPathSeparator = (code) => {
+    return code === CHAR_FORWARD_SLASH || code === CHAR_BACKWARD_SLASH;
+  };
+  var depth = (token) => {
+    if (token.isPrefix !== true) {
+      token.depth = token.isGlobstar ? Infinity : 1;
+    }
+  };
+  var scan = (input, options2) => {
+    const opts = options2 || {};
+    const length = input.length - 1;
+    const scanToEnd = opts.parts === true || opts.scanToEnd === true;
+    const slashes = [];
+    const tokens = [];
+    const parts = [];
+    let str = input;
+    let index = -1;
+    let start = 0;
+    let lastIndex = 0;
+    let isBrace = false;
+    let isBracket = false;
+    let isGlob = false;
+    let isExtglob = false;
+    let isGlobstar = false;
+    let braceEscaped = false;
+    let backslashes = false;
+    let negated = false;
+    let negatedExtglob = false;
+    let finished = false;
+    let braces = 0;
+    let prev;
+    let code;
+    let token = { value: "", depth: 0, isGlob: false };
+    const eos = () => index >= length;
+    const peek = () => str.charCodeAt(index + 1);
+    const advance = () => {
+      prev = code;
+      return str.charCodeAt(++index);
+    };
+    while (index < length) {
+      code = advance();
+      let next;
+      if (code === CHAR_BACKWARD_SLASH) {
+        backslashes = token.backslashes = true;
+        code = advance();
+        if (code === CHAR_LEFT_CURLY_BRACE) {
+          braceEscaped = true;
+        }
+        continue;
+      }
+      if (braceEscaped === true || code === CHAR_LEFT_CURLY_BRACE) {
+        braces++;
+        while (eos() !== true && (code = advance())) {
+          if (code === CHAR_BACKWARD_SLASH) {
+            backslashes = token.backslashes = true;
+            advance();
+            continue;
+          }
+          if (code === CHAR_LEFT_CURLY_BRACE) {
+            braces++;
+            continue;
+          }
+          if (braceEscaped !== true && code === CHAR_DOT && (code = advance()) === CHAR_DOT) {
+            isBrace = token.isBrace = true;
+            isGlob = token.isGlob = true;
+            finished = true;
+            if (scanToEnd === true) {
+              continue;
+            }
+            break;
+          }
+          if (braceEscaped !== true && code === CHAR_COMMA) {
+            isBrace = token.isBrace = true;
+            isGlob = token.isGlob = true;
+            finished = true;
+            if (scanToEnd === true) {
+              continue;
+            }
+            break;
+          }
+          if (code === CHAR_RIGHT_CURLY_BRACE) {
+            braces--;
+            if (braces === 0) {
+              braceEscaped = false;
+              isBrace = token.isBrace = true;
+              finished = true;
+              break;
+            }
+          }
+        }
+        if (scanToEnd === true) {
+          continue;
+        }
+        break;
+      }
+      if (code === CHAR_FORWARD_SLASH) {
+        slashes.push(index);
+        tokens.push(token);
+        token = { value: "", depth: 0, isGlob: false };
+        if (finished === true)
+          continue;
+        if (prev === CHAR_DOT && index === start + 1) {
+          start += 2;
+          continue;
+        }
+        lastIndex = index + 1;
+        continue;
+      }
+      if (opts.noext !== true) {
+        const isExtglobChar = code === CHAR_PLUS || code === CHAR_AT || code === CHAR_ASTERISK || code === CHAR_QUESTION_MARK || code === CHAR_EXCLAMATION_MARK;
+        if (isExtglobChar === true && peek() === CHAR_LEFT_PARENTHESES) {
+          isGlob = token.isGlob = true;
+          isExtglob = token.isExtglob = true;
+          finished = true;
+          if (code === CHAR_EXCLAMATION_MARK && index === start) {
+            negatedExtglob = true;
+          }
+          if (scanToEnd === true) {
+            while (eos() !== true && (code = advance())) {
+              if (code === CHAR_BACKWARD_SLASH) {
+                backslashes = token.backslashes = true;
+                code = advance();
+                continue;
+              }
+              if (code === CHAR_RIGHT_PARENTHESES) {
+                isGlob = token.isGlob = true;
+                finished = true;
+                break;
+              }
+            }
+            continue;
+          }
+          break;
+        }
+      }
+      if (code === CHAR_ASTERISK) {
+        if (prev === CHAR_ASTERISK)
+          isGlobstar = token.isGlobstar = true;
+        isGlob = token.isGlob = true;
+        finished = true;
+        if (scanToEnd === true) {
+          continue;
+        }
+        break;
+      }
+      if (code === CHAR_QUESTION_MARK) {
+        isGlob = token.isGlob = true;
+        finished = true;
+        if (scanToEnd === true) {
+          continue;
+        }
+        break;
+      }
+      if (code === CHAR_LEFT_SQUARE_BRACKET) {
+        while (eos() !== true && (next = advance())) {
+          if (next === CHAR_BACKWARD_SLASH) {
+            backslashes = token.backslashes = true;
+            advance();
+            continue;
+          }
+          if (next === CHAR_RIGHT_SQUARE_BRACKET) {
+            isBracket = token.isBracket = true;
+            isGlob = token.isGlob = true;
+            finished = true;
+            break;
+          }
+        }
+        if (scanToEnd === true) {
+          continue;
+        }
+        break;
+      }
+      if (opts.nonegate !== true && code === CHAR_EXCLAMATION_MARK && index === start) {
+        negated = token.negated = true;
+        start++;
+        continue;
+      }
+      if (opts.noparen !== true && code === CHAR_LEFT_PARENTHESES) {
+        isGlob = token.isGlob = true;
+        if (scanToEnd === true) {
+          while (eos() !== true && (code = advance())) {
+            if (code === CHAR_LEFT_PARENTHESES) {
+              backslashes = token.backslashes = true;
+              code = advance();
+              continue;
+            }
+            if (code === CHAR_RIGHT_PARENTHESES) {
+              finished = true;
+              break;
+            }
+          }
+          continue;
+        }
+        break;
+      }
+      if (isGlob === true) {
+        finished = true;
+        if (scanToEnd === true) {
+          continue;
+        }
+        break;
+      }
+    }
+    if (opts.noext === true) {
+      isExtglob = false;
+      isGlob = false;
+    }
+    let base = str;
+    let prefix2 = "";
+    let glob = "";
+    if (start > 0) {
+      prefix2 = str.slice(0, start);
+      str = str.slice(start);
+      lastIndex -= start;
+    }
+    if (base && isGlob === true && lastIndex > 0) {
+      base = str.slice(0, lastIndex);
+      glob = str.slice(lastIndex);
+    } else if (isGlob === true) {
+      base = "";
+      glob = str;
+    } else {
+      base = str;
+    }
+    if (base && base !== "" && base !== "/" && base !== str) {
+      if (isPathSeparator(base.charCodeAt(base.length - 1))) {
+        base = base.slice(0, -1);
+      }
+    }
+    if (opts.unescape === true) {
+      if (glob)
+        glob = utils.removeBackslashes(glob);
+      if (base && backslashes === true) {
+        base = utils.removeBackslashes(base);
+      }
+    }
+    const state = {
+      prefix: prefix2,
+      input,
+      start,
+      base,
+      glob,
+      isBrace,
+      isBracket,
+      isGlob,
+      isExtglob,
+      isGlobstar,
+      negated,
+      negatedExtglob
+    };
+    if (opts.tokens === true) {
+      state.maxDepth = 0;
+      if (!isPathSeparator(code)) {
+        tokens.push(token);
+      }
+      state.tokens = tokens;
+    }
+    if (opts.parts === true || opts.tokens === true) {
+      let prevIndex;
+      for (let idx = 0; idx < slashes.length; idx++) {
+        const n = prevIndex ? prevIndex + 1 : start;
+        const i = slashes[idx];
+        const value = input.slice(n, i);
+        if (opts.tokens) {
+          if (idx === 0 && start !== 0) {
+            tokens[idx].isPrefix = true;
+            tokens[idx].value = prefix2;
+          } else {
+            tokens[idx].value = value;
+          }
+          depth(tokens[idx]);
+          state.maxDepth += tokens[idx].depth;
+        }
+        if (idx !== 0 || value !== "") {
+          parts.push(value);
+        }
+        prevIndex = i;
+      }
+      if (prevIndex && prevIndex + 1 < input.length) {
+        const value = input.slice(prevIndex + 1);
+        parts.push(value);
+        if (opts.tokens) {
+          tokens[tokens.length - 1].value = value;
+          depth(tokens[tokens.length - 1]);
+          state.maxDepth += tokens[tokens.length - 1].depth;
+        }
+      }
+      state.slashes = slashes;
+      state.parts = parts;
+    }
+    return state;
+  };
+  module2.exports = scan;
+});
+var require_parse5 = __commonJSMin((exports, module2) => {
+  "use strict";
+  var constants = require_constants5();
+  var utils = require_utils9();
+  var {
+    MAX_LENGTH,
+    POSIX_REGEX_SOURCE,
+    REGEX_NON_SPECIAL_CHARS,
+    REGEX_SPECIAL_CHARS_BACKREF,
+    REPLACEMENTS
+  } = constants;
+  var expandRange = (args, options2) => {
+    if (typeof options2.expandRange === "function") {
+      return options2.expandRange(...args, options2);
+    }
+    args.sort();
+    const value = `[${args.join("-")}]`;
+    try {
+      new RegExp(value);
+    } catch (ex) {
+      return args.map((v) => utils.escapeRegex(v)).join("..");
+    }
+    return value;
+  };
+  var syntaxError = (type, char) => {
+    return `Missing ${type}: "${char}" - use "\\\\${char}" to match literal characters`;
+  };
+  var parse4 = (input, options2) => {
+    if (typeof input !== "string") {
+      throw new TypeError("Expected a string");
+    }
+    input = REPLACEMENTS[input] || input;
+    const opts = { ...options2 };
+    const max = typeof opts.maxLength === "number" ? Math.min(MAX_LENGTH, opts.maxLength) : MAX_LENGTH;
+    let len = input.length;
+    if (len > max) {
+      throw new SyntaxError(`Input length: ${len}, exceeds maximum allowed length: ${max}`);
+    }
+    const bos = { type: "bos", value: "", output: opts.prepend || "" };
+    const tokens = [bos];
+    const capture = opts.capture ? "" : "?:";
+    const win32 = utils.isWindows(options2);
+    const PLATFORM_CHARS = constants.globChars(win32);
+    const EXTGLOB_CHARS = constants.extglobChars(PLATFORM_CHARS);
+    const {
+      DOT_LITERAL,
+      PLUS_LITERAL,
+      SLASH_LITERAL,
+      ONE_CHAR,
+      DOTS_SLASH,
+      NO_DOT,
+      NO_DOT_SLASH,
+      NO_DOTS_SLASH,
+      QMARK,
+      QMARK_NO_DOT,
+      STAR,
+      START_ANCHOR
+    } = PLATFORM_CHARS;
+    const globstar = (opts2) => {
+      return `(${capture}(?:(?!${START_ANCHOR}${opts2.dot ? DOTS_SLASH : DOT_LITERAL}).)*?)`;
+    };
+    const nodot = opts.dot ? "" : NO_DOT;
+    const qmarkNoDot = opts.dot ? QMARK : QMARK_NO_DOT;
+    let star = opts.bash === true ? globstar(opts) : STAR;
+    if (opts.capture) {
+      star = `(${star})`;
+    }
+    if (typeof opts.noext === "boolean") {
+      opts.noextglob = opts.noext;
+    }
+    const state = {
+      input,
+      index: -1,
+      start: 0,
+      dot: opts.dot === true,
+      consumed: "",
+      output: "",
+      prefix: "",
+      backtrack: false,
+      negated: false,
+      brackets: 0,
+      braces: 0,
+      parens: 0,
+      quotes: 0,
+      globstar: false,
+      tokens
+    };
+    input = utils.removePrefix(input, state);
+    len = input.length;
+    const extglobs = [];
+    const braces = [];
+    const stack = [];
+    let prev = bos;
+    let value;
+    const eos = () => state.index === len - 1;
+    const peek = state.peek = (n = 1) => input[state.index + n];
+    const advance = state.advance = () => input[++state.index] || "";
+    const remaining = () => input.slice(state.index + 1);
+    const consume = (value2 = "", num = 0) => {
+      state.consumed += value2;
+      state.index += num;
+    };
+    const append = (token) => {
+      state.output += token.output != null ? token.output : token.value;
+      consume(token.value);
+    };
+    const negate = () => {
+      let count = 1;
+      while (peek() === "!" && (peek(2) !== "(" || peek(3) === "?")) {
+        advance();
+        state.start++;
+        count++;
+      }
+      if (count % 2 === 0) {
+        return false;
+      }
+      state.negated = true;
+      state.start++;
+      return true;
+    };
+    const increment = (type) => {
+      state[type]++;
+      stack.push(type);
+    };
+    const decrement = (type) => {
+      state[type]--;
+      stack.pop();
+    };
+    const push = (tok) => {
+      if (prev.type === "globstar") {
+        const isBrace = state.braces > 0 && (tok.type === "comma" || tok.type === "brace");
+        const isExtglob = tok.extglob === true || extglobs.length && (tok.type === "pipe" || tok.type === "paren");
+        if (tok.type !== "slash" && tok.type !== "paren" && !isBrace && !isExtglob) {
+          state.output = state.output.slice(0, -prev.output.length);
+          prev.type = "star";
+          prev.value = "*";
+          prev.output = star;
+          state.output += prev.output;
+        }
+      }
+      if (extglobs.length && tok.type !== "paren") {
+        extglobs[extglobs.length - 1].inner += tok.value;
+      }
+      if (tok.value || tok.output)
+        append(tok);
+      if (prev && prev.type === "text" && tok.type === "text") {
+        prev.value += tok.value;
+        prev.output = (prev.output || "") + tok.value;
+        return;
+      }
+      tok.prev = prev;
+      tokens.push(tok);
+      prev = tok;
+    };
+    const extglobOpen = (type, value2) => {
+      const token = { ...EXTGLOB_CHARS[value2], conditions: 1, inner: "" };
+      token.prev = prev;
+      token.parens = state.parens;
+      token.output = state.output;
+      const output = (opts.capture ? "(" : "") + token.open;
+      increment("parens");
+      push({ type, value: value2, output: state.output ? "" : ONE_CHAR });
+      push({ type: "paren", extglob: true, value: advance(), output });
+      extglobs.push(token);
+    };
+    const extglobClose = (token) => {
+      let output = token.close + (opts.capture ? ")" : "");
+      let rest;
+      if (token.type === "negate") {
+        let extglobStar = star;
+        if (token.inner && token.inner.length > 1 && token.inner.includes("/")) {
+          extglobStar = globstar(opts);
+        }
+        if (extglobStar !== star || eos() || /^\)+$/.test(remaining())) {
+          output = token.close = `)$))${extglobStar}`;
+        }
+        if (token.inner.includes("*") && (rest = remaining()) && /^\.[^\\/.]+$/.test(rest)) {
+          const expression = parse4(rest, { ...options2, fastpaths: false }).output;
+          output = token.close = `)${expression})${extglobStar})`;
+        }
+        if (token.prev.type === "bos") {
+          state.negatedExtglob = true;
+        }
+      }
+      push({ type: "paren", extglob: true, value, output });
+      decrement("parens");
+    };
+    if (opts.fastpaths !== false && !/(^[*!]|[/()[\]{}"])/.test(input)) {
+      let backslashes = false;
+      let output = input.replace(REGEX_SPECIAL_CHARS_BACKREF, (m, esc, chars, first, rest, index) => {
+        if (first === "\\") {
+          backslashes = true;
+          return m;
+        }
+        if (first === "?") {
+          if (esc) {
+            return esc + first + (rest ? QMARK.repeat(rest.length) : "");
+          }
+          if (index === 0) {
+            return qmarkNoDot + (rest ? QMARK.repeat(rest.length) : "");
+          }
+          return QMARK.repeat(chars.length);
+        }
+        if (first === ".") {
+          return DOT_LITERAL.repeat(chars.length);
+        }
+        if (first === "*") {
+          if (esc) {
+            return esc + first + (rest ? star : "");
+          }
+          return star;
+        }
+        return esc ? m : `\\${m}`;
+      });
+      if (backslashes === true) {
+        if (opts.unescape === true) {
+          output = output.replace(/\\/g, "");
+        } else {
+          output = output.replace(/\\+/g, (m) => {
+            return m.length % 2 === 0 ? "\\\\" : m ? "\\" : "";
+          });
+        }
+      }
+      if (output === input && opts.contains === true) {
+        state.output = input;
+        return state;
+      }
+      state.output = utils.wrapOutput(output, state, options2);
+      return state;
+    }
+    while (!eos()) {
+      value = advance();
+      if (value === "\0") {
+        continue;
+      }
+      if (value === "\\") {
+        const next = peek();
+        if (next === "/" && opts.bash !== true) {
+          continue;
+        }
+        if (next === "." || next === ";") {
+          continue;
+        }
+        if (!next) {
+          value += "\\";
+          push({ type: "text", value });
+          continue;
+        }
+        const match = /^\\+/.exec(remaining());
+        let slashes = 0;
+        if (match && match[0].length > 2) {
+          slashes = match[0].length;
+          state.index += slashes;
+          if (slashes % 2 !== 0) {
+            value += "\\";
+          }
+        }
+        if (opts.unescape === true) {
+          value = advance();
+        } else {
+          value += advance();
+        }
+        if (state.brackets === 0) {
+          push({ type: "text", value });
+          continue;
+        }
+      }
+      if (state.brackets > 0 && (value !== "]" || prev.value === "[" || prev.value === "[^")) {
+        if (opts.posix !== false && value === ":") {
+          const inner = prev.value.slice(1);
+          if (inner.includes("[")) {
+            prev.posix = true;
+            if (inner.includes(":")) {
+              const idx = prev.value.lastIndexOf("[");
+              const pre = prev.value.slice(0, idx);
+              const rest2 = prev.value.slice(idx + 2);
+              const posix = POSIX_REGEX_SOURCE[rest2];
+              if (posix) {
+                prev.value = pre + posix;
+                state.backtrack = true;
+                advance();
+                if (!bos.output && tokens.indexOf(prev) === 1) {
+                  bos.output = ONE_CHAR;
+                }
+                continue;
+              }
+            }
+          }
+        }
+        if (value === "[" && peek() !== ":" || value === "-" && peek() === "]") {
+          value = `\\${value}`;
+        }
+        if (value === "]" && (prev.value === "[" || prev.value === "[^")) {
+          value = `\\${value}`;
+        }
+        if (opts.posix === true && value === "!" && prev.value === "[") {
+          value = "^";
+        }
+        prev.value += value;
+        append({ value });
+        continue;
+      }
+      if (state.quotes === 1 && value !== '"') {
+        value = utils.escapeRegex(value);
+        prev.value += value;
+        append({ value });
+        continue;
+      }
+      if (value === '"') {
+        state.quotes = state.quotes === 1 ? 0 : 1;
+        if (opts.keepQuotes === true) {
+          push({ type: "text", value });
+        }
+        continue;
+      }
+      if (value === "(") {
+        increment("parens");
+        push({ type: "paren", value });
+        continue;
+      }
+      if (value === ")") {
+        if (state.parens === 0 && opts.strictBrackets === true) {
+          throw new SyntaxError(syntaxError("opening", "("));
+        }
+        const extglob = extglobs[extglobs.length - 1];
+        if (extglob && state.parens === extglob.parens + 1) {
+          extglobClose(extglobs.pop());
+          continue;
+        }
+        push({ type: "paren", value, output: state.parens ? ")" : "\\)" });
+        decrement("parens");
+        continue;
+      }
+      if (value === "[") {
+        if (opts.nobracket === true || !remaining().includes("]")) {
+          if (opts.nobracket !== true && opts.strictBrackets === true) {
+            throw new SyntaxError(syntaxError("closing", "]"));
+          }
+          value = `\\${value}`;
+        } else {
+          increment("brackets");
+        }
+        push({ type: "bracket", value });
+        continue;
+      }
+      if (value === "]") {
+        if (opts.nobracket === true || prev && prev.type === "bracket" && prev.value.length === 1) {
+          push({ type: "text", value, output: `\\${value}` });
+          continue;
+        }
+        if (state.brackets === 0) {
+          if (opts.strictBrackets === true) {
+            throw new SyntaxError(syntaxError("opening", "["));
+          }
+          push({ type: "text", value, output: `\\${value}` });
+          continue;
+        }
+        decrement("brackets");
+        const prevValue = prev.value.slice(1);
+        if (prev.posix !== true && prevValue[0] === "^" && !prevValue.includes("/")) {
+          value = `/${value}`;
+        }
+        prev.value += value;
+        append({ value });
+        if (opts.literalBrackets === false || utils.hasRegexChars(prevValue)) {
+          continue;
+        }
+        const escaped = utils.escapeRegex(prev.value);
+        state.output = state.output.slice(0, -prev.value.length);
+        if (opts.literalBrackets === true) {
+          state.output += escaped;
+          prev.value = escaped;
+          continue;
+        }
+        prev.value = `(${capture}${escaped}|${prev.value})`;
+        state.output += prev.value;
+        continue;
+      }
+      if (value === "{" && opts.nobrace !== true) {
+        increment("braces");
+        const open = {
+          type: "brace",
+          value,
+          output: "(",
+          outputIndex: state.output.length,
+          tokensIndex: state.tokens.length
+        };
+        braces.push(open);
+        push(open);
+        continue;
+      }
+      if (value === "}") {
+        const brace = braces[braces.length - 1];
+        if (opts.nobrace === true || !brace) {
+          push({ type: "text", value, output: value });
+          continue;
+        }
+        let output = ")";
+        if (brace.dots === true) {
+          const arr = tokens.slice();
+          const range = [];
+          for (let i = arr.length - 1; i >= 0; i--) {
+            tokens.pop();
+            if (arr[i].type === "brace") {
+              break;
+            }
+            if (arr[i].type !== "dots") {
+              range.unshift(arr[i].value);
+            }
+          }
+          output = expandRange(range, opts);
+          state.backtrack = true;
+        }
+        if (brace.comma !== true && brace.dots !== true) {
+          const out = state.output.slice(0, brace.outputIndex);
+          const toks = state.tokens.slice(brace.tokensIndex);
+          brace.value = brace.output = "\\{";
+          value = output = "\\}";
+          state.output = out;
+          for (const t of toks) {
+            state.output += t.output || t.value;
+          }
+        }
+        push({ type: "brace", value, output });
+        decrement("braces");
+        braces.pop();
+        continue;
+      }
+      if (value === "|") {
+        if (extglobs.length > 0) {
+          extglobs[extglobs.length - 1].conditions++;
+        }
+        push({ type: "text", value });
+        continue;
+      }
+      if (value === ",") {
+        let output = value;
+        const brace = braces[braces.length - 1];
+        if (brace && stack[stack.length - 1] === "braces") {
+          brace.comma = true;
+          output = "|";
+        }
+        push({ type: "comma", value, output });
+        continue;
+      }
+      if (value === "/") {
+        if (prev.type === "dot" && state.index === state.start + 1) {
+          state.start = state.index + 1;
+          state.consumed = "";
+          state.output = "";
+          tokens.pop();
+          prev = bos;
+          continue;
+        }
+        push({ type: "slash", value, output: SLASH_LITERAL });
+        continue;
+      }
+      if (value === ".") {
+        if (state.braces > 0 && prev.type === "dot") {
+          if (prev.value === ".")
+            prev.output = DOT_LITERAL;
+          const brace = braces[braces.length - 1];
+          prev.type = "dots";
+          prev.output += value;
+          prev.value += value;
+          brace.dots = true;
+          continue;
+        }
+        if (state.braces + state.parens === 0 && prev.type !== "bos" && prev.type !== "slash") {
+          push({ type: "text", value, output: DOT_LITERAL });
+          continue;
+        }
+        push({ type: "dot", value, output: DOT_LITERAL });
+        continue;
+      }
+      if (value === "?") {
+        const isGroup = prev && prev.value === "(";
+        if (!isGroup && opts.noextglob !== true && peek() === "(" && peek(2) !== "?") {
+          extglobOpen("qmark", value);
+          continue;
+        }
+        if (prev && prev.type === "paren") {
+          const next = peek();
+          let output = value;
+          if (next === "<" && !utils.supportsLookbehinds()) {
+            throw new Error("Node.js v10 or higher is required for regex lookbehinds");
+          }
+          if (prev.value === "(" && !/[!=<:]/.test(next) || next === "<" && !/<([!=]|\w+>)/.test(remaining())) {
+            output = `\\${value}`;
+          }
+          push({ type: "text", value, output });
+          continue;
+        }
+        if (opts.dot !== true && (prev.type === "slash" || prev.type === "bos")) {
+          push({ type: "qmark", value, output: QMARK_NO_DOT });
+          continue;
+        }
+        push({ type: "qmark", value, output: QMARK });
+        continue;
+      }
+      if (value === "!") {
+        if (opts.noextglob !== true && peek() === "(") {
+          if (peek(2) !== "?" || !/[!=<:]/.test(peek(3))) {
+            extglobOpen("negate", value);
+            continue;
+          }
+        }
+        if (opts.nonegate !== true && state.index === 0) {
+          negate();
+          continue;
+        }
+      }
+      if (value === "+") {
+        if (opts.noextglob !== true && peek() === "(" && peek(2) !== "?") {
+          extglobOpen("plus", value);
+          continue;
+        }
+        if (prev && prev.value === "(" || opts.regex === false) {
+          push({ type: "plus", value, output: PLUS_LITERAL });
+          continue;
+        }
+        if (prev && (prev.type === "bracket" || prev.type === "paren" || prev.type === "brace") || state.parens > 0) {
+          push({ type: "plus", value });
+          continue;
+        }
+        push({ type: "plus", value: PLUS_LITERAL });
+        continue;
+      }
+      if (value === "@") {
+        if (opts.noextglob !== true && peek() === "(" && peek(2) !== "?") {
+          push({ type: "at", extglob: true, value, output: "" });
+          continue;
+        }
+        push({ type: "text", value });
+        continue;
+      }
+      if (value !== "*") {
+        if (value === "$" || value === "^") {
+          value = `\\${value}`;
+        }
+        const match = REGEX_NON_SPECIAL_CHARS.exec(remaining());
+        if (match) {
+          value += match[0];
+          state.index += match[0].length;
+        }
+        push({ type: "text", value });
+        continue;
+      }
+      if (prev && (prev.type === "globstar" || prev.star === true)) {
+        prev.type = "star";
+        prev.star = true;
+        prev.value += value;
+        prev.output = star;
+        state.backtrack = true;
+        state.globstar = true;
+        consume(value);
+        continue;
+      }
+      let rest = remaining();
+      if (opts.noextglob !== true && /^\([^?]/.test(rest)) {
+        extglobOpen("star", value);
+        continue;
+      }
+      if (prev.type === "star") {
+        if (opts.noglobstar === true) {
+          consume(value);
+          continue;
+        }
+        const prior = prev.prev;
+        const before = prior.prev;
+        const isStart = prior.type === "slash" || prior.type === "bos";
+        const afterStar = before && (before.type === "star" || before.type === "globstar");
+        if (opts.bash === true && (!isStart || rest[0] && rest[0] !== "/")) {
+          push({ type: "star", value, output: "" });
+          continue;
+        }
+        const isBrace = state.braces > 0 && (prior.type === "comma" || prior.type === "brace");
+        const isExtglob = extglobs.length && (prior.type === "pipe" || prior.type === "paren");
+        if (!isStart && prior.type !== "paren" && !isBrace && !isExtglob) {
+          push({ type: "star", value, output: "" });
+          continue;
+        }
+        while (rest.slice(0, 3) === "/**") {
+          const after = input[state.index + 4];
+          if (after && after !== "/") {
+            break;
+          }
+          rest = rest.slice(3);
+          consume("/**", 3);
+        }
+        if (prior.type === "bos" && eos()) {
+          prev.type = "globstar";
+          prev.value += value;
+          prev.output = globstar(opts);
+          state.output = prev.output;
+          state.globstar = true;
+          consume(value);
+          continue;
+        }
+        if (prior.type === "slash" && prior.prev.type !== "bos" && !afterStar && eos()) {
+          state.output = state.output.slice(0, -(prior.output + prev.output).length);
+          prior.output = `(?:${prior.output}`;
+          prev.type = "globstar";
+          prev.output = globstar(opts) + (opts.strictSlashes ? ")" : "|$)");
+          prev.value += value;
+          state.globstar = true;
+          state.output += prior.output + prev.output;
+          consume(value);
+          continue;
+        }
+        if (prior.type === "slash" && prior.prev.type !== "bos" && rest[0] === "/") {
+          const end = rest[1] !== void 0 ? "|$" : "";
+          state.output = state.output.slice(0, -(prior.output + prev.output).length);
+          prior.output = `(?:${prior.output}`;
+          prev.type = "globstar";
+          prev.output = `${globstar(opts)}${SLASH_LITERAL}|${SLASH_LITERAL}${end})`;
+          prev.value += value;
+          state.output += prior.output + prev.output;
+          state.globstar = true;
+          consume(value + advance());
+          push({ type: "slash", value: "/", output: "" });
+          continue;
+        }
+        if (prior.type === "bos" && rest[0] === "/") {
+          prev.type = "globstar";
+          prev.value += value;
+          prev.output = `(?:^|${SLASH_LITERAL}|${globstar(opts)}${SLASH_LITERAL})`;
+          state.output = prev.output;
+          state.globstar = true;
+          consume(value + advance());
+          push({ type: "slash", value: "/", output: "" });
+          continue;
+        }
+        state.output = state.output.slice(0, -prev.output.length);
+        prev.type = "globstar";
+        prev.output = globstar(opts);
+        prev.value += value;
+        state.output += prev.output;
+        state.globstar = true;
+        consume(value);
+        continue;
+      }
+      const token = { type: "star", value, output: star };
+      if (opts.bash === true) {
+        token.output = ".*?";
+        if (prev.type === "bos" || prev.type === "slash") {
+          token.output = nodot + token.output;
+        }
+        push(token);
+        continue;
+      }
+      if (prev && (prev.type === "bracket" || prev.type === "paren") && opts.regex === true) {
+        token.output = value;
+        push(token);
+        continue;
+      }
+      if (state.index === state.start || prev.type === "slash" || prev.type === "dot") {
+        if (prev.type === "dot") {
+          state.output += NO_DOT_SLASH;
+          prev.output += NO_DOT_SLASH;
+        } else if (opts.dot === true) {
+          state.output += NO_DOTS_SLASH;
+          prev.output += NO_DOTS_SLASH;
+        } else {
+          state.output += nodot;
+          prev.output += nodot;
+        }
+        if (peek() !== "*") {
+          state.output += ONE_CHAR;
+          prev.output += ONE_CHAR;
+        }
+      }
+      push(token);
+    }
+    while (state.brackets > 0) {
+      if (opts.strictBrackets === true)
+        throw new SyntaxError(syntaxError("closing", "]"));
+      state.output = utils.escapeLast(state.output, "[");
+      decrement("brackets");
+    }
+    while (state.parens > 0) {
+      if (opts.strictBrackets === true)
+        throw new SyntaxError(syntaxError("closing", ")"));
+      state.output = utils.escapeLast(state.output, "(");
+      decrement("parens");
+    }
+    while (state.braces > 0) {
+      if (opts.strictBrackets === true)
+        throw new SyntaxError(syntaxError("closing", "}"));
+      state.output = utils.escapeLast(state.output, "{");
+      decrement("braces");
+    }
+    if (opts.strictSlashes !== true && (prev.type === "star" || prev.type === "bracket")) {
+      push({ type: "maybe_slash", value: "", output: `${SLASH_LITERAL}?` });
+    }
+    if (state.backtrack === true) {
+      state.output = "";
+      for (const token of state.tokens) {
+        state.output += token.output != null ? token.output : token.value;
+        if (token.suffix) {
+          state.output += token.suffix;
+        }
+      }
+    }
+    return state;
+  };
+  parse4.fastpaths = (input, options2) => {
+    const opts = { ...options2 };
+    const max = typeof opts.maxLength === "number" ? Math.min(MAX_LENGTH, opts.maxLength) : MAX_LENGTH;
+    const len = input.length;
+    if (len > max) {
+      throw new SyntaxError(`Input length: ${len}, exceeds maximum allowed length: ${max}`);
+    }
+    input = REPLACEMENTS[input] || input;
+    const win32 = utils.isWindows(options2);
+    const {
+      DOT_LITERAL,
+      SLASH_LITERAL,
+      ONE_CHAR,
+      DOTS_SLASH,
+      NO_DOT,
+      NO_DOTS,
+      NO_DOTS_SLASH,
+      STAR,
+      START_ANCHOR
+    } = constants.globChars(win32);
+    const nodot = opts.dot ? NO_DOTS : NO_DOT;
+    const slashDot = opts.dot ? NO_DOTS_SLASH : NO_DOT;
+    const capture = opts.capture ? "" : "?:";
+    const state = { negated: false, prefix: "" };
+    let star = opts.bash === true ? ".*?" : STAR;
+    if (opts.capture) {
+      star = `(${star})`;
+    }
+    const globstar = (opts2) => {
+      if (opts2.noglobstar === true)
+        return star;
+      return `(${capture}(?:(?!${START_ANCHOR}${opts2.dot ? DOTS_SLASH : DOT_LITERAL}).)*?)`;
+    };
+    const create = (str) => {
+      switch (str) {
+        case "*":
+          return `${nodot}${ONE_CHAR}${star}`;
+        case ".*":
+          return `${DOT_LITERAL}${ONE_CHAR}${star}`;
+        case "*.*":
+          return `${nodot}${star}${DOT_LITERAL}${ONE_CHAR}${star}`;
+        case "*/*":
+          return `${nodot}${star}${SLASH_LITERAL}${ONE_CHAR}${slashDot}${star}`;
+        case "**":
+          return nodot + globstar(opts);
+        case "**/*":
+          return `(?:${nodot}${globstar(opts)}${SLASH_LITERAL})?${slashDot}${ONE_CHAR}${star}`;
+        case "**/*.*":
+          return `(?:${nodot}${globstar(opts)}${SLASH_LITERAL})?${slashDot}${star}${DOT_LITERAL}${ONE_CHAR}${star}`;
+        case "**/.*":
+          return `(?:${nodot}${globstar(opts)}${SLASH_LITERAL})?${DOT_LITERAL}${ONE_CHAR}${star}`;
+        default: {
+          const match = /^(.*?)\.(\w+)$/.exec(str);
+          if (!match)
+            return;
+          const source2 = create(match[1]);
+          if (!source2)
+            return;
+          return source2 + DOT_LITERAL + match[2];
+        }
+      }
+    };
+    const output = utils.removePrefix(input, state);
+    let source = create(output);
+    if (source && opts.strictSlashes !== true) {
+      source += `${SLASH_LITERAL}?`;
+    }
+    return source;
+  };
+  module2.exports = parse4;
+});
+var require_picomatch3 = __commonJSMin((exports, module2) => {
+  "use strict";
+  var path8 = __require("path");
+  var scan = require_scan2();
+  var parse4 = require_parse5();
+  var utils = require_utils9();
+  var constants = require_constants5();
+  var isObject2 = (val) => val && typeof val === "object" && !Array.isArray(val);
+  var picomatch = (glob, options2, returnState = false) => {
+    if (Array.isArray(glob)) {
+      const fns = glob.map((input) => picomatch(input, options2, returnState));
+      const arrayMatcher = (str) => {
+        for (const isMatch of fns) {
+          const state2 = isMatch(str);
+          if (state2)
+            return state2;
+        }
+        return false;
+      };
+      return arrayMatcher;
+    }
+    const isState = isObject2(glob) && glob.tokens && glob.input;
+    if (glob === "" || typeof glob !== "string" && !isState) {
+      throw new TypeError("Expected pattern to be a non-empty string");
+    }
+    const opts = options2 || {};
+    const posix = utils.isWindows(options2);
+    const regex = isState ? picomatch.compileRe(glob, options2) : picomatch.makeRe(glob, options2, false, true);
+    const state = regex.state;
+    delete regex.state;
+    let isIgnored = () => false;
+    if (opts.ignore) {
+      const ignoreOpts = { ...options2, ignore: null, onMatch: null, onResult: null };
+      isIgnored = picomatch(opts.ignore, ignoreOpts, returnState);
+    }
+    const matcher = (input, returnObject = false) => {
+      const { isMatch, match, output } = picomatch.test(input, regex, options2, { glob, posix });
+      const result = { glob, state, regex, posix, input, output, match, isMatch };
+      if (typeof opts.onResult === "function") {
+        opts.onResult(result);
+      }
+      if (isMatch === false) {
+        result.isMatch = false;
+        return returnObject ? result : false;
+      }
+      if (isIgnored(input)) {
+        if (typeof opts.onIgnore === "function") {
+          opts.onIgnore(result);
+        }
+        result.isMatch = false;
+        return returnObject ? result : false;
+      }
+      if (typeof opts.onMatch === "function") {
+        opts.onMatch(result);
+      }
+      return returnObject ? result : true;
+    };
+    if (returnState) {
+      matcher.state = state;
+    }
+    return matcher;
+  };
+  picomatch.test = (input, regex, options2, { glob, posix } = {}) => {
+    if (typeof input !== "string") {
+      throw new TypeError("Expected input to be a string");
+    }
+    if (input === "") {
+      return { isMatch: false, output: "" };
+    }
+    const opts = options2 || {};
+    const format2 = opts.format || (posix ? utils.toPosixSlashes : null);
+    let match = input === glob;
+    let output = match && format2 ? format2(input) : input;
+    if (match === false) {
+      output = format2 ? format2(input) : input;
+      match = output === glob;
+    }
+    if (match === false || opts.capture === true) {
+      if (opts.matchBase === true || opts.basename === true) {
+        match = picomatch.matchBase(input, regex, options2, posix);
+      } else {
+        match = regex.exec(output);
+      }
+    }
+    return { isMatch: Boolean(match), match, output };
+  };
+  picomatch.matchBase = (input, glob, options2, posix = utils.isWindows(options2)) => {
+    const regex = glob instanceof RegExp ? glob : picomatch.makeRe(glob, options2);
+    return regex.test(path8.basename(input));
+  };
+  picomatch.isMatch = (str, patterns, options2) => picomatch(patterns, options2)(str);
+  picomatch.parse = (pattern, options2) => {
+    if (Array.isArray(pattern))
+      return pattern.map((p) => picomatch.parse(p, options2));
+    return parse4(pattern, { ...options2, fastpaths: false });
+  };
+  picomatch.scan = (input, options2) => scan(input, options2);
+  picomatch.compileRe = (state, options2, returnOutput = false, returnState = false) => {
+    if (returnOutput === true) {
+      return state.output;
+    }
+    const opts = options2 || {};
+    const prepend = opts.contains ? "" : "^";
+    const append = opts.contains ? "" : "$";
+    let source = `${prepend}(?:${state.output})${append}`;
+    if (state && state.negated === true) {
+      source = `^(?!${source}).*$`;
+    }
+    const regex = picomatch.toRegex(source, options2);
+    if (returnState === true) {
+      regex.state = state;
+    }
+    return regex;
+  };
+  picomatch.makeRe = (input, options2 = {}, returnOutput = false, returnState = false) => {
+    if (!input || typeof input !== "string") {
+      throw new TypeError("Expected a non-empty string");
+    }
+    let parsed = { negated: false, fastpaths: true };
+    if (options2.fastpaths !== false && (input[0] === "." || input[0] === "*")) {
+      parsed.output = parse4.fastpaths(input, options2);
+    }
+    if (!parsed.output) {
+      parsed = parse4(input, options2);
+    }
+    return picomatch.compileRe(parsed, options2, returnOutput, returnState);
+  };
+  picomatch.toRegex = (source, options2) => {
+    try {
+      const opts = options2 || {};
+      return new RegExp(source, opts.flags || (opts.nocase ? "i" : ""));
+    } catch (err) {
+      if (options2 && options2.debug === true)
+        throw err;
+      return /$^/;
+    }
+  };
+  picomatch.constants = constants;
+  module2.exports = picomatch;
+});
+var require_picomatch4 = __commonJSMin((exports, module2) => {
+  "use strict";
+  module2.exports = require_picomatch3();
+});
+var require_micromatch2 = __commonJSMin((exports, module2) => {
+  "use strict";
+  var util2 = __require("util");
+  var braces = require_braces();
+  var picomatch = require_picomatch4();
+  var utils = require_utils9();
+  var isEmptyString = (val) => val === "" || val === "./";
+  var micromatch2 = (list, patterns, options2) => {
+    patterns = [].concat(patterns);
+    list = [].concat(list);
+    let omit2 = /* @__PURE__ */ new Set();
+    let keep = /* @__PURE__ */ new Set();
+    let items = /* @__PURE__ */ new Set();
+    let negatives = 0;
+    let onResult = (state) => {
+      items.add(state.output);
+      if (options2 && options2.onResult) {
+        options2.onResult(state);
+      }
+    };
+    for (let i = 0; i < patterns.length; i++) {
+      let isMatch = picomatch(String(patterns[i]), { ...options2, onResult }, true);
+      let negated = isMatch.state.negated || isMatch.state.negatedExtglob;
+      if (negated)
+        negatives++;
+      for (let item of list) {
+        let matched = isMatch(item, true);
+        let match = negated ? !matched.isMatch : matched.isMatch;
+        if (!match)
+          continue;
+        if (negated) {
+          omit2.add(matched.output);
+        } else {
+          omit2.delete(matched.output);
+          keep.add(matched.output);
+        }
+      }
+    }
+    let result = negatives === patterns.length ? [...items] : [...keep];
+    let matches = result.filter((item) => !omit2.has(item));
+    if (options2 && matches.length === 0) {
+      if (options2.failglob === true) {
+        throw new Error(`No matches found for "${patterns.join(", ")}"`);
+      }
+      if (options2.nonull === true || options2.nullglob === true) {
+        return options2.unescape ? patterns.map((p) => p.replace(/\\/g, "")) : patterns;
+      }
+    }
+    return matches;
+  };
+  micromatch2.match = micromatch2;
+  micromatch2.matcher = (pattern, options2) => picomatch(pattern, options2);
+  micromatch2.isMatch = (str, patterns, options2) => picomatch(patterns, options2)(str);
+  micromatch2.any = micromatch2.isMatch;
+  micromatch2.not = (list, patterns, options2 = {}) => {
+    patterns = [].concat(patterns).map(String);
+    let result = /* @__PURE__ */ new Set();
+    let items = [];
+    let onResult = (state) => {
+      if (options2.onResult)
+        options2.onResult(state);
+      items.push(state.output);
+    };
+    let matches = new Set(micromatch2(list, patterns, { ...options2, onResult }));
+    for (let item of items) {
+      if (!matches.has(item)) {
+        result.add(item);
+      }
+    }
+    return [...result];
+  };
+  micromatch2.contains = (str, pattern, options2) => {
+    if (typeof str !== "string") {
+      throw new TypeError(`Expected a string: "${util2.inspect(str)}"`);
+    }
+    if (Array.isArray(pattern)) {
+      return pattern.some((p) => micromatch2.contains(str, p, options2));
+    }
+    if (typeof pattern === "string") {
+      if (isEmptyString(str) || isEmptyString(pattern)) {
+        return false;
+      }
+      if (str.includes(pattern) || str.startsWith("./") && str.slice(2).includes(pattern)) {
+        return true;
+      }
+    }
+    return micromatch2.isMatch(str, pattern, { ...options2, contains: true });
+  };
+  micromatch2.matchKeys = (obj, patterns, options2) => {
+    if (!utils.isObject(obj)) {
+      throw new TypeError("Expected the first argument to be an object");
+    }
+    let keys = micromatch2(Object.keys(obj), patterns, options2);
+    let res = {};
+    for (let key of keys)
+      res[key] = obj[key];
+    return res;
+  };
+  micromatch2.some = (list, patterns, options2) => {
+    let items = [].concat(list);
+    for (let pattern of [].concat(patterns)) {
+      let isMatch = picomatch(String(pattern), options2);
+      if (items.some((item) => isMatch(item))) {
+        return true;
+      }
+    }
+    return false;
+  };
+  micromatch2.every = (list, patterns, options2) => {
+    let items = [].concat(list);
+    for (let pattern of [].concat(patterns)) {
+      let isMatch = picomatch(String(pattern), options2);
+      if (!items.every((item) => isMatch(item))) {
+        return false;
+      }
+    }
+    return true;
+  };
+  micromatch2.all = (str, patterns, options2) => {
+    if (typeof str !== "string") {
+      throw new TypeError(`Expected a string: "${util2.inspect(str)}"`);
+    }
+    return [].concat(patterns).every((p) => picomatch(p, options2)(str));
+  };
+  micromatch2.capture = (glob, input, options2) => {
+    let posix = utils.isWindows(options2);
+    let regex = picomatch.makeRe(String(glob), { ...options2, capture: true });
+    let match = regex.exec(posix ? utils.toPosixSlashes(input) : input);
+    if (match) {
+      return match.slice(1).map((v) => v === void 0 ? "" : v);
+    }
+  };
+  micromatch2.makeRe = (...args) => picomatch.makeRe(...args);
+  micromatch2.scan = (...args) => picomatch.scan(...args);
+  micromatch2.parse = (patterns, options2) => {
+    let res = [];
+    for (let pattern of [].concat(patterns || [])) {
+      for (let str of braces(String(pattern), options2)) {
+        res.push(picomatch.parse(str, options2));
+      }
+    }
+    return res;
+  };
+  micromatch2.braces = (pattern, options2) => {
+    if (typeof pattern !== "string")
+      throw new TypeError("Expected a string");
+    if (options2 && options2.nobrace === true || !/\{.*\}/.test(pattern)) {
+      return [pattern];
+    }
+    return braces(pattern, options2);
+  };
+  micromatch2.braceExpand = (pattern, options2) => {
+    if (typeof pattern !== "string")
+      throw new TypeError("Expected a string");
+    return micromatch2.braces(pattern, { ...options2, expand: true });
+  };
+  module2.exports = micromatch2;
+});
+var require_semver2 = __commonJSMin((exports, module2) => {
+  exports = module2.exports = SemVer;
+  var debug;
+  if (typeof process === "object" && process.env && process.env.NODE_DEBUG && /\bsemver\b/i.test(process.env.NODE_DEBUG)) {
+    debug = function() {
+      var args = Array.prototype.slice.call(arguments, 0);
+      args.unshift("SEMVER");
+      console.log.apply(console, args);
+    };
+  } else {
+    debug = function() {
+    };
+  }
+  exports.SEMVER_SPEC_VERSION = "2.0.0";
+  var MAX_LENGTH = 256;
+  var MAX_SAFE_INTEGER = Number.MAX_SAFE_INTEGER || 9007199254740991;
+  var MAX_SAFE_COMPONENT_LENGTH = 16;
+  var re = exports.re = [];
+  var src = exports.src = [];
+  var R = 0;
+  var NUMERICIDENTIFIER = R++;
+  src[NUMERICIDENTIFIER] = "0|[1-9]\\d*";
+  var NUMERICIDENTIFIERLOOSE = R++;
+  src[NUMERICIDENTIFIERLOOSE] = "[0-9]+";
+  var NONNUMERICIDENTIFIER = R++;
+  src[NONNUMERICIDENTIFIER] = "\\d*[a-zA-Z-][a-zA-Z0-9-]*";
+  var MAINVERSION = R++;
+  src[MAINVERSION] = "(" + src[NUMERICIDENTIFIER] + ")\\.(" + src[NUMERICIDENTIFIER] + ")\\.(" + src[NUMERICIDENTIFIER] + ")";
+  var MAINVERSIONLOOSE = R++;
+  src[MAINVERSIONLOOSE] = "(" + src[NUMERICIDENTIFIERLOOSE] + ")\\.(" + src[NUMERICIDENTIFIERLOOSE] + ")\\.(" + src[NUMERICIDENTIFIERLOOSE] + ")";
+  var PRERELEASEIDENTIFIER = R++;
+  src[PRERELEASEIDENTIFIER] = "(?:" + src[NUMERICIDENTIFIER] + "|" + src[NONNUMERICIDENTIFIER] + ")";
+  var PRERELEASEIDENTIFIERLOOSE = R++;
+  src[PRERELEASEIDENTIFIERLOOSE] = "(?:" + src[NUMERICIDENTIFIERLOOSE] + "|" + src[NONNUMERICIDENTIFIER] + ")";
+  var PRERELEASE = R++;
+  src[PRERELEASE] = "(?:-(" + src[PRERELEASEIDENTIFIER] + "(?:\\." + src[PRERELEASEIDENTIFIER] + ")*))";
+  var PRERELEASELOOSE = R++;
+  src[PRERELEASELOOSE] = "(?:-?(" + src[PRERELEASEIDENTIFIERLOOSE] + "(?:\\." + src[PRERELEASEIDENTIFIERLOOSE] + ")*))";
+  var BUILDIDENTIFIER = R++;
+  src[BUILDIDENTIFIER] = "[0-9A-Za-z-]+";
+  var BUILD = R++;
+  src[BUILD] = "(?:\\+(" + src[BUILDIDENTIFIER] + "(?:\\." + src[BUILDIDENTIFIER] + ")*))";
+  var FULL = R++;
+  var FULLPLAIN = "v?" + src[MAINVERSION] + src[PRERELEASE] + "?" + src[BUILD] + "?";
+  src[FULL] = "^" + FULLPLAIN + "$";
+  var LOOSEPLAIN = "[v=\\s]*" + src[MAINVERSIONLOOSE] + src[PRERELEASELOOSE] + "?" + src[BUILD] + "?";
+  var LOOSE = R++;
+  src[LOOSE] = "^" + LOOSEPLAIN + "$";
+  var GTLT = R++;
+  src[GTLT] = "((?:<|>)?=?)";
+  var XRANGEIDENTIFIERLOOSE = R++;
+  src[XRANGEIDENTIFIERLOOSE] = src[NUMERICIDENTIFIERLOOSE] + "|x|X|\\*";
+  var XRANGEIDENTIFIER = R++;
+  src[XRANGEIDENTIFIER] = src[NUMERICIDENTIFIER] + "|x|X|\\*";
+  var XRANGEPLAIN = R++;
+  src[XRANGEPLAIN] = "[v=\\s]*(" + src[XRANGEIDENTIFIER] + ")(?:\\.(" + src[XRANGEIDENTIFIER] + ")(?:\\.(" + src[XRANGEIDENTIFIER] + ")(?:" + src[PRERELEASE] + ")?" + src[BUILD] + "?)?)?";
+  var XRANGEPLAINLOOSE = R++;
+  src[XRANGEPLAINLOOSE] = "[v=\\s]*(" + src[XRANGEIDENTIFIERLOOSE] + ")(?:\\.(" + src[XRANGEIDENTIFIERLOOSE] + ")(?:\\.(" + src[XRANGEIDENTIFIERLOOSE] + ")(?:" + src[PRERELEASELOOSE] + ")?" + src[BUILD] + "?)?)?";
+  var XRANGE = R++;
+  src[XRANGE] = "^" + src[GTLT] + "\\s*" + src[XRANGEPLAIN] + "$";
+  var XRANGELOOSE = R++;
+  src[XRANGELOOSE] = "^" + src[GTLT] + "\\s*" + src[XRANGEPLAINLOOSE] + "$";
+  var COERCE = R++;
+  src[COERCE] = "(?:^|[^\\d])(\\d{1," + MAX_SAFE_COMPONENT_LENGTH + "})(?:\\.(\\d{1," + MAX_SAFE_COMPONENT_LENGTH + "}))?(?:\\.(\\d{1," + MAX_SAFE_COMPONENT_LENGTH + "}))?(?:$|[^\\d])";
+  var LONETILDE = R++;
+  src[LONETILDE] = "(?:~>?)";
+  var TILDETRIM = R++;
+  src[TILDETRIM] = "(\\s*)" + src[LONETILDE] + "\\s+";
+  re[TILDETRIM] = new RegExp(src[TILDETRIM], "g");
+  var tildeTrimReplace = "$1~";
+  var TILDE = R++;
+  src[TILDE] = "^" + src[LONETILDE] + src[XRANGEPLAIN] + "$";
+  var TILDELOOSE = R++;
+  src[TILDELOOSE] = "^" + src[LONETILDE] + src[XRANGEPLAINLOOSE] + "$";
+  var LONECARET = R++;
+  src[LONECARET] = "(?:\\^)";
+  var CARETTRIM = R++;
+  src[CARETTRIM] = "(\\s*)" + src[LONECARET] + "\\s+";
+  re[CARETTRIM] = new RegExp(src[CARETTRIM], "g");
+  var caretTrimReplace = "$1^";
+  var CARET = R++;
+  src[CARET] = "^" + src[LONECARET] + src[XRANGEPLAIN] + "$";
+  var CARETLOOSE = R++;
+  src[CARETLOOSE] = "^" + src[LONECARET] + src[XRANGEPLAINLOOSE] + "$";
+  var COMPARATORLOOSE = R++;
+  src[COMPARATORLOOSE] = "^" + src[GTLT] + "\\s*(" + LOOSEPLAIN + ")$|^$";
+  var COMPARATOR = R++;
+  src[COMPARATOR] = "^" + src[GTLT] + "\\s*(" + FULLPLAIN + ")$|^$";
+  var COMPARATORTRIM = R++;
+  src[COMPARATORTRIM] = "(\\s*)" + src[GTLT] + "\\s*(" + LOOSEPLAIN + "|" + src[XRANGEPLAIN] + ")";
+  re[COMPARATORTRIM] = new RegExp(src[COMPARATORTRIM], "g");
+  var comparatorTrimReplace = "$1$2$3";
+  var HYPHENRANGE = R++;
+  src[HYPHENRANGE] = "^\\s*(" + src[XRANGEPLAIN] + ")\\s+-\\s+(" + src[XRANGEPLAIN] + ")\\s*$";
+  var HYPHENRANGELOOSE = R++;
+  src[HYPHENRANGELOOSE] = "^\\s*(" + src[XRANGEPLAINLOOSE] + ")\\s+-\\s+(" + src[XRANGEPLAINLOOSE] + ")\\s*$";
+  var STAR = R++;
+  src[STAR] = "(<|>)?=?\\s*\\*";
+  for (i = 0; i < R; i++) {
+    debug(i, src[i]);
+    if (!re[i]) {
+      re[i] = new RegExp(src[i]);
+    }
+  }
+  var i;
+  exports.parse = parse4;
+  function parse4(version2, options2) {
+    if (!options2 || typeof options2 !== "object") {
+      options2 = {
+        loose: !!options2,
+        includePrerelease: false
+      };
+    }
+    if (version2 instanceof SemVer) {
+      return version2;
+    }
+    if (typeof version2 !== "string") {
+      return null;
+    }
+    if (version2.length > MAX_LENGTH) {
+      return null;
+    }
+    var r = options2.loose ? re[LOOSE] : re[FULL];
+    if (!r.test(version2)) {
+      return null;
+    }
+    try {
+      return new SemVer(version2, options2);
+    } catch (er) {
+      return null;
+    }
+  }
+  exports.valid = valid;
+  function valid(version2, options2) {
+    var v = parse4(version2, options2);
+    return v ? v.version : null;
+  }
+  exports.clean = clean;
+  function clean(version2, options2) {
+    var s = parse4(version2.trim().replace(/^[=v]+/, ""), options2);
+    return s ? s.version : null;
+  }
+  exports.SemVer = SemVer;
+  function SemVer(version2, options2) {
+    if (!options2 || typeof options2 !== "object") {
+      options2 = {
+        loose: !!options2,
+        includePrerelease: false
+      };
+    }
+    if (version2 instanceof SemVer) {
+      if (version2.loose === options2.loose) {
+        return version2;
+      } else {
+        version2 = version2.version;
+      }
+    } else if (typeof version2 !== "string") {
+      throw new TypeError("Invalid Version: " + version2);
+    }
+    if (version2.length > MAX_LENGTH) {
+      throw new TypeError("version is longer than " + MAX_LENGTH + " characters");
+    }
+    if (!(this instanceof SemVer)) {
+      return new SemVer(version2, options2);
+    }
+    debug("SemVer", version2, options2);
+    this.options = options2;
+    this.loose = !!options2.loose;
+    var m = version2.trim().match(options2.loose ? re[LOOSE] : re[FULL]);
+    if (!m) {
+      throw new TypeError("Invalid Version: " + version2);
+    }
+    this.raw = version2;
+    this.major = +m[1];
+    this.minor = +m[2];
+    this.patch = +m[3];
+    if (this.major > MAX_SAFE_INTEGER || this.major < 0) {
+      throw new TypeError("Invalid major version");
+    }
+    if (this.minor > MAX_SAFE_INTEGER || this.minor < 0) {
+      throw new TypeError("Invalid minor version");
+    }
+    if (this.patch > MAX_SAFE_INTEGER || this.patch < 0) {
+      throw new TypeError("Invalid patch version");
+    }
+    if (!m[4]) {
+      this.prerelease = [];
+    } else {
+      this.prerelease = m[4].split(".").map(function(id) {
+        if (/^[0-9]+$/.test(id)) {
+          var num = +id;
+          if (num >= 0 && num < MAX_SAFE_INTEGER) {
+            return num;
+          }
+        }
+        return id;
+      });
+    }
+    this.build = m[5] ? m[5].split(".") : [];
+    this.format();
+  }
+  SemVer.prototype.format = function() {
+    this.version = this.major + "." + this.minor + "." + this.patch;
+    if (this.prerelease.length) {
+      this.version += "-" + this.prerelease.join(".");
+    }
+    return this.version;
+  };
+  SemVer.prototype.toString = function() {
+    return this.version;
+  };
+  SemVer.prototype.compare = function(other) {
+    debug("SemVer.compare", this.version, this.options, other);
+    if (!(other instanceof SemVer)) {
+      other = new SemVer(other, this.options);
+    }
+    return this.compareMain(other) || this.comparePre(other);
+  };
+  SemVer.prototype.compareMain = function(other) {
+    if (!(other instanceof SemVer)) {
+      other = new SemVer(other, this.options);
+    }
+    return compareIdentifiers(this.major, other.major) || compareIdentifiers(this.minor, other.minor) || compareIdentifiers(this.patch, other.patch);
+  };
+  SemVer.prototype.comparePre = function(other) {
+    if (!(other instanceof SemVer)) {
+      other = new SemVer(other, this.options);
+    }
+    if (this.prerelease.length && !other.prerelease.length) {
+      return -1;
+    } else if (!this.prerelease.length && other.prerelease.length) {
+      return 1;
+    } else if (!this.prerelease.length && !other.prerelease.length) {
+      return 0;
+    }
+    var i2 = 0;
+    do {
+      var a = this.prerelease[i2];
+      var b = other.prerelease[i2];
+      debug("prerelease compare", i2, a, b);
+      if (a === void 0 && b === void 0) {
+        return 0;
+      } else if (b === void 0) {
+        return 1;
+      } else if (a === void 0) {
+        return -1;
+      } else if (a === b) {
+        continue;
+      } else {
+        return compareIdentifiers(a, b);
+      }
+    } while (++i2);
+  };
+  SemVer.prototype.inc = function(release2, identifier) {
+    switch (release2) {
+      case "premajor":
+        this.prerelease.length = 0;
+        this.patch = 0;
+        this.minor = 0;
+        this.major++;
+        this.inc("pre", identifier);
+        break;
+      case "preminor":
+        this.prerelease.length = 0;
+        this.patch = 0;
+        this.minor++;
+        this.inc("pre", identifier);
+        break;
+      case "prepatch":
+        this.prerelease.length = 0;
+        this.inc("patch", identifier);
+        this.inc("pre", identifier);
+        break;
+      case "prerelease":
+        if (this.prerelease.length === 0) {
+          this.inc("patch", identifier);
+        }
+        this.inc("pre", identifier);
+        break;
+      case "major":
+        if (this.minor !== 0 || this.patch !== 0 || this.prerelease.length === 0) {
+          this.major++;
+        }
+        this.minor = 0;
+        this.patch = 0;
+        this.prerelease = [];
+        break;
+      case "minor":
+        if (this.patch !== 0 || this.prerelease.length === 0) {
+          this.minor++;
+        }
+        this.patch = 0;
+        this.prerelease = [];
+        break;
+      case "patch":
+        if (this.prerelease.length === 0) {
+          this.patch++;
+        }
+        this.prerelease = [];
+        break;
+      case "pre":
+        if (this.prerelease.length === 0) {
+          this.prerelease = [0];
+        } else {
+          var i2 = this.prerelease.length;
+          while (--i2 >= 0) {
+            if (typeof this.prerelease[i2] === "number") {
+              this.prerelease[i2]++;
+              i2 = -2;
+            }
+          }
+          if (i2 === -1) {
+            this.prerelease.push(0);
+          }
+        }
+        if (identifier) {
+          if (this.prerelease[0] === identifier) {
+            if (isNaN(this.prerelease[1])) {
+              this.prerelease = [identifier, 0];
+            }
+          } else {
+            this.prerelease = [identifier, 0];
+          }
+        }
+        break;
+      default:
+        throw new Error("invalid increment argument: " + release2);
+    }
+    this.format();
+    this.raw = this.version;
+    return this;
+  };
+  exports.inc = inc2;
+  function inc2(version2, release2, loose, identifier) {
+    if (typeof loose === "string") {
+      identifier = loose;
+      loose = void 0;
+    }
+    try {
+      return new SemVer(version2, loose).inc(release2, identifier).version;
+    } catch (er) {
+      return null;
+    }
+  }
+  exports.diff = diff;
+  function diff(version1, version2) {
+    if (eq(version1, version2)) {
+      return null;
+    } else {
+      var v1 = parse4(version1);
+      var v2 = parse4(version2);
+      var prefix2 = "";
+      if (v1.prerelease.length || v2.prerelease.length) {
+        prefix2 = "pre";
+        var defaultResult = "prerelease";
+      }
+      for (var key in v1) {
+        if (key === "major" || key === "minor" || key === "patch") {
+          if (v1[key] !== v2[key]) {
+            return prefix2 + key;
+          }
+        }
+      }
+      return defaultResult;
+    }
+  }
+  exports.compareIdentifiers = compareIdentifiers;
+  var numeric = /^[0-9]+$/;
+  function compareIdentifiers(a, b) {
+    var anum = numeric.test(a);
+    var bnum = numeric.test(b);
+    if (anum && bnum) {
+      a = +a;
+      b = +b;
+    }
+    return a === b ? 0 : anum && !bnum ? -1 : bnum && !anum ? 1 : a < b ? -1 : 1;
+  }
+  exports.rcompareIdentifiers = rcompareIdentifiers;
+  function rcompareIdentifiers(a, b) {
+    return compareIdentifiers(b, a);
+  }
+  exports.major = major;
+  function major(a, loose) {
+    return new SemVer(a, loose).major;
+  }
+  exports.minor = minor;
+  function minor(a, loose) {
+    return new SemVer(a, loose).minor;
+  }
+  exports.patch = patch;
+  function patch(a, loose) {
+    return new SemVer(a, loose).patch;
+  }
+  exports.compare = compare;
+  function compare(a, b, loose) {
+    return new SemVer(a, loose).compare(new SemVer(b, loose));
+  }
+  exports.compareLoose = compareLoose;
+  function compareLoose(a, b) {
+    return compare(a, b, true);
+  }
+  exports.rcompare = rcompare;
+  function rcompare(a, b, loose) {
+    return compare(b, a, loose);
+  }
+  exports.sort = sort;
+  function sort(list, loose) {
+    return list.sort(function(a, b) {
+      return exports.compare(a, b, loose);
+    });
+  }
+  exports.rsort = rsort;
+  function rsort(list, loose) {
+    return list.sort(function(a, b) {
+      return exports.rcompare(a, b, loose);
+    });
+  }
+  exports.gt = gt;
+  function gt(a, b, loose) {
+    return compare(a, b, loose) > 0;
+  }
+  exports.lt = lt;
+  function lt(a, b, loose) {
+    return compare(a, b, loose) < 0;
+  }
+  exports.eq = eq;
+  function eq(a, b, loose) {
+    return compare(a, b, loose) === 0;
+  }
+  exports.neq = neq;
+  function neq(a, b, loose) {
+    return compare(a, b, loose) !== 0;
+  }
+  exports.gte = gte;
+  function gte(a, b, loose) {
+    return compare(a, b, loose) >= 0;
+  }
+  exports.lte = lte;
+  function lte(a, b, loose) {
+    return compare(a, b, loose) <= 0;
+  }
+  exports.cmp = cmp;
+  function cmp(a, op, b, loose) {
+    switch (op) {
+      case "===":
+        if (typeof a === "object")
+          a = a.version;
+        if (typeof b === "object")
+          b = b.version;
+        return a === b;
+      case "!==":
+        if (typeof a === "object")
+          a = a.version;
+        if (typeof b === "object")
+          b = b.version;
+        return a !== b;
+      case "":
+      case "=":
+      case "==":
+        return eq(a, b, loose);
+      case "!=":
+        return neq(a, b, loose);
+      case ">":
+        return gt(a, b, loose);
+      case ">=":
+        return gte(a, b, loose);
+      case "<":
+        return lt(a, b, loose);
+      case "<=":
+        return lte(a, b, loose);
+      default:
+        throw new TypeError("Invalid operator: " + op);
+    }
+  }
+  exports.Comparator = Comparator;
+  function Comparator(comp, options2) {
+    if (!options2 || typeof options2 !== "object") {
+      options2 = {
+        loose: !!options2,
+        includePrerelease: false
+      };
+    }
+    if (comp instanceof Comparator) {
+      if (comp.loose === !!options2.loose) {
+        return comp;
+      } else {
+        comp = comp.value;
+      }
+    }
+    if (!(this instanceof Comparator)) {
+      return new Comparator(comp, options2);
+    }
+    debug("comparator", comp, options2);
+    this.options = options2;
+    this.loose = !!options2.loose;
+    this.parse(comp);
+    if (this.semver === ANY) {
+      this.value = "";
+    } else {
+      this.value = this.operator + this.semver.version;
+    }
+    debug("comp", this);
+  }
+  var ANY = {};
+  Comparator.prototype.parse = function(comp) {
+    var r = this.options.loose ? re[COMPARATORLOOSE] : re[COMPARATOR];
+    var m = comp.match(r);
+    if (!m) {
+      throw new TypeError("Invalid comparator: " + comp);
+    }
+    this.operator = m[1];
+    if (this.operator === "=") {
+      this.operator = "";
+    }
+    if (!m[2]) {
+      this.semver = ANY;
+    } else {
+      this.semver = new SemVer(m[2], this.options.loose);
+    }
+  };
+  Comparator.prototype.toString = function() {
+    return this.value;
+  };
+  Comparator.prototype.test = function(version2) {
+    debug("Comparator.test", version2, this.options.loose);
+    if (this.semver === ANY) {
+      return true;
+    }
+    if (typeof version2 === "string") {
+      version2 = new SemVer(version2, this.options);
+    }
+    return cmp(version2, this.operator, this.semver, this.options);
+  };
+  Comparator.prototype.intersects = function(comp, options2) {
+    if (!(comp instanceof Comparator)) {
+      throw new TypeError("a Comparator is required");
+    }
+    if (!options2 || typeof options2 !== "object") {
+      options2 = {
+        loose: !!options2,
+        includePrerelease: false
+      };
+    }
+    var rangeTmp;
+    if (this.operator === "") {
+      rangeTmp = new Range(comp.value, options2);
+      return satisfies(this.value, rangeTmp, options2);
+    } else if (comp.operator === "") {
+      rangeTmp = new Range(this.value, options2);
+      return satisfies(comp.semver, rangeTmp, options2);
+    }
+    var sameDirectionIncreasing = (this.operator === ">=" || this.operator === ">") && (comp.operator === ">=" || comp.operator === ">");
+    var sameDirectionDecreasing = (this.operator === "<=" || this.operator === "<") && (comp.operator === "<=" || comp.operator === "<");
+    var sameSemVer = this.semver.version === comp.semver.version;
+    var differentDirectionsInclusive = (this.operator === ">=" || this.operator === "<=") && (comp.operator === ">=" || comp.operator === "<=");
+    var oppositeDirectionsLessThan = cmp(this.semver, "<", comp.semver, options2) && ((this.operator === ">=" || this.operator === ">") && (comp.operator === "<=" || comp.operator === "<"));
+    var oppositeDirectionsGreaterThan = cmp(this.semver, ">", comp.semver, options2) && ((this.operator === "<=" || this.operator === "<") && (comp.operator === ">=" || comp.operator === ">"));
+    return sameDirectionIncreasing || sameDirectionDecreasing || sameSemVer && differentDirectionsInclusive || oppositeDirectionsLessThan || oppositeDirectionsGreaterThan;
+  };
+  exports.Range = Range;
+  function Range(range, options2) {
+    if (!options2 || typeof options2 !== "object") {
+      options2 = {
+        loose: !!options2,
+        includePrerelease: false
+      };
+    }
+    if (range instanceof Range) {
+      if (range.loose === !!options2.loose && range.includePrerelease === !!options2.includePrerelease) {
+        return range;
+      } else {
+        return new Range(range.raw, options2);
+      }
+    }
+    if (range instanceof Comparator) {
+      return new Range(range.value, options2);
+    }
+    if (!(this instanceof Range)) {
+      return new Range(range, options2);
+    }
+    this.options = options2;
+    this.loose = !!options2.loose;
+    this.includePrerelease = !!options2.includePrerelease;
+    this.raw = range;
+    this.set = range.split(/\s*\|\|\s*/).map(function(range2) {
+      return this.parseRange(range2.trim());
+    }, this).filter(function(c) {
+      return c.length;
+    });
+    if (!this.set.length) {
+      throw new TypeError("Invalid SemVer Range: " + range);
+    }
+    this.format();
+  }
+  Range.prototype.format = function() {
+    this.range = this.set.map(function(comps) {
+      return comps.join(" ").trim();
+    }).join("||").trim();
+    return this.range;
+  };
+  Range.prototype.toString = function() {
+    return this.range;
+  };
+  Range.prototype.parseRange = function(range) {
+    var loose = this.options.loose;
+    range = range.trim();
+    var hr = loose ? re[HYPHENRANGELOOSE] : re[HYPHENRANGE];
+    range = range.replace(hr, hyphenReplace);
+    debug("hyphen replace", range);
+    range = range.replace(re[COMPARATORTRIM], comparatorTrimReplace);
+    debug("comparator trim", range, re[COMPARATORTRIM]);
+    range = range.replace(re[TILDETRIM], tildeTrimReplace);
+    range = range.replace(re[CARETTRIM], caretTrimReplace);
+    range = range.split(/\s+/).join(" ");
+    var compRe = loose ? re[COMPARATORLOOSE] : re[COMPARATOR];
+    var set = range.split(" ").map(function(comp) {
+      return parseComparator(comp, this.options);
+    }, this).join(" ").split(/\s+/);
+    if (this.options.loose) {
+      set = set.filter(function(comp) {
+        return !!comp.match(compRe);
+      });
+    }
+    set = set.map(function(comp) {
+      return new Comparator(comp, this.options);
+    }, this);
+    return set;
+  };
+  Range.prototype.intersects = function(range, options2) {
+    if (!(range instanceof Range)) {
+      throw new TypeError("a Range is required");
+    }
+    return this.set.some(function(thisComparators) {
+      return thisComparators.every(function(thisComparator) {
+        return range.set.some(function(rangeComparators) {
+          return rangeComparators.every(function(rangeComparator) {
+            return thisComparator.intersects(rangeComparator, options2);
+          });
+        });
+      });
+    });
+  };
+  exports.toComparators = toComparators;
+  function toComparators(range, options2) {
+    return new Range(range, options2).set.map(function(comp) {
+      return comp.map(function(c) {
+        return c.value;
+      }).join(" ").trim().split(" ");
+    });
+  }
+  function parseComparator(comp, options2) {
+    debug("comp", comp, options2);
+    comp = replaceCarets(comp, options2);
+    debug("caret", comp);
+    comp = replaceTildes(comp, options2);
+    debug("tildes", comp);
+    comp = replaceXRanges(comp, options2);
+    debug("xrange", comp);
+    comp = replaceStars(comp, options2);
+    debug("stars", comp);
+    return comp;
+  }
+  function isX(id) {
+    return !id || id.toLowerCase() === "x" || id === "*";
+  }
+  function replaceTildes(comp, options2) {
+    return comp.trim().split(/\s+/).map(function(comp2) {
+      return replaceTilde(comp2, options2);
+    }).join(" ");
+  }
+  function replaceTilde(comp, options2) {
+    var r = options2.loose ? re[TILDELOOSE] : re[TILDE];
+    return comp.replace(r, function(_, M, m, p, pr) {
+      debug("tilde", comp, _, M, m, p, pr);
+      var ret;
+      if (isX(M)) {
+        ret = "";
+      } else if (isX(m)) {
+        ret = ">=" + M + ".0.0 <" + (+M + 1) + ".0.0";
+      } else if (isX(p)) {
+        ret = ">=" + M + "." + m + ".0 <" + M + "." + (+m + 1) + ".0";
+      } else if (pr) {
+        debug("replaceTilde pr", pr);
+        ret = ">=" + M + "." + m + "." + p + "-" + pr + " <" + M + "." + (+m + 1) + ".0";
+      } else {
+        ret = ">=" + M + "." + m + "." + p + " <" + M + "." + (+m + 1) + ".0";
+      }
+      debug("tilde return", ret);
+      return ret;
+    });
+  }
+  function replaceCarets(comp, options2) {
+    return comp.trim().split(/\s+/).map(function(comp2) {
+      return replaceCaret(comp2, options2);
+    }).join(" ");
+  }
+  function replaceCaret(comp, options2) {
+    debug("caret", comp, options2);
+    var r = options2.loose ? re[CARETLOOSE] : re[CARET];
+    return comp.replace(r, function(_, M, m, p, pr) {
+      debug("caret", comp, _, M, m, p, pr);
+      var ret;
+      if (isX(M)) {
+        ret = "";
+      } else if (isX(m)) {
+        ret = ">=" + M + ".0.0 <" + (+M + 1) + ".0.0";
+      } else if (isX(p)) {
+        if (M === "0") {
+          ret = ">=" + M + "." + m + ".0 <" + M + "." + (+m + 1) + ".0";
+        } else {
+          ret = ">=" + M + "." + m + ".0 <" + (+M + 1) + ".0.0";
+        }
+      } else if (pr) {
+        debug("replaceCaret pr", pr);
+        if (M === "0") {
+          if (m === "0") {
+            ret = ">=" + M + "." + m + "." + p + "-" + pr + " <" + M + "." + m + "." + (+p + 1);
+          } else {
+            ret = ">=" + M + "." + m + "." + p + "-" + pr + " <" + M + "." + (+m + 1) + ".0";
+          }
+        } else {
+          ret = ">=" + M + "." + m + "." + p + "-" + pr + " <" + (+M + 1) + ".0.0";
+        }
+      } else {
+        debug("no pr");
+        if (M === "0") {
+          if (m === "0") {
+            ret = ">=" + M + "." + m + "." + p + " <" + M + "." + m + "." + (+p + 1);
+          } else {
+            ret = ">=" + M + "." + m + "." + p + " <" + M + "." + (+m + 1) + ".0";
+          }
+        } else {
+          ret = ">=" + M + "." + m + "." + p + " <" + (+M + 1) + ".0.0";
+        }
+      }
+      debug("caret return", ret);
+      return ret;
+    });
+  }
+  function replaceXRanges(comp, options2) {
+    debug("replaceXRanges", comp, options2);
+    return comp.split(/\s+/).map(function(comp2) {
+      return replaceXRange(comp2, options2);
+    }).join(" ");
+  }
+  function replaceXRange(comp, options2) {
+    comp = comp.trim();
+    var r = options2.loose ? re[XRANGELOOSE] : re[XRANGE];
+    return comp.replace(r, function(ret, gtlt, M, m, p, pr) {
+      debug("xRange", comp, ret, gtlt, M, m, p, pr);
+      var xM = isX(M);
+      var xm = xM || isX(m);
+      var xp = xm || isX(p);
+      var anyX = xp;
+      if (gtlt === "=" && anyX) {
+        gtlt = "";
+      }
+      if (xM) {
+        if (gtlt === ">" || gtlt === "<") {
+          ret = "<0.0.0";
+        } else {
+          ret = "*";
+        }
+      } else if (gtlt && anyX) {
+        if (xm) {
+          m = 0;
+        }
+        p = 0;
+        if (gtlt === ">") {
+          gtlt = ">=";
+          if (xm) {
+            M = +M + 1;
+            m = 0;
+            p = 0;
+          } else {
+            m = +m + 1;
+            p = 0;
+          }
+        } else if (gtlt === "<=") {
+          gtlt = "<";
+          if (xm) {
+            M = +M + 1;
+          } else {
+            m = +m + 1;
+          }
+        }
+        ret = gtlt + M + "." + m + "." + p;
+      } else if (xm) {
+        ret = ">=" + M + ".0.0 <" + (+M + 1) + ".0.0";
+      } else if (xp) {
+        ret = ">=" + M + "." + m + ".0 <" + M + "." + (+m + 1) + ".0";
+      }
+      debug("xRange return", ret);
+      return ret;
+    });
+  }
+  function replaceStars(comp, options2) {
+    debug("replaceStars", comp, options2);
+    return comp.trim().replace(re[STAR], "");
+  }
+  function hyphenReplace($0, from, fM, fm, fp, fpr, fb, to, tM, tm, tp, tpr, tb) {
+    if (isX(fM)) {
+      from = "";
+    } else if (isX(fm)) {
+      from = ">=" + fM + ".0.0";
+    } else if (isX(fp)) {
+      from = ">=" + fM + "." + fm + ".0";
+    } else {
+      from = ">=" + from;
+    }
+    if (isX(tM)) {
+      to = "";
+    } else if (isX(tm)) {
+      to = "<" + (+tM + 1) + ".0.0";
+    } else if (isX(tp)) {
+      to = "<" + tM + "." + (+tm + 1) + ".0";
+    } else if (tpr) {
+      to = "<=" + tM + "." + tm + "." + tp + "-" + tpr;
+    } else {
+      to = "<=" + to;
+    }
+    return (from + " " + to).trim();
+  }
+  Range.prototype.test = function(version2) {
+    if (!version2) {
+      return false;
+    }
+    if (typeof version2 === "string") {
+      version2 = new SemVer(version2, this.options);
+    }
+    for (var i2 = 0; i2 < this.set.length; i2++) {
+      if (testSet(this.set[i2], version2, this.options)) {
+        return true;
+      }
+    }
+    return false;
+  };
+  function testSet(set, version2, options2) {
+    for (var i2 = 0; i2 < set.length; i2++) {
+      if (!set[i2].test(version2)) {
+        return false;
+      }
+    }
+    if (version2.prerelease.length && !options2.includePrerelease) {
+      for (i2 = 0; i2 < set.length; i2++) {
+        debug(set[i2].semver);
+        if (set[i2].semver === ANY) {
+          continue;
+        }
+        if (set[i2].semver.prerelease.length > 0) {
+          var allowed = set[i2].semver;
+          if (allowed.major === version2.major && allowed.minor === version2.minor && allowed.patch === version2.patch) {
+            return true;
+          }
+        }
+      }
+      return false;
+    }
+    return true;
+  }
+  exports.satisfies = satisfies;
+  function satisfies(version2, range, options2) {
+    try {
+      range = new Range(range, options2);
+    } catch (er) {
+      return false;
+    }
+    return range.test(version2);
+  }
+  exports.maxSatisfying = maxSatisfying;
+  function maxSatisfying(versions, range, options2) {
+    var max = null;
+    var maxSV = null;
+    try {
+      var rangeObj = new Range(range, options2);
+    } catch (er) {
+      return null;
+    }
+    versions.forEach(function(v) {
+      if (rangeObj.test(v)) {
+        if (!max || maxSV.compare(v) === -1) {
+          max = v;
+          maxSV = new SemVer(max, options2);
+        }
+      }
+    });
+    return max;
+  }
+  exports.minSatisfying = minSatisfying;
+  function minSatisfying(versions, range, options2) {
+    var min = null;
+    var minSV = null;
+    try {
+      var rangeObj = new Range(range, options2);
+    } catch (er) {
+      return null;
+    }
+    versions.forEach(function(v) {
+      if (rangeObj.test(v)) {
+        if (!min || minSV.compare(v) === 1) {
+          min = v;
+          minSV = new SemVer(min, options2);
+        }
+      }
+    });
+    return min;
+  }
+  exports.minVersion = minVersion;
+  function minVersion(range, loose) {
+    range = new Range(range, loose);
+    var minver = new SemVer("0.0.0");
+    if (range.test(minver)) {
+      return minver;
+    }
+    minver = new SemVer("0.0.0-0");
+    if (range.test(minver)) {
+      return minver;
+    }
+    minver = null;
+    for (var i2 = 0; i2 < range.set.length; ++i2) {
+      var comparators = range.set[i2];
+      comparators.forEach(function(comparator) {
+        var compver = new SemVer(comparator.semver.version);
+        switch (comparator.operator) {
+          case ">":
+            if (compver.prerelease.length === 0) {
+              compver.patch++;
+            } else {
+              compver.prerelease.push(0);
+            }
+            compver.raw = compver.format();
+          case "":
+          case ">=":
+            if (!minver || gt(minver, compver)) {
+              minver = compver;
+            }
+            break;
+          case "<":
+          case "<=":
+            break;
+          default:
+            throw new Error("Unexpected operation: " + comparator.operator);
+        }
+      });
+    }
+    if (minver && range.test(minver)) {
+      return minver;
+    }
+    return null;
+  }
+  exports.validRange = validRange;
+  function validRange(range, options2) {
+    try {
+      return new Range(range, options2).range || "*";
+    } catch (er) {
+      return null;
+    }
+  }
+  exports.ltr = ltr;
+  function ltr(version2, range, options2) {
+    return outside(version2, range, "<", options2);
+  }
+  exports.gtr = gtr;
+  function gtr(version2, range, options2) {
+    return outside(version2, range, ">", options2);
+  }
+  exports.outside = outside;
+  function outside(version2, range, hilo, options2) {
+    version2 = new SemVer(version2, options2);
+    range = new Range(range, options2);
+    var gtfn, ltefn, ltfn, comp, ecomp;
+    switch (hilo) {
+      case ">":
+        gtfn = gt;
+        ltefn = lte;
+        ltfn = lt;
+        comp = ">";
+        ecomp = ">=";
+        break;
+      case "<":
+        gtfn = lt;
+        ltefn = gte;
+        ltfn = gt;
+        comp = "<";
+        ecomp = "<=";
+        break;
+      default:
+        throw new TypeError('Must provide a hilo val of "<" or ">"');
+    }
+    if (satisfies(version2, range, options2)) {
+      return false;
+    }
+    for (var i2 = 0; i2 < range.set.length; ++i2) {
+      var comparators = range.set[i2];
+      var high = null;
+      var low = null;
+      comparators.forEach(function(comparator) {
+        if (comparator.semver === ANY) {
+          comparator = new Comparator(">=0.0.0");
+        }
+        high = high || comparator;
+        low = low || comparator;
+        if (gtfn(comparator.semver, high.semver, options2)) {
+          high = comparator;
+        } else if (ltfn(comparator.semver, low.semver, options2)) {
+          low = comparator;
+        }
+      });
+      if (high.operator === comp || high.operator === ecomp) {
+        return false;
+      }
+      if ((!low.operator || low.operator === comp) && ltefn(version2, low.semver)) {
+        return false;
+      } else if (low.operator === ecomp && ltfn(version2, low.semver)) {
+        return false;
+      }
+    }
+    return true;
+  }
+  exports.prerelease = prerelease;
+  function prerelease(version2, options2) {
+    var parsed = parse4(version2, options2);
+    return parsed && parsed.prerelease.length ? parsed.prerelease : null;
+  }
+  exports.intersects = intersects;
+  function intersects(r1, r2, options2) {
+    r1 = new Range(r1, options2);
+    r2 = new Range(r2, options2);
+    return r1.intersects(r2);
+  }
+  exports.coerce = coerce;
+  function coerce(version2) {
+    if (version2 instanceof SemVer) {
+      return version2;
+    }
+    if (typeof version2 !== "string") {
+      return null;
+    }
+    var match = version2.match(re[COERCE]);
+    if (match == null) {
+      return null;
+    }
+    return parse4(match[1] + "." + (match[2] || "0") + "." + (match[3] || "0"));
+  }
 });
 var core3 = __toESM2(require_core());
 var core = __toESM2(require_core());
@@ -140872,6 +143771,13 @@ var GitError = class extends import_extendable_error.default {
     this.code = code;
   }
 };
+var ValidationError = class extends import_extendable_error.default {
+};
+var InternalError = class extends import_extendable_error.default {
+  constructor(message) {
+    super(message);
+  }
+};
 var import_is_subdir = __toESM2(require_is_subdir());
 async function getDivergedCommit(cwd, ref) {
   const cmd = await (0, import_spawndamnit.default)("git", ["merge-base", ref, "HEAD"], {
@@ -141085,6 +143991,848 @@ async function getChangesets(cwd, sinceRef) {
   return [...await oldChangesetsPromise, ...await Promise.all(changesetContents)];
 }
 var read_esm_default = getChangesets;
+var import_get_packages2 = __toESM2(require_get_packages_cjs2());
+var import_fs_extra3 = __toESM2(require_lib3());
+var import_micromatch = __toESM2(require_micromatch2());
+var import_semver = __toESM2(require_semver2());
+var import_chalk3 = __toESM2(require_chalk2());
+var DEPENDENCY_TYPES = ["dependencies", "devDependencies", "peerDependencies", "optionalDependencies"];
+var getAllDependencies = (config) => {
+  const allDependencies = /* @__PURE__ */ new Map();
+  for (const type of DEPENDENCY_TYPES) {
+    const deps = config[type];
+    if (!deps)
+      continue;
+    for (const name2 of Object.keys(deps)) {
+      const depRange = deps[name2];
+      if ((depRange.startsWith("link:") || depRange.startsWith("file:")) && type === "devDependencies") {
+        continue;
+      }
+      allDependencies.set(name2, depRange);
+    }
+  }
+  return allDependencies;
+};
+var isProtocolRange = (range) => range.indexOf(":") !== -1;
+var getValidRange = (potentialRange) => {
+  if (isProtocolRange(potentialRange)) {
+    return null;
+  }
+  try {
+    return new import_semver.default.Range(potentialRange);
+  } catch (_unused) {
+    return null;
+  }
+};
+function getDependencyGraph(packages, opts) {
+  const graph = /* @__PURE__ */ new Map();
+  let valid = true;
+  const packagesByName = {
+    [packages.root.packageJson.name]: packages.root
+  };
+  const queue = [packages.root];
+  for (const pkg of packages.packages) {
+    queue.push(pkg);
+    packagesByName[pkg.packageJson.name] = pkg;
+  }
+  for (const pkg of queue) {
+    const {
+      name: name2
+    } = pkg.packageJson;
+    const dependencies = [];
+    const allDependencies = getAllDependencies(pkg.packageJson);
+    for (let [depName, depRange] of allDependencies) {
+      const match = packagesByName[depName];
+      if (!match)
+        continue;
+      const expected = match.packageJson.version;
+      const usesWorkspaceRange = depRange.startsWith("workspace:");
+      if (usesWorkspaceRange) {
+        depRange = depRange.replace(/^workspace:/, "");
+        if (depRange === "*" || depRange === "^" || depRange === "~") {
+          dependencies.push(depName);
+          continue;
+        }
+      } else if ((opts === null || opts === void 0 ? void 0 : opts.bumpVersionsWithWorkspaceProtocolOnly) === true) {
+        continue;
+      }
+      const range = getValidRange(depRange);
+      if (range && !range.test(expected) || isProtocolRange(depRange)) {
+        valid = false;
+        console.error(`Package ${import_chalk3.default.cyan(`"${name2}"`)} must depend on the current version of ${import_chalk3.default.cyan(`"${depName}"`)}: ${import_chalk3.default.green(`"${expected}"`)} vs ${import_chalk3.default.red(`"${depRange}"`)}`);
+        continue;
+      }
+      if (!range) {
+        continue;
+      }
+      dependencies.push(depName);
+    }
+    graph.set(name2, {
+      pkg,
+      dependencies
+    });
+  }
+  return {
+    graph,
+    valid
+  };
+}
+function getDependentsGraph(packages, opts) {
+  const graph = /* @__PURE__ */ new Map();
+  const {
+    graph: dependencyGraph
+  } = getDependencyGraph(packages, {
+    bumpVersionsWithWorkspaceProtocolOnly: (opts === null || opts === void 0 ? void 0 : opts.bumpVersionsWithWorkspaceProtocolOnly) === true
+  });
+  const dependentsLookup = {};
+  packages.packages.forEach((pkg) => {
+    dependentsLookup[pkg.packageJson.name] = {
+      pkg,
+      dependents: []
+    };
+  });
+  packages.packages.forEach((pkg) => {
+    const dependent = pkg.packageJson.name;
+    const valFromDependencyGraph = dependencyGraph.get(dependent);
+    if (valFromDependencyGraph) {
+      const dependencies = valFromDependencyGraph.dependencies;
+      dependencies.forEach((dependency) => {
+        dependentsLookup[dependency].dependents.push(dependent);
+      });
+    }
+  });
+  Object.keys(dependentsLookup).forEach((key) => {
+    graph.set(key, dependentsLookup[key]);
+  });
+  const simplifiedDependentsGraph = /* @__PURE__ */ new Map();
+  graph.forEach((pkgInfo, pkgName) => {
+    simplifiedDependentsGraph.set(pkgName, pkgInfo.dependents);
+  });
+  return simplifiedDependentsGraph;
+}
+var packageJson = {
+  name: "@changesets/config",
+  version: "2.1.1",
+  description: "Utilities for reading and parsing Changeset's config",
+  main: "dist/config.cjs.js",
+  module: "dist/config.esm.js",
+  license: "MIT",
+  repository: "https://github.com/changesets/changesets/tree/main/packages/config",
+  files: [
+    "dist",
+    "schema.json"
+  ],
+  dependencies: {
+    "@changesets/errors": "^0.1.4",
+    "@changesets/get-dependents-graph": "^1.3.3",
+    "@changesets/logger": "^0.0.5",
+    "@changesets/types": "^5.1.0",
+    "@manypkg/get-packages": "^1.1.3",
+    "fs-extra": "^7.0.1",
+    micromatch: "^4.0.2"
+  },
+  devDependencies: {
+    "@types/micromatch": "^4.0.1",
+    fixturez: "^1.1.0",
+    "jest-in-case": "^1.0.2"
+  }
+};
+var defaultWrittenConfig = {
+  $schema: `https://unpkg.com/@changesets/config@${packageJson.version}/schema.json`,
+  changelog: "@changesets/cli/changelog",
+  commit: false,
+  fixed: [],
+  linked: [],
+  access: "restricted",
+  baseBranch: "master",
+  updateInternalDependencies: "patch",
+  ignore: []
+};
+function flatten(arr) {
+  return [].concat(...arr);
+}
+function getNormalizedChangelogOption(thing) {
+  if (thing === false) {
+    return false;
+  }
+  if (typeof thing === "string") {
+    return [thing, null];
+  }
+  return thing;
+}
+function getNormalizedCommitOption(thing) {
+  if (thing === false) {
+    return false;
+  }
+  if (thing === true) {
+    return ["@changesets/cli/commit", {
+      skipCI: "version"
+    }];
+  }
+  if (typeof thing === "string") {
+    return [thing, null];
+  }
+  return thing;
+}
+function getUnmatchedPatterns(listOfPackageNamesOrGlob, pkgNames) {
+  return listOfPackageNamesOrGlob.filter((pkgNameOrGlob) => !pkgNames.some((pkgName) => import_micromatch.default.isMatch(pkgName, pkgNameOrGlob)));
+}
+var havePackageGroupsCorrectShape = (pkgGroups) => {
+  return isArray(pkgGroups) && pkgGroups.every((arr) => isArray(arr) && arr.every((pkgName) => typeof pkgName === "string"));
+};
+function isArray(arg) {
+  return Array.isArray(arg);
+}
+var read = async (cwd, packages) => {
+  let json = await (0, import_fs_extra3.readJSON)(import_path6.default.join(cwd, ".changeset", "config.json"));
+  return parse2(json, packages);
+};
+var parse2 = (json, packages) => {
+  var _json$snapshot$prerel, _json$snapshot, _json$snapshot2, _json$___experimental, _json$___experimental2, _json$___experimental3, _json$___experimental4;
+  let messages = [];
+  let pkgNames = packages.packages.map(({
+    packageJson: packageJson2
+  }) => packageJson2.name);
+  if (json.changelog !== void 0 && json.changelog !== false && typeof json.changelog !== "string" && !(isArray(json.changelog) && json.changelog.length === 2 && typeof json.changelog[0] === "string")) {
+    messages.push(`The \`changelog\` option is set as ${JSON.stringify(json.changelog, null, 2)} when the only valid values are undefined, false, a module path(e.g. "@changesets/cli/changelog" or "./some-module") or a tuple with a module path and config for the changelog generator(e.g. ["@changesets/cli/changelog", { someOption: true }])`);
+  }
+  let normalizedAccess = json.access;
+  if (json.access === "private") {
+    normalizedAccess = "restricted";
+    warn('The `access` option is set as "private", but this is actually not a valid value - the correct form is "restricted".');
+  }
+  if (normalizedAccess !== void 0 && normalizedAccess !== "restricted" && normalizedAccess !== "public") {
+    messages.push(`The \`access\` option is set as ${JSON.stringify(normalizedAccess, null, 2)} when the only valid values are undefined, "public" or "restricted"`);
+  }
+  if (json.commit !== void 0 && typeof json.commit !== "boolean" && typeof json.commit !== "string" && !(isArray(json.commit) && json.commit.length === 2 && typeof json.commit[0] === "string")) {
+    messages.push(`The \`commit\` option is set as ${JSON.stringify(json.commit, null, 2)} when the only valid values are undefined or a boolean or a module path (e.g. "@changesets/cli/commit" or "./some-module") or a tuple with a module path and config for the commit message generator (e.g. ["@changesets/cli/commit", { "skipCI": "version" }])`);
+  }
+  if (json.baseBranch !== void 0 && typeof json.baseBranch !== "string") {
+    messages.push(`The \`baseBranch\` option is set as ${JSON.stringify(json.baseBranch, null, 2)} but the \`baseBranch\` option can only be set as a string`);
+  }
+  let fixed = [];
+  if (json.fixed !== void 0) {
+    if (!havePackageGroupsCorrectShape(json.fixed)) {
+      messages.push(`The \`fixed\` option is set as ${JSON.stringify(json.fixed, null, 2)} when the only valid values are undefined or an array of arrays of package names`);
+    } else {
+      let foundPkgNames = /* @__PURE__ */ new Set();
+      let duplicatedPkgNames = /* @__PURE__ */ new Set();
+      for (let fixedGroup of json.fixed) {
+        messages.push(...getUnmatchedPatterns(fixedGroup, pkgNames).map((pkgOrGlob) => `The package or glob expression "${pkgOrGlob}" specified in the \`fixed\` option does not match any package in the project. You may have misspelled the package name or provided an invalid glob expression. Note that glob expressions must be defined according to https://www.npmjs.com/package/micromatch.`));
+        let expandedFixedGroup = (0, import_micromatch.default)(pkgNames, fixedGroup);
+        fixed.push(expandedFixedGroup);
+        for (let fixedPkgName of expandedFixedGroup) {
+          if (foundPkgNames.has(fixedPkgName)) {
+            duplicatedPkgNames.add(fixedPkgName);
+          }
+          foundPkgNames.add(fixedPkgName);
+        }
+      }
+      if (duplicatedPkgNames.size) {
+        duplicatedPkgNames.forEach((pkgName) => {
+          messages.push(`The package "${pkgName}" is defined in multiple sets of fixed packages. Packages can only be defined in a single set of fixed packages. If you are using glob expressions, make sure that they are valid according to https://www.npmjs.com/package/micromatch.`);
+        });
+      }
+    }
+  }
+  let linked = [];
+  if (json.linked !== void 0) {
+    if (!havePackageGroupsCorrectShape(json.linked)) {
+      messages.push(`The \`linked\` option is set as ${JSON.stringify(json.linked, null, 2)} when the only valid values are undefined or an array of arrays of package names`);
+    } else {
+      let foundPkgNames = /* @__PURE__ */ new Set();
+      let duplicatedPkgNames = /* @__PURE__ */ new Set();
+      for (let linkedGroup of json.linked) {
+        messages.push(...getUnmatchedPatterns(linkedGroup, pkgNames).map((pkgOrGlob) => `The package or glob expression "${pkgOrGlob}" specified in the \`linked\` option does not match any package in the project. You may have misspelled the package name or provided an invalid glob expression. Note that glob expressions must be defined according to https://www.npmjs.com/package/micromatch.`));
+        let expandedLinkedGroup = (0, import_micromatch.default)(pkgNames, linkedGroup);
+        linked.push(expandedLinkedGroup);
+        for (let linkedPkgName of expandedLinkedGroup) {
+          if (foundPkgNames.has(linkedPkgName)) {
+            duplicatedPkgNames.add(linkedPkgName);
+          }
+          foundPkgNames.add(linkedPkgName);
+        }
+      }
+      if (duplicatedPkgNames.size) {
+        duplicatedPkgNames.forEach((pkgName) => {
+          messages.push(`The package "${pkgName}" is defined in multiple sets of linked packages. Packages can only be defined in a single set of linked packages. If you are using glob expressions, make sure that they are valid according to https://www.npmjs.com/package/micromatch.`);
+        });
+      }
+    }
+  }
+  const allFixedPackages = new Set(flatten(fixed));
+  const allLinkedPackages = new Set(flatten(linked));
+  allFixedPackages.forEach((pkgName) => {
+    if (allLinkedPackages.has(pkgName)) {
+      messages.push(`The package "${pkgName}" can be found in both fixed and linked groups. A package can only be either fixed or linked.`);
+    }
+  });
+  if (json.updateInternalDependencies !== void 0 && !["patch", "minor"].includes(json.updateInternalDependencies)) {
+    messages.push(`The \`updateInternalDependencies\` option is set as ${JSON.stringify(json.updateInternalDependencies, null, 2)} but can only be 'patch' or 'minor'`);
+  }
+  if (json.ignore) {
+    if (!(isArray(json.ignore) && json.ignore.every((pkgName) => typeof pkgName === "string"))) {
+      messages.push(`The \`ignore\` option is set as ${JSON.stringify(json.ignore, null, 2)} when the only valid values are undefined or an array of package names`);
+    } else {
+      messages.push(...getUnmatchedPatterns(json.ignore, pkgNames).map((pkgOrGlob) => `The package or glob expression "${pkgOrGlob}" is specified in the \`ignore\` option but it is not found in the project. You may have misspelled the package name or provided an invalid glob expression. Note that glob expressions must be defined according to https://www.npmjs.com/package/micromatch.`));
+      const dependentsGraph = getDependentsGraph(packages);
+      for (const ignoredPackage of json.ignore) {
+        const dependents = dependentsGraph.get(ignoredPackage) || [];
+        for (const dependent of dependents) {
+          if (!json.ignore.includes(dependent)) {
+            messages.push(`The package "${dependent}" depends on the ignored package "${ignoredPackage}", but "${dependent}" is not being ignored. Please add "${dependent}" to the \`ignore\` option.`);
+          }
+        }
+      }
+    }
+  }
+  const {
+    snapshot
+  } = json;
+  if (snapshot !== void 0) {
+    if (snapshot.useCalculatedVersion !== void 0 && typeof snapshot.useCalculatedVersion !== "boolean") {
+      messages.push(`The \`snapshot.useCalculatedVersion\` option is set as ${JSON.stringify(snapshot.useCalculatedVersion, null, 2)} when the only valid values are undefined or a boolean`);
+    }
+    if (snapshot.prereleaseTemplate !== void 0 && typeof snapshot.prereleaseTemplate !== "string") {
+      messages.push(`The \`snapshot.prereleaseTemplate\` option is set as ${JSON.stringify(snapshot.prereleaseTemplate, null, 2)} when the only valid values are undefined, or a template string.`);
+    }
+  }
+  if (json.___experimentalUnsafeOptions_WILL_CHANGE_IN_PATCH !== void 0) {
+    const {
+      onlyUpdatePeerDependentsWhenOutOfRange,
+      updateInternalDependents,
+      useCalculatedVersionForSnapshots
+    } = json.___experimentalUnsafeOptions_WILL_CHANGE_IN_PATCH;
+    if (onlyUpdatePeerDependentsWhenOutOfRange !== void 0 && typeof onlyUpdatePeerDependentsWhenOutOfRange !== "boolean") {
+      messages.push(`The \`onlyUpdatePeerDependentsWhenOutOfRange\` option is set as ${JSON.stringify(onlyUpdatePeerDependentsWhenOutOfRange, null, 2)} when the only valid values are undefined or a boolean`);
+    }
+    if (updateInternalDependents !== void 0 && !["always", "out-of-range"].includes(updateInternalDependents)) {
+      messages.push(`The \`updateInternalDependents\` option is set as ${JSON.stringify(updateInternalDependents, null, 2)} but can only be 'always' or 'out-of-range'`);
+    }
+    if (useCalculatedVersionForSnapshots && useCalculatedVersionForSnapshots !== void 0) {
+      console.warn(`Experimental flag "useCalculatedVersionForSnapshots" is deprecated since snapshot feature became stable. Please use "snapshot.useCalculatedVersion" instead.`);
+      if (typeof useCalculatedVersionForSnapshots !== "boolean") {
+        messages.push(`The \`useCalculatedVersionForSnapshots\` option is set as ${JSON.stringify(useCalculatedVersionForSnapshots, null, 2)} when the only valid values are undefined or a boolean`);
+      }
+    }
+  }
+  if (messages.length) {
+    throw new ValidationError(`Some errors occurred when validating the changesets config:
+` + messages.join("\n"));
+  }
+  let config = {
+    changelog: getNormalizedChangelogOption(json.changelog === void 0 ? defaultWrittenConfig.changelog : json.changelog),
+    access: normalizedAccess === void 0 ? defaultWrittenConfig.access : normalizedAccess,
+    commit: getNormalizedCommitOption(json.commit === void 0 ? defaultWrittenConfig.commit : json.commit),
+    fixed,
+    linked,
+    baseBranch: json.baseBranch === void 0 ? defaultWrittenConfig.baseBranch : json.baseBranch,
+    updateInternalDependencies: json.updateInternalDependencies === void 0 ? defaultWrittenConfig.updateInternalDependencies : json.updateInternalDependencies,
+    ignore: json.ignore === void 0 ? defaultWrittenConfig.ignore : (0, import_micromatch.default)(pkgNames, json.ignore),
+    bumpVersionsWithWorkspaceProtocolOnly: json.bumpVersionsWithWorkspaceProtocolOnly === true,
+    snapshot: {
+      prereleaseTemplate: (_json$snapshot$prerel = (_json$snapshot = json.snapshot) === null || _json$snapshot === void 0 ? void 0 : _json$snapshot.prereleaseTemplate) !== null && _json$snapshot$prerel !== void 0 ? _json$snapshot$prerel : null,
+      useCalculatedVersion: ((_json$snapshot2 = json.snapshot) === null || _json$snapshot2 === void 0 ? void 0 : _json$snapshot2.useCalculatedVersion) !== void 0 ? json.snapshot.useCalculatedVersion : ((_json$___experimental = json.___experimentalUnsafeOptions_WILL_CHANGE_IN_PATCH) === null || _json$___experimental === void 0 ? void 0 : _json$___experimental.useCalculatedVersionForSnapshots) !== void 0 ? (_json$___experimental2 = json.___experimentalUnsafeOptions_WILL_CHANGE_IN_PATCH) === null || _json$___experimental2 === void 0 ? void 0 : _json$___experimental2.useCalculatedVersionForSnapshots : false
+    },
+    ___experimentalUnsafeOptions_WILL_CHANGE_IN_PATCH: {
+      onlyUpdatePeerDependentsWhenOutOfRange: json.___experimentalUnsafeOptions_WILL_CHANGE_IN_PATCH === void 0 || json.___experimentalUnsafeOptions_WILL_CHANGE_IN_PATCH.onlyUpdatePeerDependentsWhenOutOfRange === void 0 ? false : json.___experimentalUnsafeOptions_WILL_CHANGE_IN_PATCH.onlyUpdatePeerDependentsWhenOutOfRange,
+      updateInternalDependents: (_json$___experimental3 = (_json$___experimental4 = json.___experimentalUnsafeOptions_WILL_CHANGE_IN_PATCH) === null || _json$___experimental4 === void 0 ? void 0 : _json$___experimental4.updateInternalDependents) !== null && _json$___experimental3 !== void 0 ? _json$___experimental3 : "out-of-range"
+    }
+  };
+  return config;
+};
+var fakePackage = {
+  dir: "",
+  packageJson: {
+    name: "",
+    version: ""
+  }
+};
+var defaultConfig = parse2(defaultWrittenConfig, {
+  root: fakePackage,
+  tool: "root",
+  packages: [fakePackage]
+});
+var import_semver2 = __toESM2(require_semver2());
+function _defineProperty2(obj, key, value) {
+  if (key in obj) {
+    Object.defineProperty(obj, key, {
+      value,
+      enumerable: true,
+      configurable: true,
+      writable: true
+    });
+  } else {
+    obj[key] = value;
+  }
+  return obj;
+}
+function ownKeys2(object, enumerableOnly) {
+  var keys = Object.keys(object);
+  if (Object.getOwnPropertySymbols) {
+    var symbols = Object.getOwnPropertySymbols(object);
+    if (enumerableOnly)
+      symbols = symbols.filter(function(sym) {
+        return Object.getOwnPropertyDescriptor(object, sym).enumerable;
+      });
+    keys.push.apply(keys, symbols);
+  }
+  return keys;
+}
+function _objectSpread22(target) {
+  for (var i = 1; i < arguments.length; i++) {
+    var source = arguments[i] != null ? arguments[i] : {};
+    if (i % 2) {
+      ownKeys2(Object(source), true).forEach(function(key) {
+        _defineProperty2(target, key, source[key]);
+      });
+    } else if (Object.getOwnPropertyDescriptors) {
+      Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));
+    } else {
+      ownKeys2(Object(source)).forEach(function(key) {
+        Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));
+      });
+    }
+  }
+  return target;
+}
+function incrementVersion(release2, preInfo) {
+  if (release2.type === "none") {
+    return release2.oldVersion;
+  }
+  let version2 = (0, import_semver2.inc)(release2.oldVersion, release2.type);
+  if (preInfo !== void 0 && preInfo.state.mode !== "exit") {
+    let preVersion = preInfo.preVersions.get(release2.name);
+    if (preVersion === void 0) {
+      throw new InternalError(`preVersion for ${release2.name} does not exist when preState is defined`);
+    }
+    version2 += `-${preInfo.state.tag}.${preVersion}`;
+  }
+  return version2;
+}
+function determineDependents({
+  releases,
+  packagesByName,
+  dependencyGraph,
+  preInfo,
+  config
+}) {
+  let updated = false;
+  let pkgsToSearch = [...releases.values()];
+  while (pkgsToSearch.length > 0) {
+    const nextRelease = pkgsToSearch.shift();
+    if (!nextRelease)
+      continue;
+    const pkgDependents = dependencyGraph.get(nextRelease.name);
+    if (!pkgDependents) {
+      throw new Error(`Error in determining dependents - could not find package in repository: ${nextRelease.name}`);
+    }
+    pkgDependents.map((dependent) => {
+      let type;
+      const dependentPackage = packagesByName.get(dependent);
+      if (!dependentPackage)
+        throw new Error("Dependency map is incorrect");
+      if (config.ignore.includes(dependent)) {
+        type = "none";
+      } else {
+        const dependencyVersionRanges = getDependencyVersionRanges(dependentPackage.packageJson, nextRelease);
+        for (const {
+          depType,
+          versionRange
+        } of dependencyVersionRanges) {
+          if (shouldBumpMajor({
+            dependent,
+            depType,
+            versionRange,
+            releases,
+            nextRelease,
+            preInfo,
+            onlyUpdatePeerDependentsWhenOutOfRange: config.___experimentalUnsafeOptions_WILL_CHANGE_IN_PATCH.onlyUpdatePeerDependentsWhenOutOfRange
+          })) {
+            type = "major";
+          } else {
+            if ((!releases.has(dependent) || releases.get(dependent).type === "none") && (config.___experimentalUnsafeOptions_WILL_CHANGE_IN_PATCH.updateInternalDependents === "always" || !import_semver2.default.satisfies(incrementVersion(nextRelease, preInfo), versionRange))) {
+              switch (depType) {
+                case "dependencies":
+                case "optionalDependencies":
+                case "peerDependencies":
+                  if (type !== "major" && type !== "minor") {
+                    type = "patch";
+                  }
+                  break;
+                case "devDependencies": {
+                  if (type !== "major" && type !== "minor" && type !== "patch") {
+                    type = "none";
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+      if (releases.has(dependent) && releases.get(dependent).type === type) {
+        type = void 0;
+      }
+      return {
+        name: dependent,
+        type,
+        pkgJSON: dependentPackage.packageJson
+      };
+    }).filter(({
+      type
+    }) => type).forEach(({
+      name: name2,
+      type,
+      pkgJSON
+    }) => {
+      updated = true;
+      const existing = releases.get(name2);
+      if (existing && type === "major" && existing.type !== "major") {
+        existing.type = "major";
+        pkgsToSearch.push(existing);
+      } else {
+        let newDependent = {
+          name: name2,
+          type,
+          oldVersion: pkgJSON.version,
+          changesets: []
+        };
+        pkgsToSearch.push(newDependent);
+        releases.set(name2, newDependent);
+      }
+    });
+  }
+  return updated;
+}
+function getDependencyVersionRanges(dependentPkgJSON, dependencyRelease) {
+  const DEPENDENCY_TYPES2 = ["dependencies", "devDependencies", "peerDependencies", "optionalDependencies"];
+  const dependencyVersionRanges = [];
+  for (const type of DEPENDENCY_TYPES2) {
+    var _dependentPkgJSON$typ;
+    const versionRange = (_dependentPkgJSON$typ = dependentPkgJSON[type]) === null || _dependentPkgJSON$typ === void 0 ? void 0 : _dependentPkgJSON$typ[dependencyRelease.name];
+    if (!versionRange)
+      continue;
+    if (versionRange.startsWith("workspace:")) {
+      dependencyVersionRanges.push({
+        depType: type,
+        versionRange: versionRange === "workspace:*" ? dependencyRelease.oldVersion : versionRange.replace(/^workspace:/, "")
+      });
+    } else {
+      dependencyVersionRanges.push({
+        depType: type,
+        versionRange
+      });
+    }
+  }
+  return dependencyVersionRanges;
+}
+function shouldBumpMajor({
+  dependent,
+  depType,
+  versionRange,
+  releases,
+  nextRelease,
+  preInfo,
+  onlyUpdatePeerDependentsWhenOutOfRange
+}) {
+  return depType === "peerDependencies" && nextRelease.type !== "none" && nextRelease.type !== "patch" && (!onlyUpdatePeerDependentsWhenOutOfRange || !import_semver2.default.satisfies(incrementVersion(nextRelease, preInfo), versionRange)) && (!releases.has(dependent) || releases.has(dependent) && releases.get(dependent).type !== "major");
+}
+function flattenReleases(changesets, packagesByName, ignoredPackages) {
+  let releases = /* @__PURE__ */ new Map();
+  changesets.forEach((changeset) => {
+    changeset.releases.filter(({
+      name: name2
+    }) => !ignoredPackages.includes(name2)).forEach(({
+      name: name2,
+      type
+    }) => {
+      let release2 = releases.get(name2);
+      let pkg = packagesByName.get(name2);
+      if (!pkg) {
+        throw new Error(`"${changeset.id}" changeset mentions a release for a package "${name2}" but such a package could not be found.`);
+      }
+      if (!release2) {
+        release2 = {
+          name: name2,
+          type,
+          oldVersion: pkg.packageJson.version,
+          changesets: [changeset.id]
+        };
+      } else {
+        if (type === "major" || (release2.type === "patch" || release2.type === "none") && (type === "minor" || type === "patch")) {
+          release2.type = type;
+        }
+        release2.changesets.push(changeset.id);
+      }
+      releases.set(name2, release2);
+    });
+  });
+  return releases;
+}
+function getHighestReleaseType(releases) {
+  if (releases.length === 0) {
+    throw new Error(`Large internal Changesets error when calculating highest release type in the set of releases. Please contact the maintainers`);
+  }
+  let highestReleaseType = "none";
+  for (let release2 of releases) {
+    switch (release2.type) {
+      case "major":
+        return "major";
+      case "minor":
+        highestReleaseType = "minor";
+        break;
+      case "patch":
+        if (highestReleaseType === "none") {
+          highestReleaseType = "patch";
+        }
+        break;
+    }
+  }
+  return highestReleaseType;
+}
+function getCurrentHighestVersion(packageGroup, packagesByName) {
+  let highestVersion;
+  for (let pkgName of packageGroup) {
+    let pkg = packagesByName.get(pkgName);
+    if (!pkg) {
+      console.error(`FATAL ERROR IN CHANGESETS! We were unable to version for package group: ${pkgName} in package group: ${packageGroup.toString()}`);
+      throw new Error(`fatal: could not resolve linked packages`);
+    }
+    if (highestVersion === void 0 || import_semver2.default.gt(pkg.packageJson.version, highestVersion)) {
+      highestVersion = pkg.packageJson.version;
+    }
+  }
+  return highestVersion;
+}
+function matchFixedConstraint(releases, packagesByName, config) {
+  let updated = false;
+  for (let fixedPackages of config.fixed) {
+    let releasingFixedPackages = [...releases.values()].filter((release2) => fixedPackages.includes(release2.name) && release2.type !== "none");
+    if (releasingFixedPackages.length === 0)
+      continue;
+    let highestReleaseType = getHighestReleaseType(releasingFixedPackages);
+    let highestVersion = getCurrentHighestVersion(fixedPackages, packagesByName);
+    for (let pkgName of fixedPackages) {
+      if (config.ignore.includes(pkgName)) {
+        continue;
+      }
+      let release2 = releases.get(pkgName);
+      if (!release2) {
+        updated = true;
+        releases.set(pkgName, {
+          name: pkgName,
+          type: highestReleaseType,
+          oldVersion: highestVersion,
+          changesets: []
+        });
+        continue;
+      }
+      if (release2.type !== highestReleaseType) {
+        updated = true;
+        release2.type = highestReleaseType;
+      }
+      if (release2.oldVersion !== highestVersion) {
+        updated = true;
+        release2.oldVersion = highestVersion;
+      }
+    }
+  }
+  return updated;
+}
+function applyLinks(releases, packagesByName, linked) {
+  let updated = false;
+  for (let linkedPackages of linked) {
+    let releasingLinkedPackages = [...releases.values()].filter((release2) => linkedPackages.includes(release2.name) && release2.type !== "none");
+    if (releasingLinkedPackages.length === 0)
+      continue;
+    let highestReleaseType = getHighestReleaseType(releasingLinkedPackages);
+    let highestVersion = getCurrentHighestVersion(linkedPackages, packagesByName);
+    for (let linkedPackage of releasingLinkedPackages) {
+      if (linkedPackage.type !== highestReleaseType) {
+        updated = true;
+        linkedPackage.type = highestReleaseType;
+      }
+      if (linkedPackage.oldVersion !== highestVersion) {
+        updated = true;
+        linkedPackage.oldVersion = highestVersion;
+      }
+    }
+  }
+  return updated;
+}
+function getPreVersion(version2) {
+  let parsed = (0, import_semver2.parse)(version2);
+  let preVersion = parsed.prerelease[1] === void 0 ? -1 : parsed.prerelease[1];
+  if (typeof preVersion !== "number") {
+    throw new InternalError("preVersion is not a number");
+  }
+  preVersion++;
+  return preVersion;
+}
+function getSnapshotSuffix(template, snapshotParameters) {
+  let snapshotRefDate = new Date();
+  const placeholderValues = {
+    commit: snapshotParameters.commit,
+    tag: snapshotParameters.tag,
+    timestamp: snapshotRefDate.getTime().toString(),
+    datetime: snapshotRefDate.toISOString().replace(/\.\d{3}Z$/, "").replace(/[^\d]/g, "")
+  };
+  if (!template) {
+    return [placeholderValues.tag, placeholderValues.datetime].filter(Boolean).join("-");
+  }
+  const placeholders = Object.keys(placeholderValues);
+  if (!template.includes(`{tag}`) && placeholderValues.tag !== void 0) {
+    throw new Error(`Failed to compose snapshot version: "{tag}" placeholder is missing, but the snapshot parameter is defined (value: '${placeholderValues.tag}')`);
+  }
+  return placeholders.reduce((prev, key) => {
+    return prev.replace(new RegExp(`\\{${key}\\}`, "g"), () => {
+      const value = placeholderValues[key];
+      if (value === void 0) {
+        throw new Error(`Failed to compose snapshot version: "{${key}}" placeholder is used without having a value defined!`);
+      }
+      return value;
+    });
+  }, template);
+}
+function getSnapshotVersion(release2, preInfo, useCalculatedVersion, snapshotSuffix) {
+  if (release2.type === "none") {
+    return release2.oldVersion;
+  }
+  const baseVersion = useCalculatedVersion ? incrementVersion(release2, preInfo) : `0.0.0`;
+  return `${baseVersion}-${snapshotSuffix}`;
+}
+function getNewVersion(release2, preInfo) {
+  if (release2.type === "none") {
+    return release2.oldVersion;
+  }
+  return incrementVersion(release2, preInfo);
+}
+function assembleReleasePlan(changesets, packages, config, preState, snapshot) {
+  const refinedConfig = config.snapshot ? config : _objectSpread22(_objectSpread22({}, config), {}, {
+    snapshot: {
+      prereleaseTemplate: null,
+      useCalculatedVersion: config.___experimentalUnsafeOptions_WILL_CHANGE_IN_PATCH.useCalculatedVersionForSnapshots
+    }
+  });
+  const refinedSnapshot = typeof snapshot === "string" ? {
+    tag: snapshot
+  } : typeof snapshot === "boolean" ? {
+    tag: void 0
+  } : snapshot;
+  let packagesByName = new Map(packages.packages.map((x) => [x.packageJson.name, x]));
+  const relevantChangesets = getRelevantChangesets(changesets, refinedConfig.ignore, preState);
+  const preInfo = getPreInfo(changesets, packagesByName, refinedConfig, preState);
+  let releases = flattenReleases(relevantChangesets, packagesByName, refinedConfig.ignore);
+  let dependencyGraph = getDependentsGraph(packages, {
+    bumpVersionsWithWorkspaceProtocolOnly: refinedConfig.bumpVersionsWithWorkspaceProtocolOnly
+  });
+  let releasesValidated = false;
+  while (releasesValidated === false) {
+    let dependentAdded = determineDependents({
+      releases,
+      packagesByName,
+      dependencyGraph,
+      preInfo,
+      config: refinedConfig
+    });
+    let fixedConstraintUpdated = matchFixedConstraint(releases, packagesByName, refinedConfig);
+    let linksUpdated = applyLinks(releases, packagesByName, refinedConfig.linked);
+    releasesValidated = !linksUpdated && !dependentAdded && !fixedConstraintUpdated;
+  }
+  if ((preInfo === null || preInfo === void 0 ? void 0 : preInfo.state.mode) === "exit") {
+    for (let pkg of packages.packages) {
+      if (preInfo.preVersions.get(pkg.packageJson.name) !== 0) {
+        const existingRelease = releases.get(pkg.packageJson.name);
+        if (!existingRelease) {
+          releases.set(pkg.packageJson.name, {
+            name: pkg.packageJson.name,
+            type: "patch",
+            oldVersion: pkg.packageJson.version,
+            changesets: []
+          });
+        } else if (existingRelease.type === "none" && !refinedConfig.ignore.includes(pkg.packageJson.name)) {
+          existingRelease.type = "patch";
+        }
+      }
+    }
+  }
+  const snapshotSuffix = refinedSnapshot && getSnapshotSuffix(refinedConfig.snapshot.prereleaseTemplate, refinedSnapshot);
+  return {
+    changesets: relevantChangesets,
+    releases: [...releases.values()].map((incompleteRelease) => {
+      return _objectSpread22(_objectSpread22({}, incompleteRelease), {}, {
+        newVersion: snapshotSuffix ? getSnapshotVersion(incompleteRelease, preInfo, refinedConfig.snapshot.useCalculatedVersion, snapshotSuffix) : getNewVersion(incompleteRelease, preInfo)
+      });
+    }),
+    preState: preInfo === null || preInfo === void 0 ? void 0 : preInfo.state
+  };
+}
+function getRelevantChangesets(changesets, ignored, preState) {
+  for (const changeset of changesets) {
+    const ignoredPackages = [];
+    const notIgnoredPackages = [];
+    for (const release2 of changeset.releases) {
+      if (ignored.find((ignoredPackageName) => ignoredPackageName === release2.name)) {
+        ignoredPackages.push(release2.name);
+      } else {
+        notIgnoredPackages.push(release2.name);
+      }
+    }
+    if (ignoredPackages.length > 0 && notIgnoredPackages.length > 0) {
+      throw new Error(`Found mixed changeset ${changeset.id}
+Found ignored packages: ${ignoredPackages.join(" ")}
+Found not ignored packages: ${notIgnoredPackages.join(" ")}
+Mixed changesets that contain both ignored and not ignored packages are not allowed`);
+    }
+  }
+  if (preState && preState.mode !== "exit") {
+    let usedChangesetIds = new Set(preState.changesets);
+    return changesets.filter((changeset) => !usedChangesetIds.has(changeset.id));
+  }
+  return changesets;
+}
+function getHighestPreVersion(packageGroup, packagesByName) {
+  let highestPreVersion = 0;
+  for (let pkg of packageGroup) {
+    highestPreVersion = Math.max(getPreVersion(packagesByName.get(pkg).packageJson.version), highestPreVersion);
+  }
+  return highestPreVersion;
+}
+function getPreInfo(changesets, packagesByName, config, preState) {
+  if (preState === void 0) {
+    return;
+  }
+  let updatedPreState = _objectSpread22(_objectSpread22({}, preState), {}, {
+    changesets: changesets.map((changeset) => changeset.id),
+    initialVersions: _objectSpread22({}, preState.initialVersions)
+  });
+  for (const [, pkg] of packagesByName) {
+    if (updatedPreState.initialVersions[pkg.packageJson.name] === void 0) {
+      updatedPreState.initialVersions[pkg.packageJson.name] = pkg.packageJson.version;
+    }
+  }
+  let preVersions = /* @__PURE__ */ new Map();
+  for (const [, pkg] of packagesByName) {
+    preVersions.set(pkg.packageJson.name, getPreVersion(pkg.packageJson.version));
+  }
+  for (let fixedGroup of config.fixed) {
+    let highestPreVersion = getHighestPreVersion(fixedGroup, packagesByName);
+    for (let fixedPackage of fixedGroup) {
+      preVersions.set(fixedPackage, highestPreVersion);
+    }
+  }
+  for (let linkedGroup of config.linked) {
+    let highestPreVersion = getHighestPreVersion(linkedGroup, packagesByName);
+    for (let linkedPackage of linkedGroup) {
+      preVersions.set(linkedPackage, highestPreVersion);
+    }
+  }
+  return {
+    state: updatedPreState,
+    preVersions
+  };
+}
+var assemble_release_plan_esm_default = assembleReleasePlan;
 var import_utils6 = __toESM2(require_dist());
 async function runBumpVersion(releaseType, cwd = process.cwd()) {
   const packageManager = await (0, import_utils6.getPackageManager)(cwd);
@@ -141121,7 +144869,7 @@ ${stdout.split("modern gen-release-note")[1]}
 var github = __toESM2(require_github());
 var import_utils7 = __toESM2(require_dist());
 var writeGithubToken = async (githubToken) => {
-  await import_utils7.fs.writeFile(import_path6.default.join(process.env.HOME, ".netrc"), `machine github.com
+  await import_utils7.fs.writeFile(import_path7.default.join(process.env.HOME, ".netrc"), `machine github.com
 login github-actions[bot]
 password ${githubToken}`);
 };
@@ -141166,10 +144914,25 @@ var pullRequest = async () => {
   if (releaseType === "latest") {
     releaseType = "release";
   }
-  const releaseVersion = core2.getInput("versionNumber");
+  let releaseVersion = core2.getInput("versionNumber");
   const releaseBranch = core2.getInput("branch");
-  if (!releaseBranch || !releaseVersion) {
-    throw Error("not found release branch and release version");
+  if (!releaseBranch) {
+    throw Error("not found release branch");
+  }
+  const cwd = process.cwd();
+  const changesets = await read_esm_default(cwd);
+  if (releaseType === "canary" && releaseVersion === "auto") {
+    releaseVersion = `${new Date().toISOString().split("T")[0]}`;
+  } else if (releaseVersion === "auto") {
+    const packages = await (0, import_get_packages2.getPackages)(cwd);
+    const config = await read(cwd, packages);
+    const releasePlan = assemble_release_plan_esm_default(changesets, packages, config, void 0, releaseType === "canary" ? {
+      tag: "canary"
+    } : void 0);
+    if (releasePlan.releases.length === 0) {
+      return;
+    }
+    releaseVersion = `v${releasePlan.releases[0].newVersion}`;
   }
   console.info("Release Version", releaseVersion);
   console.info("publishBranch", releaseBranch);
@@ -141184,8 +144947,6 @@ var pullRequest = async () => {
   const title = releaseVersion ? `Release ${releaseVersion}` : "Version Packages";
   await gitSwitchToMaybeExistingBranch(versionBranch);
   await gitReset(github2.context.sha);
-  const cwd = process.cwd();
-  const changesets = await read_esm_default(cwd);
   if (changesets.length === 0) {
     console.log("No changesets found");
     process.exit(1);
