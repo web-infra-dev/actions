@@ -144921,7 +144921,9 @@ var pullRequest = async () => {
   }
   const cwd = process.cwd();
   const changesets = await read_esm_default(cwd);
-  if (releaseVersion === "auto") {
+  if (releaseType === "canary" && releaseVersion === "auto") {
+    releaseVersion = `${new Date().toISOString().split("T")[0]}`;
+  } else if (releaseVersion === "auto") {
     const packages = await (0, import_get_packages2.getPackages)(cwd);
     const config = await read(cwd, packages);
     const releasePlan = assemble_release_plan_esm_default(changesets, packages, config, void 0, releaseType === "canary" ? {
@@ -144930,7 +144932,7 @@ var pullRequest = async () => {
     if (releasePlan.releases.length === 0) {
       return;
     }
-    releaseVersion = `release-v${releasePlan.releases[0].newVersion}`;
+    releaseVersion = `v${releasePlan.releases[0].newVersion}`;
   }
   console.info("Release Version", releaseVersion);
   console.info("publishBranch", releaseBranch);

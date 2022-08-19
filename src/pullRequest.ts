@@ -40,7 +40,9 @@ export const pullRequest = async () => {
 
   const changesets = await readChangesets(cwd);
 
-  if (releaseVersion === 'auto') {
+  if (releaseType === 'canary' && releaseVersion === 'auto') {
+    releaseVersion = `${new Date().toISOString().split('T')[0]}`;
+  } else if (releaseVersion === 'auto') {
     const packages = await getPackages(cwd);
     const config = await read(cwd, packages);
 
@@ -58,7 +60,7 @@ export const pullRequest = async () => {
     if (releasePlan.releases.length === 0) {
       return;
     }
-    releaseVersion = `release-v${releasePlan.releases[0].newVersion}`;
+    releaseVersion = `v${releasePlan.releases[0].newVersion}`;
   }
 
   console.info('Release Version', releaseVersion);
