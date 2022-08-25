@@ -144919,6 +144919,8 @@ var pullRequest = async () => {
   if (!releaseBranch) {
     throw Error("not found release branch");
   }
+  const repo = process.env.REPOSITORY;
+  const isModernRepo = repo === "modern-js-dev/modern.js";
   const cwd = process.cwd();
   const changesets = await read_esm_default(cwd);
   if (releaseType === "canary" && releaseVersion === "auto") {
@@ -144932,7 +144934,11 @@ var pullRequest = async () => {
     if (releasePlan.releases.length === 0) {
       return;
     }
-    releaseVersion = `v${releasePlan.releases[0].newVersion}`;
+    if (isModernRepo) {
+      releaseVersion = `v${releasePlan.releases.filter((release2) => !release2.name.includes("generator"))[0].newVersion}`;
+    } else {
+      releaseVersion = `v${releasePlan.releases[0].newVersion}`;
+    }
   }
   console.info("Release Version", releaseVersion);
   console.info("publishBranch", releaseBranch);
@@ -144952,8 +144958,6 @@ var pullRequest = async () => {
     process.exit(1);
   }
   await runInstall();
-  const repo = process.env.REPOSITORY;
-  const isModernRepo = repo === "modern-js-dev/modern.js";
   if (isModernRepo) {
     await runPrepareMonorepoTools();
   }

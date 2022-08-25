@@ -36,6 +36,10 @@ export const pullRequest = async () => {
     throw Error('not found release branch');
   }
 
+  // hack modern.js repo
+  const repo = process.env.REPOSITORY;
+  const isModernRepo = repo === 'modern-js-dev/modern.js';
+
   const cwd = process.cwd();
 
   const changesets = await readChangesets(cwd);
@@ -60,7 +64,15 @@ export const pullRequest = async () => {
     if (releasePlan.releases.length === 0) {
       return;
     }
-    releaseVersion = `v${releasePlan.releases[0].newVersion}`;
+    if (isModernRepo) {
+      releaseVersion = `v${
+        releasePlan.releases.filter(
+          release => !release.name.includes('generator'),
+        )[0].newVersion
+      }`;
+    } else {
+      releaseVersion = `v${releasePlan.releases[0].newVersion}`;
+    }
   }
 
   console.info('Release Version', releaseVersion);
@@ -93,10 +105,6 @@ export const pullRequest = async () => {
   }
 
   await runInstall();
-
-  // hack modern.js repo
-  const repo = process.env.REPOSITORY;
-  const isModernRepo = repo === 'modern-js-dev/modern.js';
 
   if (isModernRepo) {
     await runPrepareMonorepoTools();
