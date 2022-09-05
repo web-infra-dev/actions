@@ -1,44 +1,137 @@
-# Your Package
+# Modern.js Actions
 
-## Prerequisites
+## Introduce
 
-1. [Node.js LTS](https://github.com/nodejs/Release)
-    * [Automatically call nvm use](https://github.com/nvm-sh/nvm#deeper-shell-integration)
+This Action containers two actions for [Modern.js](https://modernjs.dev/):
 
-## Get Started
+- Create a pull request with all of the package versions updated and changelogs updated
 
-按开发环境的要求，运行和调试项目
+- Release packages to [NPM](https://www.npmjs.com/) and create Release to repo
 
-运行和调试组件
+## Usage
 
-```
-pnpm run dev
-```
+### Release Pull Request
 
-运行测试用例
+#### Inputs
 
-```
-pnpm run test
-```
+- type: action type. Used to distinguish action execution action. Here is 'pull request'
+- version: release type. Support 'latest', 'canary', 'alpha', 'pre'
+- versionNumber: release version. Support like 'v1.x.x' or 'auto'. When you use auto, this action will get the first packages version after running bump version.
 
-按照社区规范和最佳实践，生成构建产物
+#### REPO_SCOPED_TOKEN
 
-```
-pnpm run build
-```
+This action need to set REPO_SCOPED_TOKEN. You can read [Creating a personal access token](https://docs.github.com/cn/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token) to create presonal access token.
 
-继续创建更多项目要素
+#### Outputs
 
-```
-pnpm run new
-```
+Create Release Request for repository.
 
-其他
+#### Example
 
 ```
-pnpm run lint         # 检查和修复所有代码
-pnpm run change       # 添加 changeset，用于发版时生成 changelog
-pnpm run bump         # 生成发版相关的修改，比如更新版本号、生成 changelog
-pnpm run release      # 根据 bump 自动修改和人工修改的发版要求，发布项目
+name: Release Pull Request
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        type: choice
+        description: 'Release Type(canary, alpha, pre, latest)'
+        required: true
+        default: 'latest'
+        options:
+        - canary
+        - alpha
+        - pre
+        - latest
+
+jobs:
+  release:
+    name: Create Release Pull Request
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@master
+        with:
+        # This makes Actions fetch only one branch to release
+          fetch-depth: 100
+
+      - name: Create Release Pull Request
+        uses: modern-js-dev/actions@main
+        with:
+          # this expects you to have a script called release which does a build for your packages and calls changeset publish
+          version: ${{ github.event.inputs.version }}
+          versionNumber: 'auto'
+          type: 'pull request'
+        env:
+          GITHUB_TOKEN: ${{ secrets.REPO_SCOPED_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          REPOSITORY: ${{ github.repository }}
+          REF: ${{ github.ref }}
+```
+
+### Release
+
+#### Inputs
+
+- type: action type. Used to distinguish action execution action. Here is 'relesae'
+- version: release type. Support 'latest', 'canary', 'alpha', 'pre'
+- branch: release branch
+
+
+#### REPO_SCOPED_TOKEN
+
+This action need to set REPO_SCOPED_TOKEN. You can read [Creating a personal access token](https://docs.github.com/cn/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token) to create presonal access token.
+
+#### Outputs
+
+Runtime Modern Release to publish packages to NPM
+
+#### Example
+
+```
+name: Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        type: choice
+        description: 'Release Version(canary, alpha, pre, latest)'
+        required: true
+        default: 'canary'
+        options:
+        - canary
+        - alpha
+        - pre
+        - latest
+      branch:
+        description: 'Release Branch(confirm release branch)'
+        required: true
+        default: 'main'
+
+jobs:
+  release:
+    name: Release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@master
+        with:
+        # This makes Actions fetch only one branch to release
+          fetch-depth: 1
+
+      - name: Release
+        uses: modern-js-dev/actions@main
+        with:
+          # this expects you to have a script called release which does a build for your packages and calls changeset publish
+          version: ${{ github.event.inputs.version }}
+          branch: ${{ github.event.inputs.branch }}
+          type: 'release'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          REPOSITORY: ${{ github.repository }}
+          REF: ${{ github.ref }}
 
 ```
