@@ -1,6 +1,7 @@
 import * as core from '@actions/core';
 import { gitCommitAll, gitConfigUser } from './utils';
 import { chagnePublishBranch } from './utils/fs';
+import { createRelease } from './utils/github';
 import {
   bumpCanaryVersion,
   listTagsAndGetPackages,
@@ -44,6 +45,10 @@ export const release = async () => {
   } else {
     await gitCommitAll('publish latest');
     await runRelease(process.cwd(), 'latest');
+    await createRelease({
+      publishBranch,
+      githubToken,
+    });
   }
   await listTagsAndGetPackages();
 };
