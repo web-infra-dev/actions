@@ -20,14 +20,14 @@ var import_https = __toESM(require("https"));
 var import_zlib = __toESM(require("zlib"));
 var import_path = __toESM(require("path"));
 var import_path2 = __toESM(require("path"));
-var import_os = __toESM(require("os"));
 var import_path3 = __toESM(require("path"));
+var import_os = __toESM(require("os"));
 var import_path4 = __toESM(require("path"));
-var import_fs = __toESM(require("fs"));
 var import_path5 = __toESM(require("path"));
+var import_fs = __toESM(require("fs"));
+var import_path6 = __toESM(require("path"));
 var import_util = require("util");
 var import_util2 = __toESM(require("util"));
-var import_path6 = __toESM(require("path"));
 var import_path7 = __toESM(require("path"));
 var __create2 = Object.create;
 var __defProp2 = Object.defineProperty;
@@ -143542,9 +143542,76 @@ var chagnePublishBranch = async (branch, cwd = process.cwd()) => {
   config.baseBranch = branch;
   await import_utils2.fs.writeJSON(import_path2.default.join(cwd, ".changeset", "config.json"), config, "utf-8");
 };
-var import_utils4 = __toESM2(require_dist());
-var import_execa2 = __toESM2(require_execa());
+var github = __toESM2(require_github());
 var import_utils3 = __toESM2(require_dist());
+var writeGithubToken = async (githubToken) => {
+  await import_utils3.fs.writeFile(import_path3.default.join(process.env.HOME, ".netrc"), `machine github.com
+login github-actions[bot]
+password ${githubToken}`);
+};
+var createPullRequest = async (options2) => {
+  const { githubToken, branch: baseBranch, title, body } = options2;
+  const repo = `${github.context.repo.owner}/${github.context.repo.repo}`;
+  const branch = github.context.ref.replace("refs/heads/", "");
+  const octokit = github.getOctokit(githubToken);
+  const searchQuery = `repo:${repo}+state:open+head:${baseBranch}+base:${branch}`;
+  const searchResult = await octokit.rest.search.issuesAndPullRequests({
+    q: searchQuery
+  });
+  if (searchResult.data.items.length === 0) {
+    console.info("creating pull request");
+    const { data: newPullRequest } = await octokit.rest.pulls.create({
+      base: branch,
+      head: baseBranch,
+      title,
+      body,
+      ...github.context.repo
+    });
+    return {
+      pullRequestNumber: newPullRequest.number
+    };
+  } else {
+    const [pullRequest2] = searchResult.data.items;
+    console.info(`updating found pull request #${pullRequest2.number}`);
+    await octokit.rest.pulls.update({
+      pull_number: pullRequest2.number,
+      title,
+      body,
+      ...github.context.repo
+    });
+    return {
+      pullRequestNumber: pullRequest2.number
+    };
+  }
+};
+var createRelease = async (options2) => {
+  const { githubToken, publishBranch, baseBranch } = options2;
+  const publishInfo = publishBranch.split("-");
+  if (publishInfo.length <= 1) {
+    console.info("current publishBranch not support create release");
+    return;
+  }
+  const tagName = publishInfo[1];
+  const octokit = github.getOctokit(githubToken);
+  const pulls = await octokit.rest.pulls.list({
+    head: publishBranch,
+    base: baseBranch || "main",
+    ...github.context.repo
+  });
+  if (pulls.data.length === 0) {
+    throw Error("not found release pull request");
+  }
+  const content = pulls.data[0].body;
+  await octokit.rest.repos.createRelease({
+    name: tagName,
+    tag_name: tagName,
+    body: content || "",
+    ...github.context.repo
+  });
+};
+var import_utils5 = __toESM2(require_dist());
+var import_execa2 = __toESM2(require_execa());
+var import_utils4 = __toESM2(require_dist());
 async function canUseYarn() {
   try {
     await (0, import_execa2.default)("yarn", ["--version"], {
@@ -143568,19 +143635,19 @@ async function canUsePnpm() {
 async function getPackageManager(cwd = process.cwd()) {
   let appDirectory = cwd;
   while (import_os.default.homedir() !== appDirectory) {
-    if (appDirectory === import_path3.default.sep) {
+    if (appDirectory === import_path4.default.sep) {
       break;
     }
-    if (import_utils3.fs.existsSync(import_path3.default.resolve(appDirectory, "pnpm-lock.yaml"))) {
+    if (import_utils4.fs.existsSync(import_path4.default.resolve(appDirectory, "pnpm-lock.yaml"))) {
       return "pnpm";
     }
-    if (import_utils3.fs.existsSync(import_path3.default.resolve(appDirectory, "yarn.lock"))) {
+    if (import_utils4.fs.existsSync(import_path4.default.resolve(appDirectory, "yarn.lock"))) {
       return "yarn";
     }
-    if (import_utils3.fs.existsSync(import_path3.default.resolve(appDirectory, "package-lock.json"))) {
+    if (import_utils4.fs.existsSync(import_path4.default.resolve(appDirectory, "package-lock.json"))) {
       return "npm";
     }
-    appDirectory = import_path3.default.join(appDirectory, "..");
+    appDirectory = import_path4.default.join(appDirectory, "..");
   }
   if (await canUsePnpm()) {
     return "pnpm";
@@ -143595,7 +143662,7 @@ function getPackageInfo(packageName) {
   let pkgVersion = "latest";
   let pkgName = packageName;
   if (!packageName.startsWith("@") && splitAt.length === 2 || packageName.startsWith("@") && splitAt.length === 3) {
-    const semverValid = import_utils3.semver.valid(splitAt[splitAt.length - 1]);
+    const semverValid = import_utils4.semver.valid(splitAt[splitAt.length - 1]);
     if (semverValid === null) {
       pkgVersion = splitAt[splitAt.length - 1];
       pkgName = packageName.slice(0, packageName.lastIndexOf("@"));
@@ -143611,11 +143678,11 @@ function getPackageInfo(packageName) {
 }
 var writeNpmrc = async () => {
   const npmrcPath = `${process.env.HOME}/.npmrc`;
-  if (import_utils4.fs.existsSync(npmrcPath)) {
+  if (import_utils5.fs.existsSync(npmrcPath)) {
     console.info("Found existing .npmrc file");
   } else {
     console.info("No .npmrc file found, creating one");
-    import_utils4.fs.writeFileSync(npmrcPath, `//registry.npmjs.org/:_authToken=${process.env.NPM_TOKEN}`);
+    import_utils5.fs.writeFileSync(npmrcPath, `//registry.npmjs.org/:_authToken=${process.env.NPM_TOKEN}`);
   }
 };
 var runInstall = async (cwd = process.cwd()) => {
@@ -143683,7 +143750,7 @@ var runRelease = async (cwd = process.cwd(), tag) => {
   });
 };
 var listTagsAndGetPackages = async () => {
-  const { stdout } = await (0, import_utils4.execa)("git", ["--no-pager", "tag", "-l"]);
+  const { stdout } = await (0, import_utils5.execa)("git", ["--no-pager", "tag", "-l"]);
   const result = {};
   stdout.split("\n").forEach((info) => {
     const { name: name2, version: version2 } = getPackageInfo(info);
@@ -143724,6 +143791,10 @@ var release = async () => {
   } else {
     await gitCommitAll("publish latest");
     await runRelease(process.cwd(), "latest");
+    await createRelease({
+      publishBranch,
+      githubToken
+    });
   }
   await listTagsAndGetPackages();
 };
@@ -143845,8 +143916,8 @@ async function isRepoShallow({
     const gitDir = (await (0, import_spawndamnit.default)("git", ["rev-parse", "--git-dir"], {
       cwd
     })).stdout.toString().trim();
-    const fullGitDir = import_path5.default.resolve(cwd, gitDir);
-    return import_fs.default.existsSync(import_path5.default.join(fullGitDir, "shallow"));
+    const fullGitDir = import_path6.default.resolve(cwd, gitDir);
+    return import_fs.default.existsSync(import_path6.default.join(fullGitDir, "shallow"));
   } else {
     return isShallowRepoOutput === "true";
   }
@@ -143933,10 +144004,10 @@ function _objectSpread2(target) {
 var importantSeparator = import_chalk2.default.red("===============================IMPORTANT!===============================");
 var importantEnd = import_chalk2.default.red("----------------------------------------------------------------------");
 async function getOldChangesets(changesetBase, dirs) {
-  let changesets = await (0, import_p_filter.default)(dirs, async (dir) => (await (0, import_fs_extra2.lstat)(import_path4.default.join(changesetBase, dir))).isDirectory());
+  let changesets = await (0, import_p_filter.default)(dirs, async (dir) => (await (0, import_fs_extra2.lstat)(import_path5.default.join(changesetBase, dir))).isDirectory());
   const changesetContents = changesets.map(async (changesetDir) => {
-    const jsonPath = import_path4.default.join(changesetBase, changesetDir, "changes.json");
-    const [summary, json] = await Promise.all([(0, import_fs_extra2.readFile)(import_path4.default.join(changesetBase, changesetDir, "changes.md"), "utf-8"), (0, import_fs_extra2.readJson)(jsonPath)]);
+    const jsonPath = import_path5.default.join(changesetBase, changesetDir, "changes.json");
+    const [summary, json] = await Promise.all([(0, import_fs_extra2.readFile)(import_path5.default.join(changesetBase, changesetDir, "changes.md"), "utf-8"), (0, import_fs_extra2.readJson)(jsonPath)]);
     return {
       releases: json.releases,
       summary,
@@ -143967,7 +144038,7 @@ async function filterChangesetsSinceRef(changesets, changesetBase, sinceRef) {
   return changesets.filter((dir) => newHashes.includes(dir));
 }
 async function getChangesets(cwd, sinceRef) {
-  let changesetBase = import_path4.default.join(cwd, ".changeset");
+  let changesetBase = import_path5.default.join(cwd, ".changeset");
   let contents;
   try {
     contents = await import_fs_extra2.default.readdir(changesetBase);
@@ -143983,7 +144054,7 @@ async function getChangesets(cwd, sinceRef) {
   let oldChangesetsPromise = getOldChangesetsAndWarn(changesetBase, contents);
   let changesets = contents.filter((file) => !file.startsWith(".") && file.endsWith(".md") && file !== "README.md");
   const changesetContents = changesets.map(async (file) => {
-    const changeset = await import_fs_extra2.default.readFile(import_path4.default.join(changesetBase, file), "utf-8");
+    const changeset = await import_fs_extra2.default.readFile(import_path5.default.join(changesetBase, file), "utf-8");
     return _objectSpread2(_objectSpread2({}, parse_esm_default(changeset)), {}, {
       id: file.replace(".md", "")
     });
@@ -144184,7 +144255,7 @@ function isArray(arg) {
   return Array.isArray(arg);
 }
 var read = async (cwd, packages) => {
-  let json = await (0, import_fs_extra3.readJSON)(import_path6.default.join(cwd, ".changeset", "config.json"));
+  let json = await (0, import_fs_extra3.readJSON)(import_path7.default.join(cwd, ".changeset", "config.json"));
   return parse2(json, packages);
 };
 var parse2 = (json, packages) => {
@@ -144833,9 +144904,9 @@ function getPreInfo(changesets, packagesByName, config, preState) {
   };
 }
 var assemble_release_plan_esm_default = assembleReleasePlan;
-var import_utils6 = __toESM2(require_dist());
+var import_utils7 = __toESM2(require_dist());
 async function runBumpVersion(releaseType, cwd = process.cwd()) {
-  const packageManager = await (0, import_utils6.getPackageManager)(cwd);
+  const packageManager = await (0, import_utils7.getPackageManager)(cwd);
   const changesets = await read_esm_default(cwd);
   if (changesets.length === 0) {
     console.log("No changesets found");
@@ -144856,8 +144927,8 @@ async function runBumpVersion(releaseType, cwd = process.cwd()) {
   }
 }
 async function getReleaseNote(title, cwd = process.cwd()) {
-  const packageManager = await (0, import_utils6.getPackageManager)(cwd);
-  const { stdout } = await (0, import_utils6.execa)(packageManager, ["run", "gen-release-note"], {
+  const packageManager = await (0, import_utils7.getPackageManager)(cwd);
+  const { stdout } = await (0, import_utils7.execa)(packageManager, ["run", "gen-release-note"], {
     cwd
   });
   return `
@@ -144866,48 +144937,6 @@ async function getReleaseNote(title, cwd = process.cwd()) {
 ${stdout.split("modern gen-release-note")[1]}
 `;
 }
-var github = __toESM2(require_github());
-var import_utils7 = __toESM2(require_dist());
-var writeGithubToken = async (githubToken) => {
-  await import_utils7.fs.writeFile(import_path7.default.join(process.env.HOME, ".netrc"), `machine github.com
-login github-actions[bot]
-password ${githubToken}`);
-};
-var createPullRequest = async (options2) => {
-  const { githubToken, branch: baseBranch, title, body } = options2;
-  const repo = `${github.context.repo.owner}/${github.context.repo.repo}`;
-  const branch = github.context.ref.replace("refs/heads/", "");
-  const octokit = github.getOctokit(githubToken);
-  const searchQuery = `repo:${repo}+state:open+head:${baseBranch}+base:${branch}`;
-  const searchResult = await octokit.rest.search.issuesAndPullRequests({
-    q: searchQuery
-  });
-  if (searchResult.data.items.length === 0) {
-    console.info("creating pull request");
-    const { data: newPullRequest } = await octokit.rest.pulls.create({
-      base: branch,
-      head: baseBranch,
-      title,
-      body,
-      ...github.context.repo
-    });
-    return {
-      pullRequestNumber: newPullRequest.number
-    };
-  } else {
-    const [pullRequest2] = searchResult.data.items;
-    console.info(`updating found pull request #${pullRequest2.number}`);
-    await octokit.rest.pulls.update({
-      pull_number: pullRequest2.number,
-      title,
-      body,
-      ...github.context.repo
-    });
-    return {
-      pullRequestNumber: pullRequest2.number
-    };
-  }
-};
 var pullRequest = async () => {
   const githubToken = process.env.GITHUB_TOKEN;
   let releaseType = core2.getInput("version") || "release";
