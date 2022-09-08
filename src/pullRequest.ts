@@ -4,7 +4,9 @@ import readChangesets from '@changesets/read';
 import { getPackages } from '@manypkg/get-packages';
 import { read } from '@changesets/config';
 import assembleReleasePlan from '@changesets/assemble-release-plan';
+import { execa } from '@modern-js/utils';
 import {
+  execaWithStreamLog,
   gitCommitAll,
   gitCommitWithIgnore,
   gitConfigUser,
@@ -44,10 +46,22 @@ export const pullRequest = async () => {
 
   const changesets = await readChangesets(cwd);
 
+  const CHANGESET_PATH = require.resolve('@changesets/cli', { paths: [cwd] });
+
   if (releaseType === 'canary' && releaseVersion === 'auto') {
     releaseVersion = `${new Date().toISOString().split('T')[0]}`;
   } else if (releaseVersion === 'auto') {
     const packages = await getPackages(cwd);
+
+    if (releaseType === 'alpha' || releaseType === 'next') {
+      await execaWithStreamLog(process.execPath, [
+        CHANGESET_PATH,
+        'pre',
+        'enter',
+        releaseType || 'next',
+      ]);
+    }
+
     const config = await read(cwd, packages);
 
     const releasePlan = assembleReleasePlan(
@@ -118,8 +132,32 @@ export const pullRequest = async () => {
 
   const releaseNote = await getReleaseNote(title);
 
-  // 获取 changesets
-  await runBumpVersion(releaseType);
+  // 判断是否是 modern 项目
+  let isModernProject = true;
+  try {
+    execa('npx', ['modern', '--version']);
+  } catch (e) {
+    isModernProject = false;
+  }
+
+  if (!isModernProject && (releaseType === 'alpha' || releaseType === 'next')) {
+    try {
+      await execaWithStreamLog(process.execPath, [CHANGESET_PATH, 'version']);
+      await execaWithStreamLog(process.execPath, [
+        CHANGESET_PATH,
+        'pre',
+        'exit',
+      ]);
+    } catch (e) {
+      await execaWithStreamLog(process.execPath, [
+        CHANGESET_PATH,
+        'pre',
+        'exit',
+      ]);
+    }
+  } else {
+    await runBumpVersion(releaseType);
+  }
 
   await updateLockFile();
 

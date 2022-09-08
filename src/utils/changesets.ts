@@ -1,5 +1,6 @@
+import path from 'path';
+import { fs, execa, getPackageManager } from '@modern-js/utils';
 import readChangesets from '@changesets/read';
-import { execa, getPackageManager } from '@modern-js/utils';
 import { execaWithStreamLog } from '.';
 
 export async function runBumpVersion(
@@ -43,12 +44,24 @@ export async function getReleaseNote(
   cwd: string = process.cwd(),
 ) {
   const packageManager = await getPackageManager(cwd);
-  const { stdout } = await execa(packageManager, ['run', 'gen-release-note'], {
-    cwd,
-  });
-  return `
-# ${title}
+  // 判断是否存在 gen-release-note 命令
+  const pkgPath = path.join(cwd, 'package.json');
+  const pkgInfo = fs.readJSONSync(pkgPath);
+  const { scripts } = pkgInfo;
+  if (scripts['gen-release-note']) {
+    const { stdout } = await execa(
+      packageManager,
+      ['run', 'gen-release-note'],
+      {
+        cwd,
+      },
+    );
+    return `
+  # ${title}
 
-${stdout.split('modern gen-release-note')[1]}
-`;
+  ${stdout.split('modern gen-release-note')[1]}
+  `;
+  } else {
+    return `# ${title}`;
+  }
 }

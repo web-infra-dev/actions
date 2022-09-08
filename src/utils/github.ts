@@ -1,7 +1,6 @@
 import path from 'path';
 import * as github from '@actions/github';
 import { fs } from '@modern-js/utils';
-import { pull } from '@modern-js/utils/compiled/lodash';
 
 export const writeGithubToken = async (githubToken: string) => {
   await fs.writeFile(
