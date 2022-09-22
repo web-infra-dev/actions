@@ -143606,6 +143606,7 @@ var createRelease = async (options2) => {
     name: tagName,
     tag_name: tagName,
     body: content || "",
+    target_commitish: publishBranch,
     ...github.context.repo
   });
 };
