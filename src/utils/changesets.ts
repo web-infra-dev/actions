@@ -22,7 +22,7 @@ export async function runBumpVersion(
   } else if (packageManager === 'pnpm') {
     await execaWithStreamLog(
       packageManager,
-      ['run', 'bump', '--', '--canary', '--preid', releaseType],
+      ['run', 'bump', '--canary', '--preid', releaseType],
       {
         cwd,
       },
