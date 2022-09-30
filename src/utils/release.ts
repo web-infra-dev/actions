@@ -24,7 +24,7 @@ export const writeNpmrc = async () => {
 export const runInstall = async (cwd: string = process.cwd()) => {
   console.info('run install...');
   if (!(await canUsePnpm())) {
-    await execaWithStreamLog('npm', ['install', '-g', 'pnpm'], { cwd });
+    await execaWithStreamLog('npm', ['install', '-g', 'pnpm@7'], { cwd });
   }
   if (!(await canUseYarn())) {
     await execaWithStreamLog('npm', ['install', '-g', 'yarn'], { cwd });
