@@ -24,7 +24,7 @@ export const writeNpmrc = async () => {
 export const runInstall = async (cwd: string = process.cwd()) => {
   console.info('run install...');
   if (!(await canUsePnpm())) {
-    await execaWithStreamLog('npm', ['install', '-g', 'pnpm@6'], { cwd });
+    await execaWithStreamLog('npm', ['install', '-g', 'pnpm@7'], { cwd });
   }
   if (!(await canUseYarn())) {
     await execaWithStreamLog('npm', ['install', '-g', 'yarn'], { cwd });
@@ -55,7 +55,7 @@ export const runPrepare = async (cwd: string = process.cwd()) => {
   if (packageManager === 'pnpm') {
     await execaWithStreamLog(
       'pnpm',
-      ['run', 'prepare', '--filter', './packages'],
+      ['run', '--filter', './packages/**', 'prepare'],
       { cwd },
     );
   } else {
@@ -67,37 +67,24 @@ export const runPrepare = async (cwd: string = process.cwd()) => {
 export const runPrepareMonorepoTools = async (cwd: string = process.cwd()) => {
   await execaWithStreamLog(
     'pnpm',
-    ['run', 'prepare', '--filter', '@modern-js/monorepo-tools...'],
+    ['run', '--filter', '@modern-js/monorepo-tools...', 'prepare'],
     { cwd },
   );
 };
 
 export const bumpCanaryVersion = async (cwd: string = process.cwd()) => {
   const packageManager = await getPackageManager(cwd);
-  if (packageManager === 'pnpm') {
-    await execaWithStreamLog(packageManager, [
-      'run',
-      'bump',
-      '--',
-      '--snapshot',
-      'canary',
-    ]);
-  } else {
-    await execaWithStreamLog(packageManager, [
-      'run',
-      'bump',
-      '--snapshot',
-      'canary',
-    ]);
-  }
+  await execaWithStreamLog(packageManager, [
+    'run',
+    'bump',
+    '--snapshot',
+    'canary',
+  ]);
 };
 
 export const runRelease = async (cwd: string = process.cwd(), tag?: string) => {
   const packageManager = await getPackageManager(cwd);
   const params: string[] = ['run', 'release'];
-  if (packageManager === 'pnpm') {
-    params.push('--');
-  }
   if (tag) {
     params.push('--tag', tag);
   }

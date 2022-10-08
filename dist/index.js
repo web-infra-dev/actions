@@ -143689,7 +143689,7 @@ var writeNpmrc = async () => {
 var runInstall = async (cwd = process.cwd()) => {
   console.info("run install...");
   if (!await canUsePnpm()) {
-    await execaWithStreamLog("npm", ["install", "-g", "pnpm@6"], { cwd });
+    await execaWithStreamLog("npm", ["install", "-g", "pnpm@7"], { cwd });
   }
   if (!await canUseYarn()) {
     await execaWithStreamLog("npm", ["install", "-g", "yarn"], { cwd });
@@ -143708,40 +143708,27 @@ var updateLockFile = async (cwd = process.cwd()) => {
 var runPrepare = async (cwd = process.cwd()) => {
   const packageManager = await getPackageManager(cwd);
   if (packageManager === "pnpm") {
-    await execaWithStreamLog("pnpm", ["run", "prepare", "--filter", "./packages"], { cwd });
+    await execaWithStreamLog("pnpm", ["run", "--filter", "./packages/**", "prepare"], { cwd });
   } else {
     await execaWithStreamLog("npm", ["install", "-g", "lerna"], { cwd });
     await execaWithStreamLog("lerna", ["run", "prepare"], { cwd });
   }
 };
 var runPrepareMonorepoTools = async (cwd = process.cwd()) => {
-  await execaWithStreamLog("pnpm", ["run", "prepare", "--filter", "@modern-js/monorepo-tools..."], { cwd });
+  await execaWithStreamLog("pnpm", ["run", "--filter", "@modern-js/monorepo-tools...", "prepare"], { cwd });
 };
 var bumpCanaryVersion = async (cwd = process.cwd()) => {
   const packageManager = await getPackageManager(cwd);
-  if (packageManager === "pnpm") {
-    await execaWithStreamLog(packageManager, [
-      "run",
-      "bump",
-      "--",
-      "--snapshot",
-      "canary"
-    ]);
-  } else {
-    await execaWithStreamLog(packageManager, [
-      "run",
-      "bump",
-      "--snapshot",
-      "canary"
-    ]);
-  }
+  await execaWithStreamLog(packageManager, [
+    "run",
+    "bump",
+    "--snapshot",
+    "canary"
+  ]);
 };
 var runRelease = async (cwd = process.cwd(), tag) => {
   const packageManager = await getPackageManager(cwd);
   const params = ["run", "release"];
-  if (packageManager === "pnpm") {
-    params.push("--");
-  }
   if (tag) {
     params.push("--tag", tag);
   }
@@ -144918,7 +144905,7 @@ async function runBumpVersion(releaseType, cwd = process.cwd()) {
       cwd
     });
   } else if (packageManager === "pnpm") {
-    await execaWithStreamLog(packageManager, ["run", "bump", "--", "--canary", "--preid", releaseType], {
+    await execaWithStreamLog(packageManager, ["run", "bump", "--canary", "--preid", releaseType], {
       cwd
     });
   } else {
