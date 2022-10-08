@@ -44,7 +44,7 @@ export const release = async () => {
     await runRelease(process.cwd(), 'alpha');
   } else {
     await gitCommitAll('publish latest');
-    await runRelease(process.cwd(), 'latest');
+    // await runRelease(process.cwd(), 'latest');
     await createRelease({
       publishBranch,
       githubToken,

@@ -143602,6 +143602,7 @@ var createRelease = async (options2) => {
     throw Error("not found release pull request");
   }
   const content = pulls.data[0].body;
+  console.info("release content", content);
   await octokit.rest.repos.createRelease({
     name: tagName,
     tag_name: tagName,
@@ -143778,7 +143779,6 @@ var release = async () => {
     await runRelease(process.cwd(), "alpha");
   } else {
     await gitCommitAll("publish latest");
-    await runRelease(process.cwd(), "latest");
     await createRelease({
       publishBranch,
       githubToken
