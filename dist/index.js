@@ -143717,13 +143717,13 @@ var runPrepare = async (cwd = process.cwd()) => {
 var runPrepareMonorepoTools = async (cwd = process.cwd()) => {
   await execaWithStreamLog("pnpm", ["run", "--filter", "@modern-js/monorepo-tools...", "prepare"], { cwd });
 };
-var bumpCanaryVersion = async (cwd = process.cwd()) => {
+var bumpCanaryVersion = async (cwd = process.cwd(), publishVersion = "canary") => {
   const packageManager = await getPackageManager(cwd);
   await execaWithStreamLog(packageManager, [
     "run",
     "bump",
     "--snapshot",
-    "canary"
+    publishVersion
   ]);
 };
 var runRelease = async (cwd = process.cwd(), tag) => {
@@ -143767,9 +143767,13 @@ var release = async () => {
   await runPrepare();
   await writeNpmrc();
   if (publishVersion === "canary") {
-    await bumpCanaryVersion(publishVersion);
+    await bumpCanaryVersion(void 0, publishVersion);
     await gitCommitAll("publish canary");
     await runRelease(process.cwd(), "canary");
+  } else if (publishVersion === "next") {
+    await bumpCanaryVersion(void 0, publishVersion);
+    await gitCommitAll("publish next");
+    await runRelease(process.cwd(), "next");
   } else if (publishVersion === "pre") {
     await gitCommitAll("publish pre");
     await runRelease(process.cwd(), "next");

@@ -33,9 +33,13 @@ export const release = async () => {
   await writeNpmrc();
   // publish
   if (publishVersion === 'canary') {
-    await bumpCanaryVersion(publishVersion);
+    await bumpCanaryVersion(undefined, publishVersion);
     await gitCommitAll('publish canary');
     await runRelease(process.cwd(), 'canary');
+  } else if (publishVersion === 'next') {
+    await bumpCanaryVersion(undefined, publishVersion);
+    await gitCommitAll('publish next');
+    await runRelease(process.cwd(), 'next');
   } else if (publishVersion === 'pre') {
     await gitCommitAll('publish pre');
     await runRelease(process.cwd(), 'next');
