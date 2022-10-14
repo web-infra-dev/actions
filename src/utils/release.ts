@@ -72,13 +72,16 @@ export const runPrepareMonorepoTools = async (cwd: string = process.cwd()) => {
   );
 };
 
-export const bumpCanaryVersion = async (cwd: string = process.cwd()) => {
+export const bumpCanaryVersion = async (
+  cwd: string = process.cwd(),
+  publishVersion = 'canary',
+) => {
   const packageManager = await getPackageManager(cwd);
   await execaWithStreamLog(packageManager, [
     'run',
     'bump',
     '--snapshot',
-    'canary',
+    publishVersion,
   ]);
 };
 
