@@ -53,11 +53,7 @@ export const updateLockFile = async (cwd: string = process.cwd()) => {
 export const runPrepare = async (cwd: string = process.cwd()) => {
   const packageManager = await getPackageManager(cwd);
   if (packageManager === 'pnpm') {
-    await execaWithStreamLog(
-      'pnpm',
-      ['run', '--filter', './packages/**', 'prepare'],
-      { cwd },
-    );
+    await execaWithStreamLog('pnpm', ['run', 'prepare'], { cwd });
   } else {
     await execaWithStreamLog('npm', ['install', '-g', 'lerna'], { cwd });
     await execaWithStreamLog('lerna', ['run', 'prepare'], { cwd });
