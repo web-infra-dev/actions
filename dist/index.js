@@ -143708,7 +143708,7 @@ var updateLockFile = async (cwd = process.cwd()) => {
 var runPrepare = async (cwd = process.cwd()) => {
   const packageManager = await getPackageManager(cwd);
   if (packageManager === "pnpm") {
-    await execaWithStreamLog("pnpm", ["run", "--filter", "./packages/**", "prepare"], { cwd });
+    await execaWithStreamLog("pnpm", ["run", "prepare"], { cwd });
   } else {
     await execaWithStreamLog("npm", ["install", "-g", "lerna"], { cwd });
     await execaWithStreamLog("lerna", ["run", "prepare"], { cwd });
