@@ -143500,7 +143500,7 @@ var gitCommitAll = async (message) => {
   console.info("git commit all...");
   await execaWithStreamLog("git", ["status"]);
   await execaWithStreamLog("git", ["add", "."]);
-  await execaWithStreamLog("git", ["commit", "-m", message]);
+  await execaWithStreamLog("git", ["commit", "-m", message, "-n"]);
   await execaWithStreamLog("git", ["status"]);
 };
 var gitCommitWithIgnore = async (message, ignore) => {
