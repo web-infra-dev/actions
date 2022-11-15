@@ -12,7 +12,11 @@ import {
   gitReset,
   gitSwitchToMaybeExistingBranch,
 } from './utils';
-import { getReleaseNote, runBumpVersion } from './utils/changesets';
+import {
+  getPreState,
+  getReleaseNote,
+  runBumpVersion,
+} from './utils/changesets';
 import { createPullRequest, writeGithubToken } from './utils/github';
 import {
   runInstall,
@@ -20,11 +24,13 @@ import {
   updateLockFile,
 } from './utils/release';
 
+const VERSION_REGEX = /^v(\d*)$/;
+
 export const pullRequest = async () => {
   const githubToken = process.env.GITHUB_TOKEN;
   // 当前发布的版本类型，例如 alpha、latest
   let releaseType = core.getInput('version') || 'release';
-  if (releaseType === 'latest') {
+  if (releaseType === 'latest' || VERSION_REGEX.test(releaseType)) {
     releaseType = 'release';
   }
   // 当前发布的版本，例如 v1.0.0
@@ -49,12 +55,23 @@ export const pullRequest = async () => {
   } else if (releaseVersion === 'auto') {
     const packages = await getPackages(cwd);
     const config = await read(cwd, packages);
-
+    let preState;
+    if (
+      releaseType === 'pre' ||
+      releaseType === 'beta' ||
+      releaseType === 'alpha'
+    ) {
+      await runInstall();
+      if (isModernRepo) {
+        await runPrepareMonorepoTools();
+      }
+      preState = await getPreState(releaseType);
+    }
     const releasePlan = assembleReleasePlan(
       changesets,
       packages,
       config,
-      undefined,
+      preState,
       releaseType === 'canary'
         ? {
             tag: 'canary',
@@ -104,10 +121,15 @@ export const pullRequest = async () => {
     process.exit(1);
   }
 
-  await runInstall();
-
-  if (isModernRepo) {
-    await runPrepareMonorepoTools();
+  if (
+    releaseType !== 'pre' &&
+    releaseType !== 'beta' &&
+    releaseType !== 'alpha'
+  ) {
+    await runInstall();
+    if (isModernRepo) {
+      await runPrepareMonorepoTools();
+    }
   }
 
   if (releaseType === 'canary') {
