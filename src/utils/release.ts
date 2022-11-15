@@ -63,7 +63,7 @@ export const runPrepare = async (cwd: string = process.cwd()) => {
 export const runPrepareMonorepoTools = async (cwd: string = process.cwd()) => {
   await execaWithStreamLog(
     'pnpm',
-    ['run', '--filter', '@modern-js/monorepo-tools...', 'prepare'],
+    ['run', '--filter', '@modern-js/monorepo-tools...', 'build'],
     { cwd },
   );
 };

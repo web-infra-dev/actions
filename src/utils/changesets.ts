@@ -1,5 +1,6 @@
+import path from 'path';
 import readChangesets from '@changesets/read';
-import { execa, getPackageManager } from '@modern-js/utils';
+import { execa, getPackageManager, fs } from '@modern-js/utils';
 import { execaWithStreamLog } from '.';
 
 export async function runBumpVersion(
@@ -51,4 +52,25 @@ export async function getReleaseNote(
 
 ${stdout.split('modern gen-release-note')[1]}
 `;
+}
+
+export async function getPreState(
+  releaseType: string,
+  cwd: string = process.cwd(),
+) {
+  const packageManager = await getPackageManager(cwd);
+  const prePath = path.join(cwd, '.changeset', 'pre.json');
+  if (fs.existsSync(prePath)) {
+    fs.removeSync(prePath);
+  }
+  await execaWithStreamLog(
+    packageManager,
+    ['run', 'pre', 'enter', releaseType],
+    {
+      cwd,
+    },
+  );
+  const preState = fs.readJSONSync(prePath, 'utf-8');
+  fs.removeSync(prePath);
+  return preState;
 }

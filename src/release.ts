@@ -11,6 +11,8 @@ import {
   writeNpmrc,
 } from './utils/release';
 
+const VERSION_REGEX = /^v(\d*)$/;
+
 export const release = async () => {
   const githubToken = process.env.GITHUB_TOKEN;
   const publishVersion = core.getInput('version');
@@ -42,10 +44,20 @@ export const release = async () => {
     await runRelease(process.cwd(), 'next');
   } else if (publishVersion === 'pre') {
     await gitCommitAll('publish pre');
-    await runRelease(process.cwd(), 'next');
+    await runRelease(process.cwd(), 'pre');
   } else if (publishVersion === 'alpha') {
-    await gitCommitAll('publish pre');
+    await gitCommitAll('publish alpha');
     await runRelease(process.cwd(), 'alpha');
+  } else if (publishVersion === 'beta') {
+    await gitCommitAll('publish beta');
+    await runRelease(process.cwd(), 'beta');
+  } else if (VERSION_REGEX.test(publishVersion)) {
+    await gitCommitAll(`publish ${publishVersion}`);
+    await runRelease(process.cwd(), publishVersion);
+    await createRelease({
+      publishBranch,
+      githubToken,
+    });
   } else {
     await gitCommitAll('publish latest');
     await runRelease(process.cwd(), 'latest');
