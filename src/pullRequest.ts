@@ -24,7 +24,7 @@ import {
   updateLockFile,
 } from './utils/release';
 
-const VERSION_REGEX = /^v(\d*)$/;
+const VERSION_REGEX = /^modern-(\d*)$/;
 
 export const pullRequest = async () => {
   const githubToken = process.env.GITHUB_TOKEN;
