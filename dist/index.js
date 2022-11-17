@@ -143752,7 +143752,7 @@ var listTagsAndGetPackages = async () => {
   console.info("[Packages]:");
   console.info(JSON.stringify(result));
 };
-var VERSION_REGEX = /^v(\d*)$/;
+var VERSION_REGEX = /^modern-(\d*)$/;
 var release = async () => {
   const githubToken = process.env.GITHUB_TOKEN;
   const publishVersion = core.getInput("version");
@@ -144954,7 +144954,7 @@ async function getPreState(releaseType, cwd = process.cwd()) {
   import_utils7.fs.removeSync(prePath);
   return preState;
 }
-var VERSION_REGEX2 = /^v(\d*)$/;
+var VERSION_REGEX2 = /^modern-(\d*)$/;
 var pullRequest = async () => {
   const githubToken = process.env.GITHUB_TOKEN;
   let releaseType = core2.getInput("version") || "release";
