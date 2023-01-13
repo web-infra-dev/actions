@@ -143487,6 +143487,13 @@ var gitConfigUser = async () => {
   await execaWithStreamLog("git", [
     "config",
     "--global",
+    "--add",
+    `safe.directory`,
+    "/github/workspace"
+  ]);
+  await execaWithStreamLog("git", [
+    "config",
+    "--global",
     "user.name",
     `"github-actions[bot]"`
   ]);
