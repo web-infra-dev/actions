@@ -19,5 +19,5 @@ export const test = async () => {
     ...options,
     ...github.context.repo,
   });
-  console.info('[PULLS]', JSON.stringify(pulls));
+  console.info('[PULLS]', JSON.stringify(pulls.data));
 };

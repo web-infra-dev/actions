@@ -145066,7 +145066,7 @@ var test = async () => {
     ...options2,
     ...github3.context.repo
   });
-  console.info("[PULLS]", JSON.stringify(pulls));
+  console.info("[PULLS]", JSON.stringify(pulls.data));
 };
 (async () => {
   const actionType = core4.getInput("type");
