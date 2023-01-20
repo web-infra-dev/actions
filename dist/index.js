@@ -143538,7 +143538,7 @@ var gitReset = async (pathSpec, mode = "hard") => {
   await execaWithStreamLog("git", ["reset", `--${mode}`, pathSpec]);
 };
 var import_utils2 = __toESM2(require_dist());
-var chagnePublishBranch = async (branch, cwd = process.cwd()) => {
+var changePublishBranch = async (branch, cwd = process.cwd()) => {
   const ref = process.env.REF;
   const currentBranch = ref?.match(/refs\/heads\/(.*)/)?.[1];
   console.info("currentBranch", ref, currentBranch, branch);
@@ -143764,14 +143764,14 @@ var release = async () => {
   const githubToken = process.env.GITHUB_TOKEN;
   const publishVersion = core.getInput("version");
   const publishBranch = core.getInput("branch");
-  console.info("publishVersion", publishVersion);
-  console.info("publishBranch", publishBranch);
+  console.info("[publishVersion]:", publishVersion);
+  console.info("[publishBranch]:", publishBranch);
   if (!githubToken) {
     core.setFailed("Please add the GITHUB_TOKEN");
     return;
   }
   await gitConfigUser();
-  await chagnePublishBranch(publishBranch);
+  await changePublishBranch(publishBranch);
   await runInstall();
   await runPrepare();
   await writeNpmrc();
@@ -143793,11 +143793,13 @@ var release = async () => {
     await gitCommitAll("publish beta");
     await runRelease(process.cwd(), "beta");
   } else if (VERSION_REGEX.test(publishVersion)) {
+    const baseBranch = `v${publishVersion.split("-")[1]}`;
     await gitCommitAll(`publish ${publishVersion}`);
     await runRelease(process.cwd(), publishVersion);
     await createRelease({
       publishBranch,
-      githubToken
+      githubToken,
+      baseBranch
     });
   } else {
     await gitCommitAll("publish latest");

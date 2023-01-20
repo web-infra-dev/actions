@@ -1,6 +1,6 @@
 import * as core from '@actions/core';
 import { gitCommitAll, gitConfigUser } from './utils';
-import { chagnePublishBranch } from './utils/fs';
+import { changePublishBranch } from './utils/fs';
 import { createRelease } from './utils/github';
 import {
   bumpCanaryVersion,
@@ -15,10 +15,10 @@ const VERSION_REGEX = /^modern-(\d*)$/;
 
 export const release = async () => {
   const githubToken = process.env.GITHUB_TOKEN;
-  const publishVersion = core.getInput('version');
+  const publishVersion = core.getInput('version'); // latest、beta、next、canary
   const publishBranch = core.getInput('branch');
-  console.info('publishVersion', publishVersion);
-  console.info('publishBranch', publishBranch);
+  console.info('[publishVersion]:', publishVersion);
+  console.info('[publishBranch]:', publishBranch);
 
   if (!githubToken) {
     core.setFailed('Please add the GITHUB_TOKEN');
@@ -26,7 +26,8 @@ export const release = async () => {
   }
 
   await gitConfigUser();
-  await chagnePublishBranch(publishBranch);
+  // change changeset publish branch to publishBranch
+  await changePublishBranch(publishBranch);
 
   // prepare repo
   await runInstall();
@@ -52,11 +53,13 @@ export const release = async () => {
     await gitCommitAll('publish beta');
     await runRelease(process.cwd(), 'beta');
   } else if (VERSION_REGEX.test(publishVersion)) {
+    const baseBranch = `v${publishVersion.split('-')[1]}`; // v1
     await gitCommitAll(`publish ${publishVersion}`);
     await runRelease(process.cwd(), publishVersion);
     await createRelease({
       publishBranch,
       githubToken,
+      baseBranch,
     });
   } else {
     await gitCommitAll('publish latest');
