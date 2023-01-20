@@ -1,7 +1,7 @@
 import path from 'path';
 import { fs } from '@modern-js/utils';
 
-export const chagnePublishBranch = async (
+export const changePublishBranch = async (
   branch: string,
   cwd: string = process.cwd(),
 ) => {
