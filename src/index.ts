@@ -1,11 +1,15 @@
 import * as core from '@actions/core';
 import { release } from './release';
 import { pullRequest } from './pullRequest';
+import { test } from './test';
 
 (async () => {
   const actionType = core.getInput('type');
 
   switch (actionType) {
+    case 'test':
+      await test();
+      break;
     case 'release':
       await release();
       break;

@@ -1532,7 +1532,7 @@ var require_core = __commonJSMin((exports) => {
     process.env["PATH"] = `${inputPath}${path9.delimiter}${process.env["PATH"]}`;
   }
   exports.addPath = addPath;
-  function getInput4(name2, options2) {
+  function getInput5(name2, options2) {
     const val = process.env[`INPUT_${name2.replace(/ /g, "_").toUpperCase()}`] || "";
     if (options2 && options2.required && !val) {
       throw new Error(`Input required and not supplied: ${name2}`);
@@ -1542,16 +1542,16 @@ var require_core = __commonJSMin((exports) => {
     }
     return val.trim();
   }
-  exports.getInput = getInput4;
+  exports.getInput = getInput5;
   function getMultilineInput(name2, options2) {
-    const inputs = getInput4(name2, options2).split("\n").filter((x) => x !== "");
+    const inputs = getInput5(name2, options2).split("\n").filter((x) => x !== "");
     return inputs;
   }
   exports.getMultilineInput = getMultilineInput;
   function getBooleanInput(name2, options2) {
     const trueValue = ["true", "True", "TRUE"];
     const falseValue = ["false", "False", "FALSE"];
-    const val = getInput4(name2, options2);
+    const val = getInput5(name2, options2);
     if (trueValue.includes(val))
       return true;
     if (falseValue.includes(val))
@@ -1719,11 +1719,11 @@ var require_mode = __commonJSMin((exports, module2) => {
 });
 var require_isexe = __commonJSMin((exports, module2) => {
   var fs9 = __require("fs");
-  var core4;
+  var core5;
   if (process.platform === "win32" || global.TESTING_WINDOWS) {
-    core4 = require_windows();
+    core5 = require_windows();
   } else {
-    core4 = require_mode();
+    core5 = require_mode();
   }
   module2.exports = isexe;
   isexe.sync = sync2;
@@ -1746,7 +1746,7 @@ var require_isexe = __commonJSMin((exports, module2) => {
         });
       });
     }
-    core4(path9, options2 || {}, function(er, is) {
+    core5(path9, options2 || {}, function(er, is) {
       if (er) {
         if (er.code === "EACCES" || options2 && options2.ignoreErrors) {
           er = null;
@@ -1758,7 +1758,7 @@ var require_isexe = __commonJSMin((exports, module2) => {
   }
   function sync2(path9, options2) {
     try {
-      return core4.sync(path9, options2 || {});
+      return core5.sync(path9, options2 || {});
     } catch (er) {
       if (options2 && options2.ignoreErrors || er.code === "EACCES") {
         return false;
@@ -2884,10 +2884,10 @@ var require_kill = __commonJSMin((exports, module2) => {
     }
     return forceKillAfterTimeout;
   };
-  var spawnedCancel = (spawned, context3) => {
+  var spawnedCancel = (spawned, context4) => {
     const killResult = spawned.kill();
     if (killResult) {
-      context3.isCanceled = true;
+      context4.isCanceled = true;
     }
   };
   var timeoutKill = (spawned, signal, reject) => {
@@ -3306,9 +3306,9 @@ var require_execa = __commonJSMin((exports, module2) => {
     const spawnedPromise = getSpawnedPromise(spawned);
     const timedPromise = setupTimeout(spawned, parsed.options, spawnedPromise);
     const processDone = setExitHandler(spawned, parsed.options, timedPromise);
-    const context3 = { isCanceled: false };
+    const context4 = { isCanceled: false };
     spawned.kill = spawnedKill.bind(null, spawned.kill.bind(spawned));
-    spawned.cancel = spawnedCancel.bind(null, spawned, context3);
+    spawned.cancel = spawnedCancel.bind(null, spawned, context4);
     const handlePromise = async () => {
       const [{ error, exitCode, signal, timedOut }, stdoutResult, stderrResult, allResult] = await getSpawnedResult(spawned, parsed.options, processDone);
       const stdout = handleOutput(parsed.options, stdoutResult);
@@ -3326,7 +3326,7 @@ var require_execa = __commonJSMin((exports, module2) => {
           escapedCommand,
           parsed,
           timedOut,
-          isCanceled: context3.isCanceled,
+          isCanceled: context4.isCanceled,
           killed: spawned.killed
         });
         if (!parsed.options.reject) {
@@ -21647,11 +21647,11 @@ var require_lodash = __commonJSMin((exports, module2) => {
     function unicodeWords(string) {
       return string.match(reUnicodeWord) || [];
     }
-    var runInContext = function runInContext2(context3) {
-      context3 = context3 == null ? root : _.defaults(root.Object(), context3, _.pick(root, contextProps));
-      var Array2 = context3.Array, Date2 = context3.Date, Error2 = context3.Error, Function2 = context3.Function, Math2 = context3.Math, Object2 = context3.Object, RegExp2 = context3.RegExp, String2 = context3.String, TypeError2 = context3.TypeError;
+    var runInContext = function runInContext2(context4) {
+      context4 = context4 == null ? root : _.defaults(root.Object(), context4, _.pick(root, contextProps));
+      var Array2 = context4.Array, Date2 = context4.Date, Error2 = context4.Error, Function2 = context4.Function, Math2 = context4.Math, Object2 = context4.Object, RegExp2 = context4.RegExp, String2 = context4.String, TypeError2 = context4.TypeError;
       var arrayProto = Array2.prototype, funcProto = Function2.prototype, objectProto = Object2.prototype;
-      var coreJsData = context3["__core-js_shared__"];
+      var coreJsData = context4["__core-js_shared__"];
       var funcToString = funcProto.toString;
       var hasOwnProperty = objectProto.hasOwnProperty;
       var idCounter = 0;
@@ -21663,7 +21663,7 @@ var require_lodash = __commonJSMin((exports, module2) => {
       var objectCtorString = funcToString.call(Object2);
       var oldDash = root._;
       var reIsNative = RegExp2("^" + funcToString.call(hasOwnProperty).replace(reRegExpChar, "\\$&").replace(/hasOwnProperty|(function).*?(?=\\\()| for .+?(?=\\\])/g, "$1.*?") + "$");
-      var Buffer2 = moduleExports ? context3.Buffer : undefined2, Symbol2 = context3.Symbol, Uint8Array2 = context3.Uint8Array, allocUnsafe = Buffer2 ? Buffer2.allocUnsafe : undefined2, getPrototype = overArg(Object2.getPrototypeOf, Object2), objectCreate = Object2.create, propertyIsEnumerable = objectProto.propertyIsEnumerable, splice = arrayProto.splice, spreadableSymbol = Symbol2 ? Symbol2.isConcatSpreadable : undefined2, symIterator = Symbol2 ? Symbol2.iterator : undefined2, symToStringTag = Symbol2 ? Symbol2.toStringTag : undefined2;
+      var Buffer2 = moduleExports ? context4.Buffer : undefined2, Symbol2 = context4.Symbol, Uint8Array2 = context4.Uint8Array, allocUnsafe = Buffer2 ? Buffer2.allocUnsafe : undefined2, getPrototype = overArg(Object2.getPrototypeOf, Object2), objectCreate = Object2.create, propertyIsEnumerable = objectProto.propertyIsEnumerable, splice = arrayProto.splice, spreadableSymbol = Symbol2 ? Symbol2.isConcatSpreadable : undefined2, symIterator = Symbol2 ? Symbol2.iterator : undefined2, symToStringTag = Symbol2 ? Symbol2.toStringTag : undefined2;
       var defineProperty = function() {
         try {
           var func = getNative(Object2, "defineProperty");
@@ -21672,9 +21672,9 @@ var require_lodash = __commonJSMin((exports, module2) => {
         } catch (e) {
         }
       }();
-      var ctxClearTimeout = context3.clearTimeout !== root.clearTimeout && context3.clearTimeout, ctxNow = Date2 && Date2.now !== root.Date.now && Date2.now, ctxSetTimeout = context3.setTimeout !== root.setTimeout && context3.setTimeout;
-      var nativeCeil = Math2.ceil, nativeFloor = Math2.floor, nativeGetSymbols = Object2.getOwnPropertySymbols, nativeIsBuffer = Buffer2 ? Buffer2.isBuffer : undefined2, nativeIsFinite = context3.isFinite, nativeJoin = arrayProto.join, nativeKeys = overArg(Object2.keys, Object2), nativeMax = Math2.max, nativeMin = Math2.min, nativeNow = Date2.now, nativeParseInt = context3.parseInt, nativeRandom = Math2.random, nativeReverse = arrayProto.reverse;
-      var DataView = getNative(context3, "DataView"), Map2 = getNative(context3, "Map"), Promise2 = getNative(context3, "Promise"), Set2 = getNative(context3, "Set"), WeakMap2 = getNative(context3, "WeakMap"), nativeCreate = getNative(Object2, "create");
+      var ctxClearTimeout = context4.clearTimeout !== root.clearTimeout && context4.clearTimeout, ctxNow = Date2 && Date2.now !== root.Date.now && Date2.now, ctxSetTimeout = context4.setTimeout !== root.setTimeout && context4.setTimeout;
+      var nativeCeil = Math2.ceil, nativeFloor = Math2.floor, nativeGetSymbols = Object2.getOwnPropertySymbols, nativeIsBuffer = Buffer2 ? Buffer2.isBuffer : undefined2, nativeIsFinite = context4.isFinite, nativeJoin = arrayProto.join, nativeKeys = overArg(Object2.keys, Object2), nativeMax = Math2.max, nativeMin = Math2.min, nativeNow = Date2.now, nativeParseInt = context4.parseInt, nativeRandom = Math2.random, nativeReverse = arrayProto.reverse;
+      var DataView = getNative(context4, "DataView"), Map2 = getNative(context4, "Map"), Promise2 = getNative(context4, "Promise"), Set2 = getNative(context4, "Set"), WeakMap2 = getNative(context4, "WeakMap"), nativeCreate = getNative(Object2, "create");
       var metaMap = WeakMap2 && new WeakMap2();
       var realNames = {};
       var dataViewCtorString = toSource(DataView), mapCtorString = toSource(Map2), promiseCtorString = toSource(Promise2), setCtorString = toSource(Set2), weakMapCtorString = toSource(WeakMap2);
@@ -38956,7 +38956,7 @@ var require_path = __commonJSMin((exports) => {
   exports.normalizeToPosixPath = exports.normalizeOutputPath = exports.isRelativePath = void 0;
   var path_1 = __importDefault(__require("path"));
   var compiled_1 = require_compiled();
-  var isRelativePath = (test) => /^\.\.?($|[\\/])/.test(test);
+  var isRelativePath = (test2) => /^\.\.?($|[\\/])/.test(test2);
   exports.isRelativePath = isRelativePath;
   var normalizeOutputPath = (s) => s.replace(/\\/g, "\\\\");
   exports.normalizeOutputPath = normalizeOutputPath;
@@ -39377,13 +39377,13 @@ var require_storage = __commonJSMin((exports) => {
     if (typeof ah.AsyncLocalStorage !== "undefined") {
       storage = new ah.AsyncLocalStorage();
     }
-    const run = (context3, cb) => {
+    const run = (context4, cb) => {
       if (!storage) {
         throw new Error(`Unable to use async_hook, please confirm the node version >= 12.17
         `);
       }
       return new Promise((resolve, reject) => {
-        storage.run(context3, () => {
+        storage.run(context4, () => {
           try {
             return resolve(cb());
           } catch (error) {
@@ -39397,11 +39397,11 @@ var require_storage = __commonJSMin((exports) => {
         throw new Error(`Unable to use async_hook, please confirm the node version >= 12.17
         `);
       }
-      const context3 = storage.getStore();
-      if (!context3) {
+      const context4 = storage.getStore();
+      if (!context4) {
         throw new Error(`Can't call useContext out of scope, make sure @modern-js/utils is a single version in node_modules`);
       }
-      return context3;
+      return context4;
     };
     return {
       run,
@@ -39999,8 +39999,8 @@ function isDefined(value) {
 function isKeyOperator(operator) {
   return operator === ";" || operator === "&" || operator === "?";
 }
-function getValues(context3, operator, key, modifier) {
-  var value = context3[key], result = [];
+function getValues(context4, operator, key, modifier) {
+  var value = context4[key], result = [];
   if (isDefined(value) && value !== "") {
     if (typeof value === "string" || typeof value === "number" || typeof value === "boolean") {
       value = value.toString();
@@ -40060,7 +40060,7 @@ function parseUrl(template) {
     expand: expand.bind(null, template)
   };
 }
-function expand(template, context3) {
+function expand(template, context4) {
   var operators = ["+", "#", ".", "/", ";", "?", "&"];
   return template.replace(/\{([^\{\}]+)\}|([^\{\}]+)/g, function(_, expression, literal) {
     if (expression) {
@@ -40072,7 +40072,7 @@ function expand(template, context3) {
       }
       expression.split(/,/g).forEach(function(variable) {
         var tmp = /([^:\*]*)(?::(\d+)|(\*))?/.exec(variable);
-        values.push(getValues(context3, operator, tmp[1], tmp[2] || tmp[3]));
+        values.push(getValues(context4, operator, tmp[1], tmp[2] || tmp[3]));
       });
       if (operator && operator !== "+") {
         var separator = ",";
@@ -122727,10 +122727,10 @@ var require_github = __commonJSMin((exports) => {
   var Context = __importStar(require_context());
   var utils_1 = require_utils4();
   exports.context = new Context.Context();
-  function getOctokit2(token, options2) {
+  function getOctokit3(token, options2) {
     return new utils_1.GitHub(utils_1.getOctokitOptions(token, options2));
   }
-  exports.getOctokit = getOctokit2;
+  exports.getOctokit = getOctokit3;
 });
 var require_universalify = __commonJSMin((exports) => {
   "use strict";
@@ -123194,8 +123194,8 @@ var require_graceful_fs = __commonJSMin((exports, module2) => {
   }
   function noop() {
   }
-  function publishQueue(context3, queue2) {
-    Object.defineProperty(context3, gracefulQueue, {
+  function publishQueue(context4, queue2) {
+    Object.defineProperty(context4, gracefulQueue, {
       get: function() {
         return queue2;
       }
@@ -125302,8 +125302,8 @@ var require_graceful_fs2 = __commonJSMin((exports, module2) => {
   }
   function noop() {
   }
-  function publishQueue(context3, queue2) {
-    Object.defineProperty(context3, gracefulQueue, {
+  function publishQueue(context4, queue2) {
+    Object.defineProperty(context4, gracefulQueue, {
       get: function() {
         return queue2;
       }
@@ -130077,8 +130077,8 @@ var require_runtime = __commonJSMin((exports, module2) => {
     function wrap(innerFn, outerFn, self2, tryLocsList) {
       var protoGenerator = outerFn && outerFn.prototype instanceof Generator ? outerFn : Generator;
       var generator = Object.create(protoGenerator.prototype);
-      var context3 = new Context(tryLocsList || []);
-      generator._invoke = makeInvokeMethod(innerFn, self2, context3);
+      var context4 = new Context(tryLocsList || []);
+      generator._invoke = makeInvokeMethod(innerFn, self2, context4);
       return generator;
     }
     exports2.wrap = wrap;
@@ -130185,7 +130185,7 @@ var require_runtime = __commonJSMin((exports, module2) => {
         return result.done ? result.value : iter.next();
       });
     };
-    function makeInvokeMethod(innerFn, self2, context3) {
+    function makeInvokeMethod(innerFn, self2, context4) {
       var state = GenStateSuspendedStart;
       return function invoke(method, arg) {
         if (state === GenStateExecuting) {
@@ -130197,91 +130197,91 @@ var require_runtime = __commonJSMin((exports, module2) => {
           }
           return doneResult();
         }
-        context3.method = method;
-        context3.arg = arg;
+        context4.method = method;
+        context4.arg = arg;
         while (true) {
-          var delegate = context3.delegate;
+          var delegate = context4.delegate;
           if (delegate) {
-            var delegateResult = maybeInvokeDelegate(delegate, context3);
+            var delegateResult = maybeInvokeDelegate(delegate, context4);
             if (delegateResult) {
               if (delegateResult === ContinueSentinel)
                 continue;
               return delegateResult;
             }
           }
-          if (context3.method === "next") {
-            context3.sent = context3._sent = context3.arg;
-          } else if (context3.method === "throw") {
+          if (context4.method === "next") {
+            context4.sent = context4._sent = context4.arg;
+          } else if (context4.method === "throw") {
             if (state === GenStateSuspendedStart) {
               state = GenStateCompleted;
-              throw context3.arg;
+              throw context4.arg;
             }
-            context3.dispatchException(context3.arg);
-          } else if (context3.method === "return") {
-            context3.abrupt("return", context3.arg);
+            context4.dispatchException(context4.arg);
+          } else if (context4.method === "return") {
+            context4.abrupt("return", context4.arg);
           }
           state = GenStateExecuting;
-          var record = tryCatch(innerFn, self2, context3);
+          var record = tryCatch(innerFn, self2, context4);
           if (record.type === "normal") {
-            state = context3.done ? GenStateCompleted : GenStateSuspendedYield;
+            state = context4.done ? GenStateCompleted : GenStateSuspendedYield;
             if (record.arg === ContinueSentinel) {
               continue;
             }
             return {
               value: record.arg,
-              done: context3.done
+              done: context4.done
             };
           } else if (record.type === "throw") {
             state = GenStateCompleted;
-            context3.method = "throw";
-            context3.arg = record.arg;
+            context4.method = "throw";
+            context4.arg = record.arg;
           }
         }
       };
     }
-    function maybeInvokeDelegate(delegate, context3) {
-      var method = delegate.iterator[context3.method];
+    function maybeInvokeDelegate(delegate, context4) {
+      var method = delegate.iterator[context4.method];
       if (method === undefined2) {
-        context3.delegate = null;
-        if (context3.method === "throw") {
+        context4.delegate = null;
+        if (context4.method === "throw") {
           if (delegate.iterator["return"]) {
-            context3.method = "return";
-            context3.arg = undefined2;
-            maybeInvokeDelegate(delegate, context3);
-            if (context3.method === "throw") {
+            context4.method = "return";
+            context4.arg = undefined2;
+            maybeInvokeDelegate(delegate, context4);
+            if (context4.method === "throw") {
               return ContinueSentinel;
             }
           }
-          context3.method = "throw";
-          context3.arg = new TypeError("The iterator does not provide a 'throw' method");
+          context4.method = "throw";
+          context4.arg = new TypeError("The iterator does not provide a 'throw' method");
         }
         return ContinueSentinel;
       }
-      var record = tryCatch(method, delegate.iterator, context3.arg);
+      var record = tryCatch(method, delegate.iterator, context4.arg);
       if (record.type === "throw") {
-        context3.method = "throw";
-        context3.arg = record.arg;
-        context3.delegate = null;
+        context4.method = "throw";
+        context4.arg = record.arg;
+        context4.delegate = null;
         return ContinueSentinel;
       }
       var info = record.arg;
       if (!info) {
-        context3.method = "throw";
-        context3.arg = new TypeError("iterator result is not an object");
-        context3.delegate = null;
+        context4.method = "throw";
+        context4.arg = new TypeError("iterator result is not an object");
+        context4.delegate = null;
         return ContinueSentinel;
       }
       if (info.done) {
-        context3[delegate.resultName] = info.value;
-        context3.next = delegate.nextLoc;
-        if (context3.method !== "return") {
-          context3.method = "next";
-          context3.arg = undefined2;
+        context4[delegate.resultName] = info.value;
+        context4.next = delegate.nextLoc;
+        if (context4.method !== "return") {
+          context4.method = "next";
+          context4.arg = undefined2;
         }
       } else {
         return info;
       }
-      context3.delegate = null;
+      context4.delegate = null;
       return ContinueSentinel;
     }
     defineIteratorMethods(Gp);
@@ -130396,14 +130396,14 @@ var require_runtime = __commonJSMin((exports, module2) => {
         if (this.done) {
           throw exception;
         }
-        var context3 = this;
+        var context4 = this;
         function handle(loc, caught) {
           record.type = "throw";
           record.arg = exception;
-          context3.next = loc;
+          context4.next = loc;
           if (caught) {
-            context3.method = "next";
-            context3.arg = undefined2;
+            context4.method = "next";
+            context4.arg = undefined2;
           }
           return !!caught;
         }
@@ -136157,11 +136157,11 @@ var require_reusify = __commonJSMin((exports, module2) => {
 var require_queue = __commonJSMin((exports, module2) => {
   "use strict";
   var reusify = require_reusify();
-  function fastqueue(context3, worker, concurrency) {
-    if (typeof context3 === "function") {
+  function fastqueue(context4, worker, concurrency) {
+    if (typeof context4 === "function") {
       concurrency = worker;
-      worker = context3;
-      context3 = null;
+      worker = context4;
+      context4 = null;
     }
     if (concurrency < 1) {
       throw new Error("fastqueue concurrency must be greater than 1");
@@ -136228,7 +136228,7 @@ var require_queue = __commonJSMin((exports, module2) => {
     }
     function push(value, done) {
       var current = cache.get();
-      current.context = context3;
+      current.context = context4;
       current.release = release2;
       current.value = value;
       current.callback = done || noop;
@@ -136244,12 +136244,12 @@ var require_queue = __commonJSMin((exports, module2) => {
         }
       } else {
         _running++;
-        worker.call(context3, current.value, current.worked);
+        worker.call(context4, current.value, current.worked);
       }
     }
     function unshift(value, done) {
       var current = cache.get();
-      current.context = context3;
+      current.context = context4;
       current.release = release2;
       current.value = value;
       current.callback = done || noop;
@@ -136264,7 +136264,7 @@ var require_queue = __commonJSMin((exports, module2) => {
         }
       } else {
         _running++;
-        worker.call(context3, current.value, current.worked);
+        worker.call(context4, current.value, current.worked);
       }
     }
     function release2(holder) {
@@ -136279,7 +136279,7 @@ var require_queue = __commonJSMin((exports, module2) => {
           }
           queueHead = next.next;
           next.next = null;
-          worker.call(context3, next.value, next.worked);
+          worker.call(context4, next.value, next.worked);
           if (queueTail === null) {
             self2.empty();
           }
@@ -136328,18 +136328,18 @@ var require_queue = __commonJSMin((exports, module2) => {
       self2.release(self2);
     };
   }
-  function queueAsPromised(context3, worker, concurrency) {
-    if (typeof context3 === "function") {
+  function queueAsPromised(context4, worker, concurrency) {
+    if (typeof context4 === "function") {
       concurrency = worker;
-      worker = context3;
-      context3 = null;
+      worker = context4;
+      context4 = null;
     }
     function asyncWrapper(arg, cb) {
       worker.call(this, arg).then(function(res) {
         cb(null, res);
       }, cb);
     }
-    var queue = fastqueue(context3, asyncWrapper, concurrency);
+    var queue = fastqueue(context4, asyncWrapper, concurrency);
     var pushCb = queue.push;
     var unshiftCb = queue.unshift;
     queue.push = push;
@@ -143469,7 +143469,7 @@ var require_semver2 = __commonJSMin((exports, module2) => {
     return parse4(match[1] + "." + (match[2] || "0") + "." + (match[3] || "0"));
   }
 });
-var core3 = __toESM2(require_core());
+var core4 = __toESM2(require_core());
 var core = __toESM2(require_core());
 var import_execa = __toESM2(require_execa());
 function execaWithStreamLog(command, args, options2) {
@@ -143797,7 +143797,8 @@ var release = async () => {
     await runRelease(process.cwd(), publishVersion);
     await createRelease({
       publishBranch,
-      githubToken
+      githubToken,
+      baseBranch: "publishVersion"
     });
   } else {
     await gitCommitAll("publish latest");
@@ -145046,9 +145047,33 @@ var pullRequest = async () => {
     branch: versionBranch
   });
 };
+var github3 = __toESM2(require_github());
+var core3 = __toESM2(require_core());
+var test = async () => {
+  const githubToken = process.env.GITHUB_TOKEN;
+  const publishVersion = core3.getInput("version");
+  const publishBranch = core3.getInput("branch");
+  console.info("[githubToken]:", githubToken);
+  console.info("[publishVersion]:", publishVersion);
+  console.info("[publishBranch]:", publishBranch);
+  const options2 = {
+    publishBranch,
+    githubToken,
+    baseBranch: publishVersion
+  };
+  const octokit = github3.getOctokit(githubToken);
+  const pulls = await octokit.rest.pulls.list({
+    ...options2,
+    ...github3.context.repo
+  });
+  console.info("[PULLS]", JSON.stringify(pulls));
+};
 (async () => {
-  const actionType = core3.getInput("type");
+  const actionType = core4.getInput("type");
   switch (actionType) {
+    case "test":
+      await test();
+      break;
     case "release":
       await release();
       break;
@@ -145060,5 +145085,5 @@ var pullRequest = async () => {
   }
 })().catch((err) => {
   console.error(err);
-  core3.setFailed(err.message);
+  core4.setFailed(err.message);
 });

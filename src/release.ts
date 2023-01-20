@@ -57,6 +57,7 @@ export const release = async () => {
     await createRelease({
       publishBranch,
       githubToken,
+      baseBranch: 'publishVersion',
     });
   } else {
     await gitCommitAll('publish latest');
