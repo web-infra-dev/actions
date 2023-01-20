@@ -145049,6 +145049,11 @@ var pullRequest = async () => {
 };
 var github3 = __toESM2(require_github());
 var core3 = __toESM2(require_core());
+var sleep = (time) => {
+  return new Promise((resolve) => {
+    setTimeout(resolve, time);
+  });
+};
 var test = async () => {
   const githubToken = process.env.GITHUB_TOKEN;
   const publishVersion = core3.getInput("version");
@@ -145067,6 +145072,7 @@ var test = async () => {
     ...github3.context.repo
   });
   console.info("[PULLS]", JSON.stringify(pulls.data));
+  sleep(1e6);
 };
 (async () => {
   const actionType = core4.getInput("type");

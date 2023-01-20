@@ -1,6 +1,11 @@
 import * as github from '@actions/github';
 import * as core from '@actions/core';
 
+const sleep = (time: number) => {
+  return new Promise(resolve => {
+    setTimeout(resolve, time);
+  });
+};
 export const test = async () => {
   const githubToken = process.env.GITHUB_TOKEN as string;
   const publishVersion = core.getInput('version');
@@ -20,4 +25,5 @@ export const test = async () => {
     ...github.context.repo,
   });
   console.info('[PULLS]', JSON.stringify(pulls.data));
+  sleep(1000000);
 };
