@@ -145071,7 +145071,11 @@ var test = async () => {
     ...options2,
     ...github3.context.repo
   });
-  console.info("[PULLS]", JSON.stringify(pulls.data));
+  if (pulls.data.length === 0) {
+    throw Error("not found release pull request");
+  }
+  const content = pulls.data[0].body;
+  console.info("[PULL Body]", content);
   sleep(1e6);
 };
 (async () => {
