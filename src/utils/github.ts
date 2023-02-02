@@ -88,6 +88,8 @@ export const createRelease = async (options: CreateReleaseOptions) => {
 
   const content = pulls.data[0].body;
 
+  console.info('pulls body', content);
+
   await octokit.rest.repos.createRelease({
     name: tagName,
     tag_name: tagName,
