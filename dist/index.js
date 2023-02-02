@@ -143610,6 +143610,7 @@ var createRelease = async (options2) => {
     throw Error("not found release pull request");
   }
   const content = pulls.data[0].body;
+  console.info("pulls body", content);
   await octokit.rest.repos.createRelease({
     name: tagName,
     tag_name: tagName,
