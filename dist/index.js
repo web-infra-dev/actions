@@ -143734,9 +143734,7 @@ var runRelease = async (cwd = process.cwd(), tag, tools = "modern") => {
   if (tools === "modern") {
     params.push("--no-git-checks");
   }
-  await execaWithStreamLog(packageManager, params, {
-    cwd
-  });
+  console.info("[run release]", packageManager, params);
 };
 var listTagsAndGetPackages = async () => {
   const { stdout } = await (0, import_utils5.execa)("git", ["--no-pager", "tag", "-l"]);
