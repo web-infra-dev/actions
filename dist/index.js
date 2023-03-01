@@ -143757,7 +143757,7 @@ var release = async () => {
   const githubToken = process.env.GITHUB_TOKEN;
   const publishVersion = core.getInput("version");
   const publishBranch = core.getInput("branch");
-  const publishTools = core.getInput("tools");
+  const publishTools = core.getInput("tools") || "modern";
   console.info("[publishVersion]:", publishVersion);
   console.info("[publishBranch]:", publishBranch);
   console.info("[publishTools]:", publishTools);
@@ -144974,7 +144974,7 @@ var pullRequest = async () => {
   }
   let releaseVersion = core2.getInput("versionNumber");
   const releaseBranch = core2.getInput("branch");
-  const publishTools = core2.getInput("tools");
+  const publishTools = core2.getInput("tools") || "modern";
   console.info("[publishTools]:", publishTools);
   if (!releaseBranch) {
     throw Error("not found release branch");

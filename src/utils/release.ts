@@ -63,7 +63,7 @@ export const runRelease = async (
 ) => {
   const packageManager = await getPackageManager(cwd);
   const params: string[] = ['run'];
-  if (tools === 'modern') {
+  if (tools === PublishTools.Modern) {
     params.push('releae');
   } else {
     params.push('changeset');

@@ -16,7 +16,8 @@ export const release = async () => {
   const githubToken = process.env.GITHUB_TOKEN;
   const publishVersion = core.getInput('version'); // latest、beta、next、canary
   const publishBranch = core.getInput('branch');
-  const publishTools = core.getInput('tools') as PublishTools; // changeset or modern
+  const publishTools =
+    (core.getInput('tools') as PublishTools) || PublishTools.Modern; // changeset or modern
   console.info('[publishVersion]:', publishVersion);
   console.info('[publishBranch]:', publishBranch);
   console.info('[publishTools]:', publishTools);

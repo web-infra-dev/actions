@@ -34,7 +34,8 @@ export const pullRequest = async () => {
   let releaseVersion = core.getInput('versionNumber');
   // 当前发布源分支
   const releaseBranch = core.getInput('branch');
-  const publishTools = core.getInput('tools') as PublishTools; // changeset or modern
+  const publishTools =
+    (core.getInput('tools') as PublishTools) || PublishTools.Modern; // changeset or modern
   console.info('[publishTools]:', publishTools);
 
   if (!releaseBranch) {

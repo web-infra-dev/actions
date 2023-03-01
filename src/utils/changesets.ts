@@ -18,7 +18,7 @@ export async function runBumpVersion(
     return;
   }
   const params = ['run'];
-  if (tools === 'changeset') {
+  if (tools === PublishTools.Changeset) {
     params.push('changeset');
     params.push('version');
   } else {
