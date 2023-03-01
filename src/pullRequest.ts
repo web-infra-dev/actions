@@ -18,7 +18,7 @@ import {
   runBumpVersion,
 } from './utils/changesets';
 import { createPullRequest, writeGithubToken } from './utils/github';
-import { runPrepareMonorepoTools, updateLockFile } from './utils/release';
+import { updateLockFile } from './utils/release';
 import { PublishTools } from './types';
 
 const VERSION_REGEX = /^modern-(\d*)$/;
@@ -61,9 +61,6 @@ export const pullRequest = async () => {
       releaseType === 'beta' ||
       releaseType === 'alpha'
     ) {
-      if (isModernRepo) {
-        await runPrepareMonorepoTools();
-      }
       preState = await getPreState(releaseType, publishTools);
     }
     const releasePlan = assembleReleasePlan(
@@ -118,16 +115,6 @@ export const pullRequest = async () => {
     console.log('No changesets found');
     // eslint-disable-next-line no-process-exit
     process.exit(1);
-  }
-
-  if (
-    releaseType !== 'pre' &&
-    releaseType !== 'beta' &&
-    releaseType !== 'alpha'
-  ) {
-    if (isModernRepo) {
-      await runPrepareMonorepoTools();
-    }
   }
 
   if (releaseType === 'canary' || releaseType === 'next') {

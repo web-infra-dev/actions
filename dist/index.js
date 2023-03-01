@@ -143701,9 +143701,6 @@ var updateLockFile = async (cwd = process.cwd()) => {
     cwd
   });
 };
-var runPrepareMonorepoTools = async (cwd = process.cwd()) => {
-  await execaWithStreamLog("pnpm", ["run", "--filter", "@modern-js/monorepo-tools...", "build"], { cwd });
-};
 var bumpCanaryVersion = async (cwd = process.cwd(), publishVersion = "canary", tools) => {
   const packageManager = await getPackageManager(cwd);
   const params = ["run"];
@@ -144988,9 +144985,6 @@ var pullRequest = async () => {
     const config = await read(cwd, packages);
     let preState;
     if (releaseType === "pre" || releaseType === "beta" || releaseType === "alpha") {
-      if (isModernRepo) {
-        await runPrepareMonorepoTools();
-      }
       preState = await getPreState(releaseType, publishTools);
     }
     const releasePlan = assemble_release_plan_esm_default(changesets, packages, config, preState, releaseType === "canary" ? {
@@ -145021,11 +145015,6 @@ var pullRequest = async () => {
   if (changesets.length === 0) {
     console.log("No changesets found");
     process.exit(1);
-  }
-  if (releaseType !== "pre" && releaseType !== "beta" && releaseType !== "alpha") {
-    if (isModernRepo) {
-      await runPrepareMonorepoTools();
-    }
   }
   if (releaseType === "canary" || releaseType === "next") {
     console.info("git push");

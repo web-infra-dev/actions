@@ -28,14 +28,6 @@ export const updateLockFile = async (cwd: string = process.cwd()) => {
   );
 };
 
-export const runPrepareMonorepoTools = async (cwd: string = process.cwd()) => {
-  await execaWithStreamLog(
-    'pnpm',
-    ['run', '--filter', '@modern-js/monorepo-tools...', 'build'],
-    { cwd },
-  );
-};
-
 export const bumpCanaryVersion = async (
   cwd: string = process.cwd(),
   publishVersion = 'canary',
