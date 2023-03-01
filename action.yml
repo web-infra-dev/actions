@@ -1,8 +1,8 @@
 name: Modern.js Release
 description: Modern.js Release Action
 runs:
-  using: 'docker'
-  image: 'Dockerfile'
+  using: "node16"
+  main: "dist/index.js"
 inputs:
   type:
     description: 'Action Type'
