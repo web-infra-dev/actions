@@ -1,10 +1,5 @@
 import { execa, fs } from '@modern-js/utils';
-import {
-  canUsePnpm,
-  canUseYarn,
-  getPackageInfo,
-  getPackageManager,
-} from './npm';
+import { getPackageInfo, getPackageManager } from './npm';
 
 import { execaWithStreamLog } from './exec';
 import { PublishTools } from '@/types';
@@ -22,24 +17,6 @@ export const writeNpmrc = async () => {
   }
 };
 
-export const runInstall = async (cwd: string = process.cwd()) => {
-  console.info('run install...');
-  if (!(await canUsePnpm())) {
-    await execaWithStreamLog('npm', ['install', '-g', 'pnpm@7'], { cwd });
-  }
-  if (!(await canUseYarn())) {
-    await execaWithStreamLog('npm', ['install', '-g', 'yarn'], { cwd });
-  }
-  const packageManager = await getPackageManager(cwd);
-  await execaWithStreamLog(
-    packageManager,
-    ['install', '--ignore-scripts', '--no-frozen-lockfile'],
-    {
-      cwd,
-    },
-  );
-};
-
 export const updateLockFile = async (cwd: string = process.cwd()) => {
   const packageManager = await getPackageManager(cwd);
   await execaWithStreamLog(
@@ -49,16 +26,6 @@ export const updateLockFile = async (cwd: string = process.cwd()) => {
       cwd,
     },
   );
-};
-
-export const runPrepare = async (cwd: string = process.cwd()) => {
-  const packageManager = await getPackageManager(cwd);
-  if (packageManager === 'pnpm') {
-    await execaWithStreamLog('pnpm', ['run', 'prepare'], { cwd });
-  } else {
-    await execaWithStreamLog('npm', ['install', '-g', 'lerna'], { cwd });
-    await execaWithStreamLog('lerna', ['run', 'prepare'], { cwd });
-  }
 };
 
 export const runPrepareMonorepoTools = async (cwd: string = process.cwd()) => {
