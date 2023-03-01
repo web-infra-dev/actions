@@ -2,9 +2,11 @@ import path from 'path';
 import readChangesets from '@changesets/read';
 import { execa, getPackageManager, fs } from '@modern-js/utils';
 import { execaWithStreamLog } from '.';
+import { PublishTools } from '@/types';
 
 export async function runBumpVersion(
   releaseType: string,
+  tools: PublishTools,
   cwd: string = process.cwd(),
 ) {
   const packageManager = await getPackageManager(cwd);
@@ -15,23 +17,21 @@ export async function runBumpVersion(
     console.log('No changesets found');
     return;
   }
-
+  const params = ['run'];
+  if (tools === 'changeset') {
+    params.push('changeset');
+    params.push('version');
+  } else {
+    params.push('bump');
+  }
   if (releaseType === 'release') {
-    await execaWithStreamLog(packageManager, ['run', 'bump'], {
+    await execaWithStreamLog(packageManager, params, {
       cwd,
     });
-  } else if (packageManager === 'pnpm') {
-    await execaWithStreamLog(
-      packageManager,
-      ['run', 'bump', '--canary', '--preid', releaseType],
-      {
-        cwd,
-      },
-    );
   } else {
     await execaWithStreamLog(
       packageManager,
-      ['run', 'bump', '--canary', '--preid', releaseType],
+      [...params, '--canary', '--preid', releaseType],
       {
         cwd,
       },
@@ -56,6 +56,7 @@ ${stdout.split('modern gen-release-note')[1]}
 
 export async function getPreState(
   releaseType: string,
+  tools: PublishTools,
   cwd: string = process.cwd(),
 ) {
   const packageManager = await getPackageManager(cwd);
@@ -63,13 +64,23 @@ export async function getPreState(
   if (fs.existsSync(prePath)) {
     fs.removeSync(prePath);
   }
-  await execaWithStreamLog(
-    packageManager,
-    ['run', 'pre', 'enter', releaseType],
-    {
-      cwd,
-    },
-  );
+  if (tools === PublishTools.Modern) {
+    await execaWithStreamLog(
+      packageManager,
+      ['run', 'pre', 'enter', releaseType],
+      {
+        cwd,
+      },
+    );
+  } else {
+    await execaWithStreamLog(
+      packageManager,
+      ['run', 'changeset', 'pre', 'enter', releaseType],
+      {
+        cwd,
+      },
+    );
+  }
   const preState = fs.readJSONSync(prePath, 'utf-8');
   fs.removeSync(prePath);
   return preState;

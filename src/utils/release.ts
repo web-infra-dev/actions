@@ -7,6 +7,7 @@ import {
 } from './npm';
 
 import { execaWithStreamLog } from './exec';
+import { PublishTools } from '@/types';
 
 export const writeNpmrc = async () => {
   const npmrcPath = `${process.env.HOME as string}/.npmrc`;
@@ -71,23 +72,42 @@ export const runPrepareMonorepoTools = async (cwd: string = process.cwd()) => {
 export const bumpCanaryVersion = async (
   cwd: string = process.cwd(),
   publishVersion = 'canary',
+  tools: PublishTools,
 ) => {
   const packageManager = await getPackageManager(cwd);
+  const params = ['run'];
+  if (tools === PublishTools.Modern) {
+    params.push('bump');
+  } else {
+    params.push('changeset');
+    params.push('version');
+  }
   await execaWithStreamLog(packageManager, [
-    'run',
-    'bump',
+    ...params,
     '--snapshot',
     publishVersion,
   ]);
 };
 
-export const runRelease = async (cwd: string = process.cwd(), tag?: string) => {
+export const runRelease = async (
+  cwd: string = process.cwd(),
+  tag?: string,
+  tools: PublishTools = PublishTools.Modern,
+) => {
   const packageManager = await getPackageManager(cwd);
-  const params: string[] = ['run', 'release'];
+  const params: string[] = ['run'];
+  if (tools === 'modern') {
+    params.push('releae');
+  } else {
+    params.push('changeset');
+    params.push('publish');
+  }
   if (tag) {
     params.push('--tag', tag);
   }
-  params.push('--no-git-checks');
+  if (tools === PublishTools.Modern) {
+    params.push('--no-git-checks');
+  }
   await execaWithStreamLog(packageManager, params, {
     cwd,
   });

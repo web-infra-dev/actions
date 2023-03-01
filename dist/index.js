@@ -143695,53 +143695,45 @@ var writeNpmrc = async () => {
     import_utils5.fs.writeFileSync(npmrcPath, `//registry.npmjs.org/:_authToken=${process.env.NPM_TOKEN}`);
   }
 };
-var runInstall = async (cwd = process.cwd()) => {
-  console.info("run install...");
-  if (!await canUsePnpm()) {
-    await execaWithStreamLog("npm", ["install", "-g", "pnpm@7"], { cwd });
-  }
-  if (!await canUseYarn()) {
-    await execaWithStreamLog("npm", ["install", "-g", "yarn"], { cwd });
-  }
-  const packageManager = await getPackageManager(cwd);
-  await execaWithStreamLog(packageManager, ["install", "--ignore-scripts", "--no-frozen-lockfile"], {
-    cwd
-  });
-};
 var updateLockFile = async (cwd = process.cwd()) => {
   const packageManager = await getPackageManager(cwd);
   await execaWithStreamLog(packageManager, ["install", "--ignore-scripts", "--lockfile-only"], {
     cwd
   });
 };
-var runPrepare = async (cwd = process.cwd()) => {
-  const packageManager = await getPackageManager(cwd);
-  if (packageManager === "pnpm") {
-    await execaWithStreamLog("pnpm", ["run", "prepare"], { cwd });
-  } else {
-    await execaWithStreamLog("npm", ["install", "-g", "lerna"], { cwd });
-    await execaWithStreamLog("lerna", ["run", "prepare"], { cwd });
-  }
-};
 var runPrepareMonorepoTools = async (cwd = process.cwd()) => {
   await execaWithStreamLog("pnpm", ["run", "--filter", "@modern-js/monorepo-tools...", "build"], { cwd });
 };
-var bumpCanaryVersion = async (cwd = process.cwd(), publishVersion = "canary") => {
+var bumpCanaryVersion = async (cwd = process.cwd(), publishVersion = "canary", tools) => {
   const packageManager = await getPackageManager(cwd);
+  const params = ["run"];
+  if (tools === "modern") {
+    params.push("bump");
+  } else {
+    params.push("changeset");
+    params.push("version");
+  }
   await execaWithStreamLog(packageManager, [
-    "run",
-    "bump",
+    ...params,
     "--snapshot",
     publishVersion
   ]);
 };
-var runRelease = async (cwd = process.cwd(), tag) => {
+var runRelease = async (cwd = process.cwd(), tag, tools = "modern") => {
   const packageManager = await getPackageManager(cwd);
-  const params = ["run", "release"];
+  const params = ["run"];
+  if (tools === "modern") {
+    params.push("releae");
+  } else {
+    params.push("changeset");
+    params.push("publish");
+  }
   if (tag) {
     params.push("--tag", tag);
   }
-  params.push("--no-git-checks");
+  if (tools === "modern") {
+    params.push("--no-git-checks");
+  }
   await execaWithStreamLog(packageManager, params, {
     cwd
   });
@@ -143765,34 +143757,34 @@ var release = async () => {
   const githubToken = process.env.GITHUB_TOKEN;
   const publishVersion = core.getInput("version");
   const publishBranch = core.getInput("branch");
+  const publishTools = core.getInput("tools");
   console.info("[publishVersion]:", publishVersion);
   console.info("[publishBranch]:", publishBranch);
+  console.info("[publishTools]:", publishTools);
   if (!githubToken) {
     core.setFailed("Please add the GITHUB_TOKEN");
     return;
   }
   await gitConfigUser();
   await changePublishBranch(publishBranch);
-  await runInstall();
-  await runPrepare();
   await writeNpmrc();
   if (publishVersion === "canary") {
-    await bumpCanaryVersion(void 0, publishVersion);
+    await bumpCanaryVersion(void 0, publishVersion, publishTools);
     await gitCommitAll("publish canary");
-    await runRelease(process.cwd(), "canary");
+    await runRelease(process.cwd(), "canary", publishTools);
   } else if (publishVersion === "next") {
-    await bumpCanaryVersion(void 0, publishVersion);
+    await bumpCanaryVersion(void 0, publishVersion, publishTools);
     await gitCommitAll("publish next");
-    await runRelease(process.cwd(), "next");
+    await runRelease(process.cwd(), "next", publishTools);
   } else if (publishVersion === "pre") {
     await gitCommitAll("publish pre");
-    await runRelease(process.cwd(), "pre");
+    await runRelease(process.cwd(), "pre", publishTools);
   } else if (publishVersion === "alpha") {
     await gitCommitAll("publish alpha");
-    await runRelease(process.cwd(), "alpha");
+    await runRelease(process.cwd(), "alpha", publishTools);
   } else if (publishVersion === "beta") {
     await gitCommitAll("publish beta");
-    await runRelease(process.cwd(), "beta");
+    await runRelease(process.cwd(), "beta", publishTools);
   } else if (VERSION_REGEX.test(publishVersion)) {
     const baseBranch = `v${publishVersion.split("-")[1]}`;
     await gitCommitAll(`publish ${publishVersion}`);
@@ -143804,7 +143796,7 @@ var release = async () => {
     });
   } else {
     await gitCommitAll("publish latest");
-    await runRelease(process.cwd(), "latest");
+    await runRelease(process.cwd(), "latest", publishTools);
     await createRelease({
       publishBranch,
       githubToken
@@ -144919,23 +144911,26 @@ function getPreInfo(changesets, packagesByName, config, preState) {
 }
 var assemble_release_plan_esm_default = assembleReleasePlan;
 var import_utils7 = __toESM2(require_dist());
-async function runBumpVersion(releaseType, cwd = process.cwd()) {
+async function runBumpVersion(releaseType, tools, cwd = process.cwd()) {
   const packageManager = await (0, import_utils7.getPackageManager)(cwd);
   const changesets = await read_esm_default(cwd);
   if (changesets.length === 0) {
     console.log("No changesets found");
     return;
   }
+  const params = ["run"];
+  if (tools === "changeset") {
+    params.push("changeset");
+    params.push("version");
+  } else {
+    params.push("bump");
+  }
   if (releaseType === "release") {
-    await execaWithStreamLog(packageManager, ["run", "bump"], {
-      cwd
-    });
-  } else if (packageManager === "pnpm") {
-    await execaWithStreamLog(packageManager, ["run", "bump", "--canary", "--preid", releaseType], {
+    await execaWithStreamLog(packageManager, params, {
       cwd
     });
   } else {
-    await execaWithStreamLog(packageManager, ["run", "bump", "--canary", "--preid", releaseType], {
+    await execaWithStreamLog(packageManager, [...params, "--canary", "--preid", releaseType], {
       cwd
     });
   }
@@ -144951,15 +144946,21 @@ async function getReleaseNote(title, cwd = process.cwd()) {
 ${stdout.split("modern gen-release-note")[1]}
 `;
 }
-async function getPreState(releaseType, cwd = process.cwd()) {
+async function getPreState(releaseType, tools, cwd = process.cwd()) {
   const packageManager = await (0, import_utils7.getPackageManager)(cwd);
   const prePath = import_path8.default.join(cwd, ".changeset", "pre.json");
   if (import_utils7.fs.existsSync(prePath)) {
     import_utils7.fs.removeSync(prePath);
   }
-  await execaWithStreamLog(packageManager, ["run", "pre", "enter", releaseType], {
-    cwd
-  });
+  if (tools === "modern") {
+    await execaWithStreamLog(packageManager, ["run", "pre", "enter", releaseType], {
+      cwd
+    });
+  } else {
+    await execaWithStreamLog(packageManager, ["run", "changeset", "pre", "enter", releaseType], {
+      cwd
+    });
+  }
   const preState = import_utils7.fs.readJSONSync(prePath, "utf-8");
   import_utils7.fs.removeSync(prePath);
   return preState;
@@ -144973,6 +144974,8 @@ var pullRequest = async () => {
   }
   let releaseVersion = core2.getInput("versionNumber");
   const releaseBranch = core2.getInput("branch");
+  const publishTools = core2.getInput("tools");
+  console.info("[publishTools]:", publishTools);
   if (!releaseBranch) {
     throw Error("not found release branch");
   }
@@ -144987,11 +144990,10 @@ var pullRequest = async () => {
     const config = await read(cwd, packages);
     let preState;
     if (releaseType === "pre" || releaseType === "beta" || releaseType === "alpha") {
-      await runInstall();
       if (isModernRepo) {
         await runPrepareMonorepoTools();
       }
-      preState = await getPreState(releaseType);
+      preState = await getPreState(releaseType, publishTools);
     }
     const releasePlan = assemble_release_plan_esm_default(changesets, packages, config, preState, releaseType === "canary" ? {
       tag: "canary"
@@ -145023,18 +145025,20 @@ var pullRequest = async () => {
     process.exit(1);
   }
   if (releaseType !== "pre" && releaseType !== "beta" && releaseType !== "alpha") {
-    await runInstall();
     if (isModernRepo) {
       await runPrepareMonorepoTools();
     }
   }
-  if (releaseType === "canary") {
+  if (releaseType === "canary" || releaseType === "next") {
     console.info("git push");
     await gitPush(versionBranch, { force: true });
     return;
   }
-  const releaseNote = await getReleaseNote(title);
-  await runBumpVersion(releaseType);
+  let releaseNote = "";
+  if (publishTools === "modern") {
+    releaseNote = await getReleaseNote(title);
+  }
+  await runBumpVersion(releaseType, publishTools);
   await updateLockFile();
   if (isModernRepo) {
     await gitCommitWithIgnore(title, /^test/);
