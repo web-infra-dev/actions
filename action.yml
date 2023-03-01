@@ -20,6 +20,10 @@ inputs:
     description: 'Release Branch(confirm release branch)'
     required: false
     default: 'main'
+  tools:
+    description: 'Release Tools'
+    required: false
+    default: 'modern'
 branding:
   icon: "package"
   color: "yellow"
