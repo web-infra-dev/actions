@@ -1,12 +1,11 @@
 import * as core from '@actions/core';
+import { PublishTools } from './types';
 import { gitCommitAll, gitConfigUser } from './utils';
 import { changePublishBranch } from './utils/fs';
 import { createRelease } from './utils/github';
 import {
   bumpCanaryVersion,
   listTagsAndGetPackages,
-  runInstall,
-  runPrepare,
   runRelease,
   writeNpmrc,
 } from './utils/release';
@@ -17,8 +16,11 @@ export const release = async () => {
   const githubToken = process.env.GITHUB_TOKEN;
   const publishVersion = core.getInput('version'); // latest、beta、next、canary
   const publishBranch = core.getInput('branch');
+  const publishTools =
+    (core.getInput('tools') as PublishTools) || PublishTools.Modern; // changeset or modern
   console.info('[publishVersion]:', publishVersion);
   console.info('[publishBranch]:', publishBranch);
+  console.info('[publishTools]:', publishTools);
 
   if (!githubToken) {
     core.setFailed('Please add the GITHUB_TOKEN');
@@ -29,29 +31,25 @@ export const release = async () => {
   // change changeset publish branch to publishBranch
   await changePublishBranch(publishBranch);
 
-  // prepare repo
-  await runInstall();
-  await runPrepare();
-
   await writeNpmrc();
   // publish
   if (publishVersion === 'canary') {
-    await bumpCanaryVersion(undefined, publishVersion);
+    await bumpCanaryVersion(undefined, publishVersion, publishTools);
     await gitCommitAll('publish canary');
-    await runRelease(process.cwd(), 'canary');
+    await runRelease(process.cwd(), 'canary', publishTools);
   } else if (publishVersion === 'next') {
-    await bumpCanaryVersion(undefined, publishVersion);
+    await bumpCanaryVersion(undefined, publishVersion, publishTools);
     await gitCommitAll('publish next');
-    await runRelease(process.cwd(), 'next');
+    await runRelease(process.cwd(), 'next', publishTools);
   } else if (publishVersion === 'pre') {
     await gitCommitAll('publish pre');
-    await runRelease(process.cwd(), 'pre');
+    await runRelease(process.cwd(), 'pre', publishTools);
   } else if (publishVersion === 'alpha') {
     await gitCommitAll('publish alpha');
-    await runRelease(process.cwd(), 'alpha');
+    await runRelease(process.cwd(), 'alpha', publishTools);
   } else if (publishVersion === 'beta') {
     await gitCommitAll('publish beta');
-    await runRelease(process.cwd(), 'beta');
+    await runRelease(process.cwd(), 'beta', publishTools);
   } else if (VERSION_REGEX.test(publishVersion)) {
     const baseBranch = `v${publishVersion.split('-')[1]}`; // v1
     await gitCommitAll(`publish ${publishVersion}`);
@@ -63,7 +61,7 @@ export const release = async () => {
     });
   } else {
     await gitCommitAll('publish latest');
-    await runRelease(process.cwd(), 'latest');
+    await runRelease(process.cwd(), 'latest', publishTools);
     await createRelease({
       publishBranch,
       githubToken,

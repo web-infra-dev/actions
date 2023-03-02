@@ -18,11 +18,8 @@ import {
   runBumpVersion,
 } from './utils/changesets';
 import { createPullRequest, writeGithubToken } from './utils/github';
-import {
-  runInstall,
-  runPrepareMonorepoTools,
-  updateLockFile,
-} from './utils/release';
+import { updateLockFile } from './utils/release';
+import { PublishTools } from './types';
 
 const VERSION_REGEX = /^modern-(\d*)$/;
 
@@ -37,6 +34,9 @@ export const pullRequest = async () => {
   let releaseVersion = core.getInput('versionNumber');
   // 当前发布源分支
   const releaseBranch = core.getInput('branch');
+  const publishTools =
+    (core.getInput('tools') as PublishTools) || PublishTools.Modern; // changeset or modern
+  console.info('[publishTools]:', publishTools);
 
   if (!releaseBranch) {
     throw Error('not found release branch');
@@ -61,11 +61,7 @@ export const pullRequest = async () => {
       releaseType === 'beta' ||
       releaseType === 'alpha'
     ) {
-      await runInstall();
-      if (isModernRepo) {
-        await runPrepareMonorepoTools();
-      }
-      preState = await getPreState(releaseType);
+      preState = await getPreState(releaseType, publishTools);
     }
     const releasePlan = assembleReleasePlan(
       changesets,
@@ -121,27 +117,19 @@ export const pullRequest = async () => {
     process.exit(1);
   }
 
-  if (
-    releaseType !== 'pre' &&
-    releaseType !== 'beta' &&
-    releaseType !== 'alpha'
-  ) {
-    await runInstall();
-    if (isModernRepo) {
-      await runPrepareMonorepoTools();
-    }
-  }
-
-  if (releaseType === 'canary') {
+  if (releaseType === 'canary' || releaseType === 'next') {
     console.info('git push');
     await gitPush(versionBranch, { force: true });
     return;
   }
 
-  const releaseNote = await getReleaseNote(title);
+  let releaseNote = '';
+  if (publishTools === PublishTools.Modern) {
+    releaseNote = await getReleaseNote(title);
+  }
 
   // 获取 changesets
-  await runBumpVersion(releaseType);
+  await runBumpVersion(releaseType, publishTools);
 
   await updateLockFile();
 
