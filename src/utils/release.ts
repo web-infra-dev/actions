@@ -67,10 +67,10 @@ export const runRelease = async (
   if (tools === PublishTools.Modern) {
     params.push('--no-git-checks');
   }
-  // await execaWithStreamLog(packageManager, params, {
-  //   cwd,
-  // });
   console.info('[run release]', packageManager, params);
+  await execaWithStreamLog(packageManager, params, {
+    cwd,
+  });
 };
 
 export const listTagsAndGetPackages = async () => {
