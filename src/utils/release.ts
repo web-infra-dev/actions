@@ -87,7 +87,7 @@ export const listTagsAndGetPackages = async () => {
   console.info('[Packages]:');
   console.info(JSON.stringify(result));
   // const content = `[Packages]: ${result}`;
-  const a = '123';
-  const b = '456';
-  return a + b;
+  const str1 = '[Packages]:';
+  const str2 = JSON.stringify(result);
+  return str1 + str2;
 };
