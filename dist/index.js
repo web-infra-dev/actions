@@ -143766,8 +143766,7 @@ var listTagsAndGetPackages = async () => {
   console.info(stdout);
   console.info("[Packages]:");
   console.info(JSON.stringify(result));
-  return `
-[Tags]: ${stdout}
+  return `[Tags]: ${stdout}
 [Packages]: ${JSON.stringify(result)}`;
 };
 var VERSION_REGEX = /^modern-(\d*)$/;
