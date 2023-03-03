@@ -143821,10 +143821,11 @@ var release = async () => {
     });
   }
   const content = await listTagsAndGetPackages();
+  console.info("===content", content);
   if (pullRequestNumber) {
     await createComment({
       githubToken,
-      content,
+      content: "test123454",
       pullRequestNumber
     });
   }
