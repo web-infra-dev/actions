@@ -98,3 +98,19 @@ export const createRelease = async (options: CreateReleaseOptions) => {
     ...github.context.repo,
   });
 };
+
+interface CreateCommentOptions {
+  githubToken: string;
+  content: string;
+  pullRequestNumber: string;
+}
+
+export const createComment = async (options: CreateCommentOptions) => {
+  const { githubToken, content, pullRequestNumber } = options;
+  const octokit = github.getOctokit(githubToken);
+  octokit.rest.issues.createComment({
+    issue_number: Number(pullRequestNumber),
+    body: content,
+    ...github.context.repo,
+  });
+};

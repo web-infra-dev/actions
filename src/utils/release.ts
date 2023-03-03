@@ -56,7 +56,7 @@ export const runRelease = async (
   const packageManager = await getPackageManager(cwd);
   const params: string[] = ['run'];
   if (tools === PublishTools.Modern) {
-    params.push('releae');
+    params.push('release');
   } else {
     params.push('changeset');
     params.push('publish');
@@ -86,4 +86,5 @@ export const listTagsAndGetPackages = async () => {
   console.info(stdout);
   console.info('[Packages]:');
   console.info(JSON.stringify(result));
+  return `Packages: ${JSON.stringify(result)}`;
 };

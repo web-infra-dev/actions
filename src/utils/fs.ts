@@ -1,22 +1,23 @@
 import path from 'path';
 import { fs } from '@modern-js/utils';
+import { gitCheckoutPRHead } from './git';
 
 export const changePublishBranch = async (
   branch: string,
+  pullRequestNumber?: string,
   cwd: string = process.cwd(),
 ) => {
-  const ref = process.env.REF;
-  const currentBranch = ref?.match(/refs\/heads\/(.*)/)?.[1];
-  console.info('currentBranch', ref, currentBranch, branch);
-  if (branch !== currentBranch) {
-    throw new Error('branch not match');
+  let result = branch;
+  if (pullRequestNumber) {
+    result = await gitCheckoutPRHead(pullRequestNumber);
   }
   console.info('change publish branch...');
   const config = await fs.readJSON(path.join(cwd, '.changeset', 'config.json'));
-  config.baseBranch = branch;
+  config.baseBranch = result;
   await fs.writeJSON(
     path.join(cwd, '.changeset', 'config.json'),
     config,
     'utf-8',
   );
+  return result;
 };

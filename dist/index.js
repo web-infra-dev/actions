@@ -143537,18 +143537,26 @@ var gitSwitchToMaybeExistingBranch = async (branch) => {
 var gitReset = async (pathSpec, mode = "hard") => {
   await execaWithStreamLog("git", ["reset", `--${mode}`, pathSpec]);
 };
+var gitCheckoutPRHead = async (pullRequestNumber) => {
+  await execaWithStreamLog("git", [
+    "fetch",
+    `origin`,
+    `pull/${pullRequestNumber}/head:release-${pullRequestNumber}`
+  ]);
+  await execaWithStreamLog("git", ["checkout", `release-${pullRequestNumber}`]);
+  return `release-${pullRequestNumber}`;
+};
 var import_utils2 = __toESM2(require_dist());
-var changePublishBranch = async (branch, cwd = process.cwd()) => {
-  const ref = process.env.REF;
-  const currentBranch = ref?.match(/refs\/heads\/(.*)/)?.[1];
-  console.info("currentBranch", ref, currentBranch, branch);
-  if (branch !== currentBranch) {
-    throw new Error("branch not match");
+var changePublishBranch = async (branch, pullRequestNumber, cwd = process.cwd()) => {
+  let result = branch;
+  if (pullRequestNumber) {
+    result = await gitCheckoutPRHead(pullRequestNumber);
   }
   console.info("change publish branch...");
   const config = await import_utils2.fs.readJSON(import_path2.default.join(cwd, ".changeset", "config.json"));
-  config.baseBranch = branch;
+  config.baseBranch = result;
   await import_utils2.fs.writeJSON(import_path2.default.join(cwd, ".changeset", "config.json"), config, "utf-8");
+  return result;
 };
 var github = __toESM2(require_github());
 var import_utils3 = __toESM2(require_dist());
@@ -143616,6 +143624,15 @@ var createRelease = async (options2) => {
     tag_name: tagName,
     body: content || "",
     target_commitish: publishBranch,
+    ...github.context.repo
+  });
+};
+var createComment = async (options2) => {
+  const { githubToken, content, pullRequestNumber } = options2;
+  const octokit = github.getOctokit(githubToken);
+  octokit.rest.issues.createComment({
+    issue_number: Number(pullRequestNumber),
+    body: content,
     ...github.context.repo
   });
 };
@@ -143720,7 +143737,7 @@ var runRelease = async (cwd = process.cwd(), tag, tools = "modern") => {
   const packageManager = await getPackageManager(cwd);
   const params = ["run"];
   if (tools === "modern") {
-    params.push("releae");
+    params.push("release");
   } else {
     params.push("changeset");
     params.push("publish");
@@ -143749,22 +143766,24 @@ var listTagsAndGetPackages = async () => {
   console.info(stdout);
   console.info("[Packages]:");
   console.info(JSON.stringify(result));
+  return `Packages: ${JSON.stringify(result)}`;
 };
 var VERSION_REGEX = /^modern-(\d*)$/;
 var release = async () => {
   const githubToken = process.env.GITHUB_TOKEN;
+  const pullRequestNumber = process.env.PULL_REQUEST_NUMBER;
   const publishVersion = core.getInput("version");
-  const publishBranch = core.getInput("branch");
+  let publishBranch = core.getInput("branch");
   const publishTools = core.getInput("tools") || "modern";
   console.info("[publishVersion]:", publishVersion);
-  console.info("[publishBranch]:", publishBranch);
   console.info("[publishTools]:", publishTools);
   if (!githubToken) {
     core.setFailed("Please add the GITHUB_TOKEN");
     return;
   }
   await gitConfigUser();
-  await changePublishBranch(publishBranch);
+  publishBranch = await changePublishBranch(publishBranch, pullRequestNumber);
+  console.info("[publishBranch]:", publishBranch);
   await writeNpmrc();
   if (publishVersion === "canary") {
     await bumpCanaryVersion(void 0, publishVersion, publishTools);
@@ -143800,7 +143819,14 @@ var release = async () => {
       githubToken
     });
   }
-  await listTagsAndGetPackages();
+  const content = await listTagsAndGetPackages();
+  if (pullRequestNumber) {
+    await createComment({
+      githubToken,
+      content,
+      pullRequestNumber
+    });
+  }
 };
 var core2 = __toESM2(require_core());
 var github2 = __toESM2(require_github());
