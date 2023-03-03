@@ -70,11 +70,10 @@ export const release = async () => {
     });
   }
   const content = await listTagsAndGetPackages();
-  console.info('===content', content);
   if (pullRequestNumber) {
     await createComment({
       githubToken,
-      content: 'test123454',
+      content,
       pullRequestNumber,
     });
   }
