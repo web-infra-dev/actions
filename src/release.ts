@@ -2,7 +2,7 @@ import * as core from '@actions/core';
 import { PublishTools } from './types';
 import { gitCommitAll, gitConfigUser } from './utils';
 import { changePublishBranch } from './utils/fs';
-import { createRelease } from './utils/github';
+import { createComment, createRelease } from './utils/github';
 import {
   bumpCanaryVersion,
   listTagsAndGetPackages,
@@ -14,12 +14,12 @@ const VERSION_REGEX = /^modern-(\d*)$/;
 
 export const release = async () => {
   const githubToken = process.env.GITHUB_TOKEN;
+  const pullRequestNumber = process.env.PULL_REQUEST_NUMBER;
   const publishVersion = core.getInput('version'); // latest、beta、next、canary
-  const publishBranch = core.getInput('branch');
+  let publishBranch = core.getInput('branch');
   const publishTools =
     (core.getInput('tools') as PublishTools) || PublishTools.Modern; // changeset or modern
   console.info('[publishVersion]:', publishVersion);
-  console.info('[publishBranch]:', publishBranch);
   console.info('[publishTools]:', publishTools);
 
   if (!githubToken) {
@@ -29,7 +29,9 @@ export const release = async () => {
 
   await gitConfigUser();
   // change changeset publish branch to publishBranch
-  await changePublishBranch(publishBranch);
+  publishBranch = await changePublishBranch(publishBranch, pullRequestNumber);
+
+  console.info('[publishBranch]:', publishBranch);
 
   await writeNpmrc();
   // publish
@@ -67,5 +69,12 @@ export const release = async () => {
       githubToken,
     });
   }
-  await listTagsAndGetPackages();
+  const content = await listTagsAndGetPackages();
+  if (pullRequestNumber) {
+    await createComment({
+      githubToken,
+      content,
+      pullRequestNumber,
+    });
+  }
 };
