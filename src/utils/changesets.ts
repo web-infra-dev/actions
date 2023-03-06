@@ -1,6 +1,7 @@
 import path from 'path';
 import readChangesets from '@changesets/read';
 import { execa, getPackageManager, fs } from '@modern-js/utils';
+import { genReleaseNote as modernGenReleaseNote } from '@modern-js/plugin-changeset';
 import { execaWithStreamLog } from '.';
 import { PublishTools } from '@/types';
 
@@ -51,6 +52,15 @@ export async function getReleaseNote(
 # ${title}
 
 ${stdout.split('modern gen-release-note')[1]}
+`;
+}
+
+export async function genReleaseNote(title: string) {
+  const releaseNote = await modernGenReleaseNote({});
+  return `
+# ${title}
+
+${releaseNote}
 `;
 }
 

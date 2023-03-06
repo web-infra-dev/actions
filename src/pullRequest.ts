@@ -15,6 +15,7 @@ import {
 import {
   getPreState,
   getReleaseNote,
+  genReleaseNote,
   runBumpVersion,
 } from './utils/changesets';
 import { createPullRequest, writeGithubToken } from './utils/github';
@@ -126,6 +127,8 @@ export const pullRequest = async () => {
   let releaseNote = '';
   if (publishTools === PublishTools.Modern) {
     releaseNote = await getReleaseNote(title);
+  } else {
+    releaseNote = await genReleaseNote(title);
   }
 
   // 获取 changesets
