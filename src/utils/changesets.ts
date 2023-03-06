@@ -1,7 +1,7 @@
 import path from 'path';
 import readChangesets from '@changesets/read';
 import { execa, getPackageManager, fs } from '@modern-js/utils';
-import { genReleaseNote as modernGenReleaseNote } from '@modern-js/plugin-changeset';
+import { genReleaseNote as modernGenReleaseNote } from '@modern-js/plugin-changeset/release-note';
 import { PublishTools } from '../types';
 import { execaWithStreamLog } from '.';
 
