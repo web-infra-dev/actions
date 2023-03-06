@@ -54,7 +54,7 @@
     "@manypkg/get-packages": "^1.1.2",
     "@modern-js/module-tools": "^1.15.0",
     "@modern-js/plugin-jarvis": "^1.15.0",
-    "@modern-js/plugin-changeset": "0.0.0-canary-7e478ef",
+    "@modern-js/plugin-changeset": "0.0.0-next-0bf5ec13d3",
     "@modern-js/plugin-testing": "^1.15.0",
     "@modern-js/utils": "^1.15.0",
     "@types/jest": "^26.0.9",
