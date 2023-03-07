@@ -52,7 +52,9 @@ const deleteAllLocaleTag = async (cwd: string) => {
   const { stdout } = await execa('git', ['tag', '-l'], { cwd });
   const tags = stdout.split('\n');
   for (const tag of tags) {
-    await execaWithStreamLog('git', ['tag', '-d', tag], { cwd });
+    if (tag) {
+      await execaWithStreamLog('git', ['tag', '-d', tag], { cwd });
+    }
   }
 };
 
