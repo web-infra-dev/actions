@@ -49,7 +49,11 @@ export const bumpCanaryVersion = async (
 };
 
 const deleteAllLocaleTag = async (cwd: string) => {
-  await execaWithStreamLog('git', ['tag', '-d', '$(git tag -l)'], { cwd });
+  const { stdout } = await execa('git', ['tag', '-l'], { cwd });
+  const tags = stdout.split('\n');
+  for (const tag of tags) {
+    await execaWithStreamLog('git', ['tag', '-d', tag], { cwd });
+  }
 };
 
 export const runRelease = async (
