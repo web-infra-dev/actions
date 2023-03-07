@@ -48,11 +48,22 @@ export const bumpCanaryVersion = async (
   ]);
 };
 
+const deleteAllLocaleTag = async (cwd: string) => {
+  const { stdout } = await execa('git', ['tag', '-l'], { cwd });
+  const tags = stdout.split('\n');
+  for (const tag of tags) {
+    if (tag) {
+      await execaWithStreamLog('git', ['tag', '-d', tag], { cwd });
+    }
+  }
+};
+
 export const runRelease = async (
   cwd: string = process.cwd(),
   tag?: string,
   tools: PublishTools = PublishTools.Modern,
 ) => {
+  await deleteAllLocaleTag(cwd);
   const packageManager = await getPackageManager(cwd);
   const params: string[] = ['run'];
   if (tools === PublishTools.Modern) {
