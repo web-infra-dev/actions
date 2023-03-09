@@ -13,6 +13,8 @@ import {
 const VERSION_REGEX = /^modern-(\d*)$/;
 
 export const release = async () => {
+  const comment = process.env.COMMENT;
+  console.info('comment', comment, JSON.stringify(comment));
   const githubToken = process.env.GITHUB_TOKEN;
   const pullRequestNumber = process.env.PULL_REQUEST_NUMBER;
   const publishVersion = core.getInput('version'); // latest、beta、next、canary
