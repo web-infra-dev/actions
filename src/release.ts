@@ -15,6 +15,7 @@ const VERSION_REGEX = /^modern-(\d*)$/;
 export const release = async () => {
   const githubToken = process.env.GITHUB_TOKEN;
   const pullRequestNumber = process.env.PULL_REQUEST_NUMBER;
+  const comment = process.env.COMMENT;
   const publishVersion = core.getInput('version'); // latest、beta、next、canary
   let publishBranch = core.getInput('branch');
   const publishTools =
@@ -25,6 +26,19 @@ export const release = async () => {
   if (!githubToken) {
     core.setFailed('Please add the GITHUB_TOKEN');
     return;
+  }
+
+  if (comment) {
+    const commentInfo = JSON.parse(comment);
+    if (
+      commentInfo.author_association !== 'COLLABORATOR' &&
+      commentInfo.author_association !== 'OWNER'
+    ) {
+      core.setFailed(
+        'No permission to release the version, please contact the administrator',
+      );
+      return;
+    }
   }
 
   await gitConfigUser();
