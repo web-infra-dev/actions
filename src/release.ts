@@ -22,7 +22,7 @@ export const release = async () => {
     (core.getInput('tools') as PublishTools) || PublishTools.Modern; // changeset or modern
   console.info('[publishVersion]:', publishVersion);
   console.info('[publishTools]:', publishTools);
-  console.info('[comment]:', comment);
+  console.info('[comment]:', comment, typeof comment);
 
   if (!githubToken) {
     core.setFailed('Please add the GITHUB_TOKEN');
