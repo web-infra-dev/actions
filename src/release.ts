@@ -22,7 +22,7 @@ export const release = async () => {
     (core.getInput('tools') as PublishTools) || PublishTools.Modern; // changeset or modern
   console.info('[publishVersion]:', publishVersion);
   console.info('[publishTools]:', publishTools);
-  console.info('[comment]:', comment, typeof comment);
+  console.info('[comment]:', comment);
 
   if (!githubToken) {
     core.setFailed('Please add the GITHUB_TOKEN');
@@ -31,6 +31,7 @@ export const release = async () => {
 
   if (comment) {
     const commentInfo = JSON.parse(comment);
+    console.info('[commentInfo]', commentInfo, commentInfo.author_association);
     if (
       commentInfo.author_association !== 'MEMBER' ||
       commentInfo.author_association !== 'OWNER'
