@@ -33,7 +33,7 @@ export const release = async () => {
     const commentInfo = JSON.parse(comment);
     console.info('[commentInfo]', commentInfo, commentInfo.author_association);
     if (
-      commentInfo.author_association !== 'MEMBER' ||
+      commentInfo.author_association !== 'MEMBER' &&
       commentInfo.author_association !== 'OWNER'
     ) {
       core.setFailed(
