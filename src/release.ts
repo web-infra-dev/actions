@@ -13,20 +13,33 @@ import {
 const VERSION_REGEX = /^modern-(\d*)$/;
 
 export const release = async () => {
-  const comment = process.env.COMMENT;
-  console.info('comment', comment, JSON.stringify(comment));
   const githubToken = process.env.GITHUB_TOKEN;
   const pullRequestNumber = process.env.PULL_REQUEST_NUMBER;
+  const comment = process.env.COMMENT;
   const publishVersion = core.getInput('version'); // latest、beta、next、canary
   let publishBranch = core.getInput('branch');
   const publishTools =
     (core.getInput('tools') as PublishTools) || PublishTools.Modern; // changeset or modern
   console.info('[publishVersion]:', publishVersion);
   console.info('[publishTools]:', publishTools);
+  console.info('[comment]:', comment);
 
   if (!githubToken) {
     core.setFailed('Please add the GITHUB_TOKEN');
     return;
+  }
+
+  if (comment) {
+    const commentInfo = JSON.parse(comment);
+    if (
+      commentInfo.author_association !== 'MEMBER' ||
+      commentInfo.author_association !== 'OWNER'
+    ) {
+      core.setFailed(
+        'No permission to release the version, please contact the administrator',
+      );
+      return;
+    }
   }
 
   await gitConfigUser();
