@@ -98,6 +98,6 @@ export const createTag = async (options: { publishBranch: string }) => {
   }
   const tagName = publishInfo[1];
   await execa('git', ['checkout', '--', '.changeset/*']);
-  await execa('git', ['tag', '-a', tagName, '-m', tagName]);
+  await execa('git', ['tag', '-a', tagName, '-m', tagName, '-f']);
   await execa('git', ['push', 'origin', tagName]);
 };
