@@ -108,7 +108,7 @@ export const createTag = async (options: CreateReleaseOptions) => {
     return;
   }
   const tagName = publishInfo[1];
-  await execa('git', ['tag', '-a', tagName]);
+  await execa('git', ['tag', '-a', tagName, '-m', tagName]);
   await execa('git', ['push', 'origin', tagName]);
 };
 
