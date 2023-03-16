@@ -88,8 +88,11 @@ export const gitCheckoutPRHead = async (pullRequestNumber: string) => {
   return `release-${pullRequestNumber}`;
 };
 
-export const createTag = async (options: { publishBranch: string }) => {
-  const { publishBranch } = options;
+export const createTag = async (options: {
+  publishBranch: string;
+  publishBranchBackup: string;
+}) => {
+  const { publishBranch, publishBranchBackup } = options;
   // 根据 publishBranch 计算出 tagName
   const publishInfo = publishBranch.split('-');
   if (publishInfo.length <= 1) {
@@ -97,7 +100,13 @@ export const createTag = async (options: { publishBranch: string }) => {
     return;
   }
   const tagName = publishInfo[1];
-  await gitSwitchToMaybeExistingBranch(publishBranch);
+  await gitSwitchToMaybeExistingBranch(publishBranchBackup);
   await execa('git', ['tag', '-a', tagName, '-m', tagName, '-f']);
   await execa('git', ['push', 'origin', tagName]);
+};
+
+export const createBackupBranch = async (branchName: string) => {
+  await execaWithStreamLog('git', ['checkout', '-b', `${branchName}-backup`]);
+  await execaWithStreamLog('git', ['checkout', branchName]);
+  return `${branchName}-backup`;
 };

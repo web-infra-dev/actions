@@ -1,6 +1,11 @@
 import * as core from '@actions/core';
 import { PublishTools } from './types';
-import { createTag, gitCommitAll, gitConfigUser } from './utils';
+import {
+  createBackupBranch,
+  createTag,
+  gitCommitAll,
+  gitConfigUser,
+} from './utils';
 import { changePublishBranch } from './utils/fs';
 import { createComment, createRelease } from './utils/github';
 import {
@@ -44,6 +49,7 @@ export const release = async () => {
 
   await gitConfigUser();
   // change changeset publish branch to publishBranch
+  const publishBranchBackup = await createBackupBranch(publishBranch);
   publishBranch = await changePublishBranch(publishBranch, pullRequestNumber);
 
   console.info('[publishBranch]:', publishBranch);
@@ -78,7 +84,7 @@ export const release = async () => {
         baseBranch,
       });
     } else {
-      await createTag({ publishBranch });
+      await createTag({ publishBranch, publishBranchBackup });
     }
   } else {
     await gitCommitAll('publish latest');
@@ -89,7 +95,7 @@ export const release = async () => {
         githubToken,
       });
     } else {
-      await createTag({ publishBranch });
+      await createTag({ publishBranch, publishBranchBackup });
     }
   }
   const content = await listTagsAndGetPackages();
