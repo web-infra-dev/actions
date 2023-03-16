@@ -42,9 +42,11 @@ export async function runBumpVersion(
 
 export async function getReleaseNote(cwd: string = process.cwd()) {
   const packageManager = await getPackageManager(cwd);
+  console.info('run gen-release-note');
   const { stdout } = await execa(packageManager, ['run', 'gen-release-note'], {
     cwd,
   });
+  console.info(stdout);
   return `
 ${stdout.split('modern gen-release-note')[1]}
 `;
