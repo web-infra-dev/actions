@@ -40,25 +40,19 @@ export async function runBumpVersion(
   }
 }
 
-export async function getReleaseNote(
-  title: string,
-  cwd: string = process.cwd(),
-) {
+export async function getReleaseNote(cwd: string = process.cwd()) {
   const packageManager = await getPackageManager(cwd);
   const { stdout } = await execa(packageManager, ['run', 'gen-release-note'], {
     cwd,
   });
   return `
-# ${title}
-
 ${stdout.split('modern gen-release-note')[1]}
 `;
 }
 
-export async function genReleaseNote(title: string) {
+export async function genReleaseNote() {
   const releaseNote = await modernGenReleaseNote({});
   return `
-# ${title}
 
 ${releaseNote}
 `;
