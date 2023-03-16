@@ -1,6 +1,11 @@
 import * as core from '@actions/core';
 import { PublishTools } from './types';
-import { gitCommitAll, gitConfigUser } from './utils';
+import {
+  createBackupBranch,
+  createTag,
+  gitCommitAll,
+  gitConfigUser,
+} from './utils';
 import { changePublishBranch } from './utils/fs';
 import { createComment, createRelease } from './utils/github';
 import {
@@ -16,6 +21,7 @@ export const release = async () => {
   const githubToken = process.env.GITHUB_TOKEN;
   const pullRequestNumber = process.env.PULL_REQUEST_NUMBER;
   const comment = process.env.COMMENT;
+  const onlyReleaseTag = process.env.ONLY_RELEASE_TAG === 'true';
   const publishVersion = core.getInput('version'); // latest、beta、next、canary
   let publishBranch = core.getInput('branch');
   const publishTools =
@@ -43,6 +49,7 @@ export const release = async () => {
 
   await gitConfigUser();
   // change changeset publish branch to publishBranch
+  const publishBranchBackup = await createBackupBranch(publishBranch);
   publishBranch = await changePublishBranch(publishBranch, pullRequestNumber);
 
   console.info('[publishBranch]:', publishBranch);
@@ -70,18 +77,26 @@ export const release = async () => {
     const baseBranch = `v${publishVersion.split('-')[1]}`; // v1
     await gitCommitAll(`publish ${publishVersion}`);
     await runRelease(process.cwd(), publishVersion);
-    await createRelease({
-      publishBranch,
-      githubToken,
-      baseBranch,
-    });
+    if (!onlyReleaseTag) {
+      await createRelease({
+        publishBranch,
+        githubToken,
+        baseBranch,
+      });
+    } else {
+      await createTag({ publishBranch, publishBranchBackup });
+    }
   } else {
     await gitCommitAll('publish latest');
     await runRelease(process.cwd(), 'latest', publishTools);
-    await createRelease({
-      publishBranch,
-      githubToken,
-    });
+    if (!onlyReleaseTag) {
+      await createRelease({
+        publishBranch,
+        githubToken,
+      });
+    } else {
+      await createTag({ publishBranch, publishBranchBackup });
+    }
   }
   const content = await listTagsAndGetPackages();
   if (pullRequestNumber) {
