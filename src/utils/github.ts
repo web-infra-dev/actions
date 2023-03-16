@@ -1,6 +1,6 @@
 import path from 'path';
 import * as github from '@actions/github';
-import { execa, fs } from '@modern-js/utils';
+import { fs } from '@modern-js/utils';
 
 export const writeGithubToken = async (githubToken: string) => {
   await fs.writeFile(
@@ -97,19 +97,6 @@ export const createRelease = async (options: CreateReleaseOptions) => {
     target_commitish: publishBranch,
     ...github.context.repo,
   });
-};
-
-export const createTag = async (options: CreateReleaseOptions) => {
-  const { publishBranch } = options;
-  // 根据 publishBranch 计算出 tagName
-  const publishInfo = publishBranch.split('-');
-  if (publishInfo.length <= 1) {
-    console.info('current publishBranch not support create release');
-    return;
-  }
-  const tagName = publishInfo[1];
-  await execa('git', ['tag', '-a', tagName, '-m', tagName]);
-  await execa('git', ['push', 'origin', tagName]);
 };
 
 interface CreateCommentOptions {

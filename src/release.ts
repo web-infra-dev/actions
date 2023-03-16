@@ -1,8 +1,8 @@
 import * as core from '@actions/core';
 import { PublishTools } from './types';
-import { gitCommitAll, gitConfigUser } from './utils';
+import { createTag, gitCommitAll, gitConfigUser } from './utils';
 import { changePublishBranch } from './utils/fs';
-import { createComment, createRelease, createTag } from './utils/github';
+import { createComment, createRelease } from './utils/github';
 import {
   bumpCanaryVersion,
   listTagsAndGetPackages,
@@ -78,7 +78,7 @@ export const release = async () => {
         baseBranch,
       });
     } else {
-      await createTag({ publishBranch, githubToken });
+      await createTag({ publishBranch });
     }
   } else {
     await gitCommitAll('publish latest');
@@ -89,7 +89,7 @@ export const release = async () => {
         githubToken,
       });
     } else {
-      await createTag({ publishBranch, githubToken });
+      await createTag({ publishBranch });
     }
   }
   const content = await listTagsAndGetPackages();

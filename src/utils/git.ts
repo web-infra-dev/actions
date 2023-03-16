@@ -87,3 +87,17 @@ export const gitCheckoutPRHead = async (pullRequestNumber: string) => {
   await execaWithStreamLog('git', ['checkout', `release-${pullRequestNumber}`]);
   return `release-${pullRequestNumber}`;
 };
+
+export const createTag = async (options: { publishBranch: string }) => {
+  const { publishBranch } = options;
+  // 根据 publishBranch 计算出 tagName
+  const publishInfo = publishBranch.split('-');
+  if (publishInfo.length <= 1) {
+    console.info('current publishBranch not support create release');
+    return;
+  }
+  const tagName = publishInfo[1];
+  await execa('git', ['checkout', '--', '.changeset/*']);
+  await execa('git', ['tag', '-a', tagName, '-m', tagName]);
+  await execa('git', ['push', 'origin', tagName]);
+};
