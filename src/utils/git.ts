@@ -106,6 +106,7 @@ export const createTag = async (options: {
 };
 
 export const createBackupBranch = async (branchName: string) => {
+  await execaWithStreamLog('git', ['checkout', '-b', `${branchName}`]);
   await execaWithStreamLog('git', ['checkout', '-b', `${branchName}-backup`]);
   await execaWithStreamLog('git', ['checkout', branchName]);
   return `${branchName}-backup`;
