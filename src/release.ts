@@ -48,10 +48,13 @@ export const release = async () => {
     }
   }
 
+  let publishBranchBackup = '';
   await gitConfigUser();
-  // change changeset publish branch to publishBranch
-  const publishBranchBackup = await createBackupBranch(publishBranch);
-  publishBranch = await changePublishBranch(publishBranch, pullRequestNumber);
+  if (publishBranch) {
+    // change changeset publish branch to publishBranch
+    publishBranchBackup = await createBackupBranch(publishBranch);
+    publishBranch = await changePublishBranch(publishBranch, pullRequestNumber);
+  }
 
   console.info('[publishBranch]:', publishBranch);
 
@@ -85,7 +88,10 @@ export const release = async () => {
         baseBranch,
       });
     } else {
-      await createTag({ publishBranch, publishBranchBackup });
+      await createTag({
+        publishBranch,
+        publishBranchBackup,
+      });
     }
   } else {
     await gitCommitAll('publish latest');
