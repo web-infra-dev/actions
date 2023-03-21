@@ -38,7 +38,8 @@ export const release = async () => {
     const commentInfo = JSON.parse(comment);
     if (
       commentInfo.author_association !== 'COLLABORATOR' &&
-      commentInfo.author_association !== 'OWNER'
+      commentInfo.author_association !== 'OWNER' &&
+      commentInfo.author_association !== 'MEMBER'
     ) {
       core.setFailed(
         'No permission to release the version, please contact the administrator',
