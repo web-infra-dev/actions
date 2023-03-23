@@ -45,7 +45,7 @@ export const pullRequest = async () => {
 
   // hack modern.js repo
   const repo = process.env.REPOSITORY;
-  const isModernRepo = repo === 'modern-js-dev/modern.js';
+  const isModernRepo = repo === 'web-infra-dev/modern.js';
 
   const cwd = process.cwd();
 
