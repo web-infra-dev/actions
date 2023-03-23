@@ -144977,7 +144977,7 @@ var pullRequest = async () => {
     throw Error("not found release branch");
   }
   const repo = process.env.REPOSITORY;
-  const isModernRepo = repo === "modern-js-dev/modern.js";
+  const isModernRepo = repo === "web-infra-dev/modern.js";
   const cwd = process.cwd();
   const changesets = await read_esm_default(cwd);
   if (releaseType === "canary" && releaseVersion === "auto") {
