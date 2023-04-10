@@ -23,6 +23,7 @@ export const release = async () => {
   const comment = process.env.COMMENT;
   const onlyReleaseTag = process.env.ONLY_RELEASE_TAG === 'true';
   const publishVersion = core.getInput('version'); // latest、beta、next、canary
+  const npmTag = core.getInput('npmTag');
   let publishBranch = core.getInput('branch');
   const publishTools =
     (core.getInput('tools') as PublishTools) || PublishTools.Modern; // changeset or modern
@@ -63,7 +64,7 @@ export const release = async () => {
   if (publishVersion === 'canary') {
     await bumpCanaryVersion(undefined, publishVersion, publishTools);
     await gitCommitAll('publish canary');
-    await runRelease(process.cwd(), 'canary', publishTools);
+    await runRelease(process.cwd(), npmTag || 'canary', publishTools);
   } else if (publishVersion === 'next') {
     await bumpCanaryVersion(undefined, publishVersion, publishTools);
     await gitCommitAll('publish next');
