@@ -86,6 +86,8 @@ export const runRelease = async (
 
 export const listTagsAndGetPackages = async () => {
   const { stdout } = await execa('git', ['--no-pager', 'tag', '-l']);
+  console.info('[Tags]: list tags:');
+  console.info(stdout);
   const result: Record<string, string> = {};
   stdout.split('\n').forEach(info => {
     const { name, version } = getPackageInfo(info);
@@ -93,8 +95,6 @@ export const listTagsAndGetPackages = async () => {
       result[name] = version;
     }
   });
-  console.info('[Tags]: list tags:');
-  console.info(stdout);
   console.info('[Packages]:');
   console.info(JSON.stringify(result));
   return `Packages: ${JSON.stringify(result, null, 2)}`;
