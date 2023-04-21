@@ -1,4 +1,5 @@
 import { execa, fs } from '@modern-js/utils';
+import readChangesets from '@changesets/read';
 import { getPackageInfo, getPackageManager } from './npm';
 
 import { execaWithStreamLog } from './exec';
@@ -33,6 +34,13 @@ export const bumpCanaryVersion = async (
   publishVersion = 'canary',
   tools: PublishTools,
 ) => {
+  const changesets = await readChangesets(cwd);
+  if (changesets.length === 0) {
+    // eslint-disable-next-line no-console
+    console.log('No changesets found to bump canary versin');
+    // eslint-disable-next-line no-process-exit
+    process.exit(1);
+  }
   const packageManager = await getPackageManager(cwd);
   const params = ['run'];
   if (tools === PublishTools.Modern) {
