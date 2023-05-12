@@ -77,17 +77,20 @@ export const createRelease = async (options: CreateReleaseOptions) => {
 
   // 获取发布 Pull Request
   const pulls = await octokit.rest.pulls.list({
-    head: publishBranch,
-    base: baseBranch || 'main',
     ...github.context.repo,
   });
 
-  if (pulls.data.length === 0) {
+  const releasePull = pulls.data.find(
+    pull =>
+      pull.base.ref === (baseBranch || 'main') &&
+      pull.head.ref === publishBranch,
+  );
+
+  if (!releasePull) {
     throw Error('not found release pull request');
   }
 
-  const content = pulls.data[0].body;
-
+  const content = releasePull.body;
   console.info('pulls body', content);
 
   await octokit.rest.repos.createRelease({
