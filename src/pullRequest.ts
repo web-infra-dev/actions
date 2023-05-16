@@ -128,7 +128,7 @@ export const pullRequest = async () => {
   if (publishTools === PublishTools.Modern) {
     releaseNote = await getReleaseNote();
   } else {
-    releaseNote = await genReleaseNote();
+    releaseNote = await genReleaseNote(repo);
   }
 
   // 获取 changesets
