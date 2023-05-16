@@ -50,8 +50,8 @@ ${stdout.split('modern gen-release-note')[1]}
 `;
 }
 
-export async function genReleaseNote() {
-  const releaseNote = await modernGenReleaseNote({});
+export async function genReleaseNote(repo?: string) {
+  const releaseNote = await modernGenReleaseNote({ repo });
   return `
 ${releaseNote}
 `;
