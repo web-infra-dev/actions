@@ -14,14 +14,20 @@ export async function runBumpVersion(
   const changesets = await readChangesets(cwd);
 
   if (changesets.length === 0) {
-    // eslint-disable-next-line no-console
-    console.log('No changesets found');
-    return;
+    console.warn('No changesets found');
+    if (tools === PublishTools.Modern) {
+      return;
+    }
   }
   const params = ['run'];
   if (tools === PublishTools.Changeset) {
-    params.push('changeset');
-    params.push('version');
+    const pkg = fs.readJSONSync(path.join(cwd, 'package.json'));
+    if (pkg?.scripts?.bump) {
+      params.push('bump');
+    } else {
+      params.push('changeset');
+      params.push('version');
+    }
   } else {
     params.push('bump');
   }

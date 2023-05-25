@@ -112,10 +112,11 @@ export const pullRequest = async () => {
   await gitReset(github.context.sha);
 
   if (changesets.length === 0) {
-    // eslint-disable-next-line no-console
-    console.log('No changesets found');
-    // eslint-disable-next-line no-process-exit
-    process.exit(1);
+    console.warn('No changesets found');
+    if (publishTools === PublishTools.Modern) {
+      // eslint-disable-next-line no-process-exit
+      process.exit(1);
+    }
   }
 
   if (releaseType === 'canary' || releaseType === 'next') {
