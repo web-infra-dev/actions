@@ -101,6 +101,8 @@ export const createTag = async (options: {
   }
   const tagName = publishInfo[1];
   await gitSwitchToMaybeExistingBranch(publishBranchBackup);
+  await gitSwitchToMaybeExistingBranch(tagName);
+  await gitPush(tagName, { force: true });
   await execa('git', ['tag', '-a', tagName, '-m', tagName, '-f']);
   await execa('git', ['push', 'origin', tagName]);
 };

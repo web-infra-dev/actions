@@ -70739,6 +70739,8 @@ var createTag = (options) => __async(void 0, null, function* () {
   }
   const tagName = publishInfo[1];
   yield gitSwitchToMaybeExistingBranch(publishBranchBackup);
+  yield gitSwitchToMaybeExistingBranch(tagName);
+  yield gitPush(tagName, { force: true });
   yield (0, import_utils.execa)("git", ["tag", "-a", tagName, "-m", tagName, "-f"]);
   yield (0, import_utils.execa)("git", ["push", "origin", tagName]);
 });
@@ -70832,11 +70834,13 @@ var createRelease = (options) => __async(void 0, null, function* () {
   }
   const content = releasePull.body;
   console.info("pulls body", content);
+  yield gitSwitchToMaybeExistingBranch(tagName);
+  yield gitPush(tagName, { force: true });
   yield octokit.rest.repos.createRelease(__spreadValues({
     name: tagName,
     tag_name: tagName,
     body: content || "",
-    target_commitish: publishBranch
+    target_commitish: tagName
   }, github.context.repo));
 });
 var createComment = (options) => __async(void 0, null, function* () {
@@ -71364,17 +71368,13 @@ var release = () => __async(void 0, null, function* () {
     yield gitCommitAll("publish next");
     yield runRelease(process.cwd(), "next", publishTools);
   } else if (publishVersion === "pre") {
-    yield gitCommitAll("publish pre");
     yield runRelease(process.cwd(), "pre", publishTools);
   } else if (publishVersion === "alpha") {
-    yield gitCommitAll("publish alpha");
     yield runRelease(process.cwd(), "alpha", publishTools);
   } else if (publishVersion === "beta") {
-    yield gitCommitAll("publish beta");
     yield runRelease(process.cwd(), "beta", publishTools);
   } else if (VERSION_REGEX.test(publishVersion)) {
     const baseBranch = `v${publishVersion.split("-")[1]}`;
-    yield gitCommitAll(`publish ${publishVersion}`);
     yield runRelease(process.cwd(), publishVersion);
     if (!onlyReleaseTag) {
       yield createRelease({

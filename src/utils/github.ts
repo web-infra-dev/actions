@@ -1,6 +1,8 @@
 import path from 'path';
 import * as github from '@actions/github';
 import { fs } from '@modern-js/utils';
+import { gitSwitchToMaybeExistingBranch } from './git';
+import { gitPush } from './git';
 
 export const writeGithubToken = async (githubToken: string) => {
   await fs.writeFile(
@@ -93,11 +95,13 @@ export const createRelease = async (options: CreateReleaseOptions) => {
   const content = releasePull.body;
   console.info('pulls body', content);
 
+  await gitSwitchToMaybeExistingBranch(tagName);
+  await gitPush(tagName, { force: true });
   await octokit.rest.repos.createRelease({
     name: tagName,
     tag_name: tagName,
     body: content || '',
-    target_commitish: publishBranch,
+    target_commitish: tagName,
     ...github.context.repo,
   });
 };

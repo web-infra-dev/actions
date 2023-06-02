@@ -70,17 +70,13 @@ export const release = async () => {
     await gitCommitAll('publish next');
     await runRelease(process.cwd(), 'next', publishTools);
   } else if (publishVersion === 'pre') {
-    await gitCommitAll('publish pre');
     await runRelease(process.cwd(), 'pre', publishTools);
   } else if (publishVersion === 'alpha') {
-    await gitCommitAll('publish alpha');
     await runRelease(process.cwd(), 'alpha', publishTools);
   } else if (publishVersion === 'beta') {
-    await gitCommitAll('publish beta');
     await runRelease(process.cwd(), 'beta', publishTools);
   } else if (VERSION_REGEX.test(publishVersion)) {
     const baseBranch = `v${publishVersion.split('-')[1]}`; // v1
-    await gitCommitAll(`publish ${publishVersion}`);
     await runRelease(process.cwd(), publishVersion);
     if (!onlyReleaseTag) {
       await createRelease({
