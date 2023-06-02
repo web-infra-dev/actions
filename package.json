@@ -54,7 +54,7 @@
     "@manypkg/get-packages": "^1.1.2",
     "@modern-js/module-tools": "^1.15.0",
     "@modern-js/plugin-jarvis": "^1.15.0",
-    "@modern-js/plugin-changeset": "2.21.2-alpha.1",
+    "@modern-js/plugin-changeset": "2.22.1-beta.4",
     "@modern-js/plugin-testing": "^1.15.0",
     "@modern-js/utils": "^1.15.0",
     "@types/jest": "^26.0.9",

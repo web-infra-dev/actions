@@ -40,18 +40,24 @@ export async function runBumpVersion(
   }
 }
 
-export async function getReleaseNote(cwd: string = process.cwd()) {
+export async function getReleaseNote(
+  githubToken: string,
+  cwd: string = process.cwd(),
+) {
   const packageManager = await getPackageManager(cwd);
   const { stdout } = await execa(packageManager, ['run', 'gen-release-note'], {
     cwd,
+    env: {
+      GITHUB_AUTH_TOKEN: githubToken,
+    },
   });
   return `
 ${stdout.split('modern gen-release-note')[1]}
 `;
 }
 
-export async function genReleaseNote(repo?: string) {
-  const releaseNote = await modernGenReleaseNote({ repo });
+export async function genReleaseNote(repo?: string, authToken?: string) {
+  const releaseNote = await modernGenReleaseNote({ repo, authToken });
   return `
 ${releaseNote}
 `;
