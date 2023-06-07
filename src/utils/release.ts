@@ -1,4 +1,4 @@
-import { execa, fs } from '@modern-js/utils';
+import { execa, fs, getPnpmVersion, semver } from '@modern-js/utils';
 import readChangesets from '@changesets/read';
 import { getPackageInfo, getPackageManager } from './npm';
 
@@ -85,6 +85,10 @@ export const runRelease = async (
   }
   if (tools === PublishTools.Modern) {
     params.push('--no-git-checks');
+  }
+  const pnpmVersion = await getPnpmVersion();
+  if (tools === PublishTools.Modern && semver.gte(pnpmVersion, '8.4.0')) {
+    params.push('--provenance');
   }
   console.info('[run release]', packageManager, params);
   await execaWithStreamLog(packageManager, params, {
