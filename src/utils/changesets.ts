@@ -50,9 +50,9 @@ export async function getReleaseNote(
       GITHUB_AUTH_TOKEN: githubToken,
     },
   });
-  return `
-${stdout.split('modern gen-release-note')[1]}
-`;
+  const part1 = stdout.split('modern gen-release-note')[1];
+  const part2 = part1.split('\n').filter(v => v)
+  return part2.slice(1).join('\n'); // remove monorepo-tools version info
 }
 
 export async function getPreState(

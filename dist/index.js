@@ -72323,9 +72323,9 @@ function getReleaseNote(_0) {
         GITHUB_AUTH_TOKEN: githubToken
       }
     });
-    return `
-${stdout.split("modern gen-release-note")[1]}
-`;
+    const part1 = stdout.split("modern gen-release-note")[1];
+    const part2 = part1.split("\n").filter((v) => v);
+    return part2.slice(1).join("\n");
   });
 }
 function getPreState(_0, _1) {
