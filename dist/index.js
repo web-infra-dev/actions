@@ -144973,6 +144973,7 @@ var pullRequest = async () => {
   }
   let releaseVersion = core2.getInput("versionNumber");
   const releaseBranch = core2.getInput("branch");
+  const beforeBumpScript = core2.getInput("beforeBumpScript");
   if (!releaseBranch) {
     throw Error("not found release branch");
   }
@@ -145034,6 +145035,9 @@ var pullRequest = async () => {
     return;
   }
   const releaseNote = await getReleaseNote(title);
+  if (beforeBumpScript) {
+    await execaWithStreamLog("npm", ["run", beforeBumpScript], { cwd });
+  }
   await runBumpVersion(releaseType);
   await updateLockFile();
   if (isModernRepo) {

@@ -5,6 +5,7 @@ import { getPackages } from '@manypkg/get-packages';
 import { read } from '@changesets/config';
 import assembleReleasePlan from '@changesets/assemble-release-plan';
 import {
+  execaWithStreamLog,
   gitCommitAll,
   gitCommitWithIgnore,
   gitConfigUser,
@@ -37,6 +38,9 @@ export const pullRequest = async () => {
   let releaseVersion = core.getInput('versionNumber');
   // 当前发布源分支
   const releaseBranch = core.getInput('branch');
+  // bump version 前执行的脚本
+  // 如 Rspress 在 bump 自身版本前执行 npm run update:modern
+  const beforeBumpScript = core.getInput('beforeBumpScript');
 
   if (!releaseBranch) {
     throw Error('not found release branch');
@@ -139,6 +143,10 @@ export const pullRequest = async () => {
   }
 
   const releaseNote = await getReleaseNote(title);
+
+  if (beforeBumpScript) {
+    await execaWithStreamLog('npm', ['run', beforeBumpScript], { cwd });
+  }
 
   // 获取 changesets
   await runBumpVersion(releaseType);
