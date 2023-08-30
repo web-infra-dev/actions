@@ -40051,7 +40051,7 @@ var require_data = __commonJS({
     }
     _export(exports2, {
       getPackageManager: function() {
-        return getPackageManager3;
+        return getPackageManager4;
       },
       getCoreJsVersion: function() {
         return getCoreJsVersion;
@@ -40083,7 +40083,7 @@ var require_data = __commonJS({
     var _is = require_is();
     var _package = require_package2();
     var MAX_TIMES = 5;
-    function getPackageManager3() {
+    function getPackageManager4() {
       return __async(this, arguments, function* (cwd = process.cwd()) {
         let appDirectory = cwd;
         let times = 0;
@@ -72281,6 +72281,9 @@ function getPreInfo(changesets, packagesByName, config, preState) {
 }
 var assemble_release_plan_esm_default = assembleReleasePlan;
 
+// src/pullRequest.ts
+var import_utils8 = __toESM(require_cjs());
+
 // src/utils/changesets.ts
 var import_path8 = __toESM(require("path"));
 var import_utils7 = __toESM(require_cjs());
@@ -72370,6 +72373,7 @@ var pullRequest = () => __async(void 0, null, function* () {
   const releaseBranch = core2.getInput("branch");
   const publishTools = core2.getInput("tools") || "modern" /* Modern */;
   console.info("[publishTools]:", publishTools);
+  const beforeBumpScript = core2.getInput("beforeBumpScript") || "";
   if (!releaseBranch) {
     throw Error("not found release branch");
   }
@@ -72431,6 +72435,12 @@ var pullRequest = () => __async(void 0, null, function* () {
   let releaseNote = "";
   if (publishTools === "modern" /* Modern */) {
     releaseNote = yield getReleaseNote(githubToken);
+  }
+  if (beforeBumpScript) {
+    const packageManager = yield (0, import_utils8.getPackageManager)(cwd);
+    yield execaWithStreamLog(packageManager, ["run", beforeBumpScript], {
+      cwd
+    });
   }
   yield runBumpVersion(releaseType, publishTools);
   yield updateLockFile();
