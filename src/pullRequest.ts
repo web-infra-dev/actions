@@ -4,7 +4,9 @@ import readChangesets from '@changesets/read';
 import { getPackages } from '@manypkg/get-packages';
 import { read } from '@changesets/config';
 import assembleReleasePlan from '@changesets/assemble-release-plan';
+import { getPackageManager } from '@modern-js/utils';
 import {
+  execaWithStreamLog,
   gitCommitAll,
   gitCommitWithIgnore,
   gitConfigUser,
@@ -37,6 +39,9 @@ export const pullRequest = async () => {
   const publishTools =
     (core.getInput('tools') as PublishTools) || PublishTools.Modern; // changeset or modern
   console.info('[publishTools]:', publishTools);
+  // bump version 前执行的脚本
+  // 如 Rspress 在 bump 自身版本前执行 npm run update:modern
+  const beforeBumpScript = core.getInput('beforeBumpScript') || '';
 
   if (!releaseBranch) {
     throw Error('not found release branch');
@@ -126,6 +131,13 @@ export const pullRequest = async () => {
   let releaseNote = '';
   if (publishTools === PublishTools.Modern) {
     releaseNote = await getReleaseNote(githubToken);
+  }
+
+  if (beforeBumpScript) {
+    const packageManager = await getPackageManager(cwd);
+    await execaWithStreamLog(packageManager, ['run', beforeBumpScript], {
+      cwd,
+    });
   }
 
   // 获取 changesets
