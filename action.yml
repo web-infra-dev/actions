@@ -9,7 +9,7 @@ inputs:
     required: true
     default: 'release'
   version:
-    description: 'Release Version Type(canary, pre, latest, next, beta, modern-*)'
+    description: 'Release Version Type(canary, pre, latest, nightly, next, beta, modern-*)'
     required: false
     default: 'canary'
   versionNumber:

@@ -17,6 +17,7 @@ import {
 
 const VERSION_REGEX = /^modern-(\d*)$/;
 
+const SnapshotVersions = ['canary', 'next', 'nightly']
 export const release = async () => {
   const githubToken = process.env.GITHUB_TOKEN;
   const pullRequestNumber = process.env.PULL_REQUEST_NUMBER;
@@ -61,14 +62,10 @@ export const release = async () => {
 
   await writeNpmrc();
   // publish
-  if (publishVersion === 'canary') {
+  if (SnapshotVersions.includes(publishVersion)) {
     await bumpCanaryVersion(undefined, publishVersion, publishTools);
-    await gitCommitAll('publish canary');
-    await runRelease(process.cwd(), npmTag || 'canary', publishTools);
-  } else if (publishVersion === 'next') {
-    await bumpCanaryVersion(undefined, publishVersion, publishTools);
-    await gitCommitAll('publish next');
-    await runRelease(process.cwd(), 'next', publishTools);
+    await gitCommitAll(`publish ${publishVersion}`);
+    await runRelease(process.cwd(), npmTag || publishVersion, publishTools);
   } else if (publishVersion === 'pre') {
     await gitCommitAll('publish pre');
     await runRelease(process.cwd(), 'pre', publishTools);

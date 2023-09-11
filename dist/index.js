@@ -71321,6 +71321,7 @@ var listTagsAndGetPackages = () => __async(void 0, null, function* () {
 
 // src/release.ts
 var VERSION_REGEX = /^modern-(\d*)$/;
+var SnapshotVersions = ["canary", "next", "nightly"];
 var release = () => __async(void 0, null, function* () {
   const githubToken = process.env.GITHUB_TOKEN;
   const pullRequestNumber = process.env.PULL_REQUEST_NUMBER;
@@ -71355,14 +71356,10 @@ var release = () => __async(void 0, null, function* () {
   }
   console.info("[publishBranch]:", publishBranch);
   yield writeNpmrc();
-  if (publishVersion === "canary") {
+  if (SnapshotVersions.includes(publishVersion)) {
     yield bumpCanaryVersion(void 0, publishVersion, publishTools);
-    yield gitCommitAll("publish canary");
-    yield runRelease(process.cwd(), npmTag || "canary", publishTools);
-  } else if (publishVersion === "next") {
-    yield bumpCanaryVersion(void 0, publishVersion, publishTools);
-    yield gitCommitAll("publish next");
-    yield runRelease(process.cwd(), "next", publishTools);
+    yield gitCommitAll(`publish ${publishVersion}`);
+    yield runRelease(process.cwd(), npmTag || publishVersion, publishTools);
   } else if (publishVersion === "pre") {
     yield gitCommitAll("publish pre");
     yield runRelease(process.cwd(), "pre", publishTools);
