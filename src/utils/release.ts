@@ -1,9 +1,11 @@
 import { execa, fs } from '@modern-js/utils';
 import readChangesets from '@changesets/read';
+import { getPackages } from '@manypkg/get-packages';
 import { getPackageInfo, getPackageManager } from './npm';
 
 import { execaWithStreamLog } from './exec';
 import { PublishTools } from '@/types';
+import path from 'path';
 
 export const writeNpmrc = async () => {
   const npmrcPath = `${process.env.HOME as string}/.npmrc`;
@@ -36,10 +38,27 @@ export const bumpCanaryVersion = async (
 ) => {
   const changesets = await readChangesets(cwd);
   if (changesets.length === 0) {
-    // eslint-disable-next-line no-console
-    console.log('No changesets found to bump canary versin');
-    // eslint-disable-next-line no-process-exit
-    process.exit(1);
+    // add a test changeset
+    const { packages } = await getPackages(cwd);
+    const publishPackages = packages.filter(pkg => !pkg.packageJson.private)
+    if (publishPackages.length === 0) {
+      // eslint-disable-next-line no-console
+      console.log('No packages in current repo');
+      // eslint-disable-next-line no-process-exit
+      process.exit(1);
+    }
+    const testChangesetPath = path.join(cwd, '.changeset', 'test.md');
+    fs.ensureFileSync(testChangesetPath);
+    fs.writeFileSync(
+      testChangesetPath,
+      `---
+      '${publishPackages[0].packageJson.name}': patch
+      ---
+
+      chore: bump ${publishVersion}
+      `,
+      'utf-8',
+    );
   }
   const packageManager = await getPackageManager(cwd);
   const params = ['run'];
