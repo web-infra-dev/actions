@@ -71211,9 +71211,6 @@ function getPackageManager() {
   });
 }
 function getPackageInfo(packageName) {
-  if (!packageName) {
-    throw new Error("package is not exisit");
-  }
   const splitAt = packageName.split("@");
   let pkgVersion = "latest";
   let pkgName = packageName;
@@ -71327,6 +71324,9 @@ var listTagsAndGetPackages = () => __async(void 0, null, function* () {
   const { stdout } = yield (0, import_utils5.execa)("git", ["--no-pager", "tag", "-l"]);
   const result = {};
   stdout.split("\n").forEach((info) => {
+    if (!info) {
+      return;
+    }
     const { name, version } = getPackageInfo(info);
     if (version !== "latest") {
       result[name] = version;

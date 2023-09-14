@@ -54,9 +54,6 @@ export async function getPackageManager(cwd = process.cwd()) {
  * @returns {name: string, version: string}
  */
 export function getPackageInfo(packageName: string) {
-  if (!packageName) {
-    throw new Error('package is not exisit');
-  }
   const splitAt = packageName.split('@');
   let pkgVersion = 'latest';
   let pkgName = packageName;

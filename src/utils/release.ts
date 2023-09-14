@@ -40,7 +40,7 @@ export const bumpCanaryVersion = async (
   if (changesets.length === 0) {
     // add a test changeset
     const { packages } = await getPackages(cwd);
-    const publishPackages = packages.filter(pkg => !pkg.packageJson.private)
+    const publishPackages = packages.filter(pkg => !pkg.packageJson.private);
     if (publishPackages.length === 0) {
       // eslint-disable-next-line no-console
       console.log('No packages in current repo');
@@ -115,6 +115,9 @@ export const listTagsAndGetPackages = async () => {
   const { stdout } = await execa('git', ['--no-pager', 'tag', '-l']);
   const result: Record<string, string> = {};
   stdout.split('\n').forEach(info => {
+    if (!info) {
+      return;
+    }
     const { name, version } = getPackageInfo(info);
     if (version !== 'latest') {
       result[name] = version;
