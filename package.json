@@ -3,6 +3,7 @@
   "version": "0.1.1",
   "jsnext:source": "./src/index.ts",
   "main": "./dist/index.js",
+  "license": "MIT",
   "scripts": {
     "prepare": "modern build",
     "prepublishOnly": "modern build --platform",
