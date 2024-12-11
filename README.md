@@ -135,3 +135,7 @@ jobs:
           REF: ${{ github.ref }}
 
 ```
+
+## License
+
+MIT.
