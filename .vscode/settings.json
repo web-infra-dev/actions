@@ -106,7 +106,7 @@
   },
   //
   "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": true
+    "source.fixAll.eslint": "explicit"
   },
   "editor.defaultFormatter": "EditorConfig.EditorConfig",
   "javascript.format.enable": false,

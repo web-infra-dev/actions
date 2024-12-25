@@ -78,15 +78,6 @@ export const gitReset = async (
   await execaWithStreamLog('git', ['reset', `--${mode}`, pathSpec]);
 };
 
-export const gitCheckoutPRHead = async (pullRequestNumber: string) => {
-  await execaWithStreamLog('git', [
-    'fetch',
-    `origin`,
-    `pull/${pullRequestNumber}/head:release-${pullRequestNumber}`,
-  ]);
-  await execaWithStreamLog('git', ['checkout', `release-${pullRequestNumber}`]);
-  return `release-${pullRequestNumber}`;
-};
 
 export const createTag = async (options: {
   publishBranch: string;
