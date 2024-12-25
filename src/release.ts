@@ -7,7 +7,7 @@ import {
   gitConfigUser,
 } from './utils';
 import { changePublishBranch } from './utils/fs';
-import { createComment, createRelease } from './utils/github';
+import { createRelease } from './utils/github';
 import {
   bumpCanaryVersion,
   listTagsAndGetPackages,
@@ -20,8 +20,6 @@ const VERSION_REGEX = /^modern-(\d*)$/;
 const SnapshotVersions = ['canary', 'next', 'nightly']
 export const release = async () => {
   const githubToken = process.env.GITHUB_TOKEN;
-  const pullRequestNumber = process.env.PULL_REQUEST_NUMBER;
-  const comment = process.env.COMMENT;
   const onlyReleaseTag = process.env.ONLY_RELEASE_TAG === 'true';
   const publishVersion = core.getInput('version'); // latest、beta、next、canary
   const npmTag = core.getInput('npmTag');
@@ -36,26 +34,12 @@ export const release = async () => {
     return;
   }
 
-  if (comment) {
-    const commentInfo = JSON.parse(comment);
-    if (
-      !['COLLABORATOR', 'OWNER', 'MEMBER'].includes(
-        commentInfo.author_association,
-      )
-    ) {
-      core.setFailed(
-        'No permission to release the version, please contact the administrator',
-      );
-      return;
-    }
-  }
-
   let publishBranchBackup = '';
   await gitConfigUser();
   if (publishBranch) {
     // change changeset publish branch to publishBranch
     publishBranchBackup = await createBackupBranch(publishBranch);
-    publishBranch = await changePublishBranch(publishBranch, pullRequestNumber);
+    publishBranch = await changePublishBranch(publishBranch);
   }
 
   console.info('[publishBranch]:', publishBranch);
@@ -103,12 +87,5 @@ export const release = async () => {
       await createTag({ publishBranch, publishBranchBackup });
     }
   }
-  const content = await listTagsAndGetPackages();
-  if (pullRequestNumber) {
-    await createComment({
-      githubToken,
-      content,
-      pullRequestNumber,
-    });
-  }
+  await listTagsAndGetPackages();
 };
